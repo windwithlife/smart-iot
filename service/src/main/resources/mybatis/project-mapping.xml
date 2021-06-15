@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.simple.bz.dao.ProjectDao">
+    <resultMap id="BaseResultMap" type="com.simple.bz.model.ProjectModel">
+        <result property="id" column="id" javaType="Long" jdbcType="INTEGER"/>
+        <result property="name" column="name" javaType="String" jdbcType="VARCHAR"/>
+        <result property="description" column="description" javaType="String" jdbcType="VARCHAR"/>
+
+        <result property="projectId" column="projectId" javaType="Long" jdbcType="INTEGER"/>
+        <result property="applicationTypeId" column="applicationTypeId" javaType="Long" jdbcType="INTEGER"/>
+        <result property="applicationPointId" column="applicationPointId" javaType="Long" jdbcType="INTEGER"/>
+
+        <result property="path" column="path" javaType="String" jdbcType="VARCHAR"/>
+        <result property="applicationName" column="applicationName" javaType="String" jdbcType="VARCHAR"/>
+
+        <result property="repository" column="repository" javaType="String" jdbcType="VARCHAR"/>
+        <result property="repositoryBranch" column="repositoryBranch" javaType="String" jdbcType="VARCHAR"/>
+        <result property="repository" column="repository" javaType="String" jdbcType="VARCHAR"/>
+
+        <result property="useOwnDeploymentFile"  column="useOwnDeploymentFile"  javaType="boolean" jdbcType="INTEGER" />
+    </resultMap>
+
+    <!--根据名称查询-->
+    <select id="findById" parameterType="java.lang.Long"  resultType="ProjectModel">
+          SELECT  *
+               FROM  Project  where id=#{id}
+    </select>
+
+    <!--根据名称查询-->
+    <select id="findDetailById" parameterType="java.lang.Long"  resultType="ProjectModel">
+          SELECT  *
+               FROM  ApplicationRelease  where id=#{id}
+    </select>
+
+
+
+
+
+</mapper> 

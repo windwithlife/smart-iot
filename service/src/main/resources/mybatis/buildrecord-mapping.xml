@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.simple.bz.dao.BuildRecordDao">
+
+    <resultMap id="ExampleModelMap" type="com.simple.bz.model.BuildRecord" >
+        <result column="id" property="id" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="active" property="active" jdbcType="INTEGER" />
+        <result property="updatedDate" column="updated_date" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+
+    <!--添加用户信息-->
+    <insert id="add" parameterType="BuildRecord"  >
+
+        <![CDATA[
+         INSERT  INTO  BuildRecord (name,buildNumber,releaseStatus,releaseVersion,releaseType,logText,applicationReleaseId,updated_date)
+                VALUES(#{name},#{buildNumber},#{releaseStatus},#{releaseVersion},#{releaseType},#{logText},#{applicationReleaseId},now())
+       ]]>
+    </insert>
+
+
+    <!-- 修改-->
+    <update id="update" parameterType="BuildRecord">
+        UPDATE  example a  SET a.name=#{name},a.email=#{email},
+        a.photo_url=#{photoUrl},a.phone_number=#{phoneNumber},a.confirmed_and_active=#{confirmedAndActive},
+        <if test="message!=null and message!=''">
+            a.message=#{message},
+        </if>
+        a.updated_date=now() WHERE a.id=#{id}
+    </update>
+
+    <!-- 删除-->
+    <update id="deleteById" parameterType="java.lang.String">
+       delete from example WHERE id=#{id}
+    </update>
+
+    <!--根据名称查询-->
+    <select id="findByName" parameterType="java.lang.String"  resultType="com.simple.bz.dto.ExampleVO">
+          SELECT  id,name,email,photo_url as photoUrl,phone_number as phoneNumber,confirmed_and_active as confirmedAndActive,
+          support,message,updated_date as updatedDate
+               FROM  example  where name=#{name}
+    </select>
+
+
+
+
+
+</mapper> 
