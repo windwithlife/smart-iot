@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://test.koudaibook.com:30006/mydb?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://localhost:3306/mydb?useUnicode=true&characterEncoding=utf-8
     username: root
-    password: Password!&
+    password: password7&
   jpa:
     show-sql: true
     database: MYSQL
@@ -16,7 +16,7 @@ spring:
     port: 31379
   mqtt:
     server:
-      username: ""Password!&
+      username: Password!&
       password: ""
       url:  tcp://mq.koudaibook.com:30883
     client:
