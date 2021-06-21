@@ -6,7 +6,7 @@ steps:
     image: maven:3-jdk-10
     commands:
       - cd ./service
-      - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+      - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B
 trigger:
   branch:
     - master
