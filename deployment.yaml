@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: demo-2048
-  namespace: demo
+  namespace: default
   labels:
     app: demo-2048
     name: demo-2048
