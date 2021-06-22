@@ -1,12 +1,22 @@
 kind: pipeline
-name: build-iot-test
+type: docker
+name: smart-iot
 
 steps:
-  - name: test
+  - name: build
     image: maven:3-jdk-10
+    volumes:
+      - name : mvncache
+        path : /root/.m2
     commands:
-      - cd ./service
-      - mvn install -DskipTests=true -Dmaven.javadoc.skip=true
+      - echo 'test echo'
+      - cd  ./service
+      - mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true -B
+volumes:
+  - name: mvncache
+    host:
+      path: /var/lib/cache/.m2
+
 trigger:
   branch:
     - master
