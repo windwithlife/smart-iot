@@ -20,11 +20,11 @@ steps:
       - name: docker
         path: /var/run/docker.sock
     settings:
-      repo: registry.your_registry.com:31000/your_project/test-ci
-      registry: registry.your_registry.com:31000
-      mirror: https://hub-mirror.c.163.com
-      username: username
-      password: password
+      repo: registry.cn-hangzhou.aliyuncs.com0/windwithlife/smart-iot
+      registry: registry.cn-hangzhou.aliyuncs.com
+      mirror: https://89cgb0wn.mirror.aliyuncs.com
+      username: 379163259@qq.com
+      password: password7&
       # 更多变量参考https://docs.drone.io/pipeline/environment/reference/
       tags:
         - ${DRONE_TAG=latest}
