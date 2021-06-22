@@ -19,7 +19,7 @@ steps:
 
     settings:
       dockerfile: ./Dockerfile
-      repo: registry.cn-hangzhou.aliyuncs.com0/windwithlife/smart-iot
+      repo: registry.cn-hangzhou.aliyuncs.com/windwithlife/smart-iot
       registry: registry.cn-hangzhou.aliyuncs.com
       mirror: https://89cgb0wn.mirror.aliyuncs.com
       username: 379163259@qq.com
