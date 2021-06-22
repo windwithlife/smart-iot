@@ -1,9 +1,11 @@
 FROM java:8-jdk-alpine
 
-COPY ./target/endPointModel-svc-1.0.0.jar /usr/app/
+RUN mkdir -p /deployment/
+RUN mkdir -p /app/
+ADD ./target/*.jar /deployment/
+RUN cd /deployment/ && mv ./*.jar /app/app.jar
 
-WORKDIR /usr/app
 
-RUN sh -c 'touch endPointModel-svc-1.0.0.jar'
+EXPOSE 8080 80
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app/app.jar"]
 
-ENTRYPOINT ["java", "-jar", "endPointModel-svc-1.0.0.jar"]

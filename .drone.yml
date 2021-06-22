@@ -18,6 +18,7 @@ steps:
     # 挂载主机的docker
 
     settings:
+      dockerfile: ./service/Dockerfile
       repo: registry.cn-hangzhou.aliyuncs.com0/windwithlife/smart-iot
       registry: registry.cn-hangzhou.aliyuncs.com
       mirror: https://89cgb0wn.mirror.aliyuncs.com
