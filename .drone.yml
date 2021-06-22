@@ -12,6 +12,23 @@ steps:
       - echo 'test echo'
       - cd  ./service
       - mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+
+  - name: 编译&构建镜像
+    image: plugins/docker
+    # 挂载主机的docker
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+    settings:
+      repo: registry.your_registry.com:31000/your_project/test-ci
+      registry: registry.your_registry.com:31000
+      mirror: https://hub-mirror.c.163.com
+      username: username
+      password: password
+      # 更多变量参考https://docs.drone.io/pipeline/environment/reference/
+      tags:
+        - ${DRONE_TAG=latest}
+        - build-${DRONE_BUILD_NUMBER}
 volumes:
   - name: mvncache
     host:
