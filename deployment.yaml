@@ -1,0 +1,37 @@
+kind: Deployment
+metadata:
+  name: demo-2048
+  namespace: demo
+  labels:
+    app: demo-2048
+    name: demo-2048
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo-2048
+      name: demo-2048
+  template:
+    metadata:
+      labels:
+        app: demo-2048
+        name: demo-2048
+    spec:
+      containers:
+        - name: demo-2048
+          image: >-
+                 registry.cn-hangzhou.aliyuncs.com/windwithlife/smart-iot: {{build_tag}}
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 128m
+              memory: 256Mi
+            requests:
+              cpu: 128m
+              memory: 128Mi
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+
+
