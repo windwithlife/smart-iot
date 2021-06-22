@@ -20,7 +20,7 @@ spec:
       containers:
         - name: demo-2048
           image: >-
-                 registry.cn-hangzhou.aliyuncs.com/windwithlife/smart-iot: {{build_tag}}
+                 registry.cn-hangzhou.aliyuncs.com/windwithlife/smart-iot: latest
           ports:
             - containerPort: 8080
               protocol: TCP
