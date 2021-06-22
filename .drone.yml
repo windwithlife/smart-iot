@@ -30,13 +30,13 @@ steps:
         - build-${DRONE_BUILD_NUMBER}
 
   - name: k8s-deploy
-      # Kubernetes插件
-      image: danielgormly/drone-plugin-kube:0.2.0
-      settings:
-        build_tag: build-${DRONE_BUILD_NUMBER}
-        template: ./deployment.yaml
-        server: https://drone.koudaibook.com:6443
-        token: 2sq4np.438e1zlp5o9mf56g
+    # Kubernetes插件
+    image: danielgormly/drone-plugin-kube:0.2.0
+    settings:
+      build_tag: build-${DRONE_BUILD_NUMBER}
+      template: ./deployment.yaml
+      server: https://drone.koudaibook.com:6443
+      token: 2sq4np.438e1zlp5o9mf56g
 
 volumes:
   - name: mvncache
