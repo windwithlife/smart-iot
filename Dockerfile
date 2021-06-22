@@ -2,7 +2,7 @@ FROM java:8-jdk-alpine
 
 RUN mkdir -p /deployment/
 RUN mkdir -p /app/
-ADD ./target/*.jar /deployment/
+ADD ./service/target/*.jar /deployment/
 RUN cd /deployment/ && mv ./*.jar /app/app.jar
 
 
