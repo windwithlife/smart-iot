@@ -16,9 +16,7 @@ steps:
   - name: 编译&构建镜像
     image: plugins/docker
     # 挂载主机的docker
-    volumes:
-      - name: docker
-        path: /var/run/docker.sock
+
     settings:
       repo: registry.cn-hangzhou.aliyuncs.com0/windwithlife/smart-iot
       registry: registry.cn-hangzhou.aliyuncs.com
