@@ -17,5 +17,6 @@ simple:
   common:
     sentry-dsn: ${SENTRY_DSN:https://21cb9790be1545f195743a18c77f37d8@o461905.ingest.sentry.io/5464621}
 server:
+  port: 80
   servlet:
     context-path: /simple/deployment
