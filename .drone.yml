@@ -11,7 +11,7 @@ steps:
 #    commands:
 #      - echo 'test echo'
 #      - cd  ./service
-#      - mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -X
+#      - mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 
   #- name: 编译&构建镜像
   #  image: plugins/docker
