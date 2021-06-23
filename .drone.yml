@@ -3,7 +3,7 @@ type: docker
 name: smart-iot
 
 steps:
-  - name: build
+  - name: 编译打包代码
     image: maven:3-jdk-10
     volumes:
       - name : mvncache
@@ -13,10 +13,8 @@ steps:
       - cd  ./service
       - mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 
-  - name: 编译&构建镜像
+  - name: 构建镜像&PUSH镜像到Hub.
     image: plugins/docker
-     挂载主机的docker
-
     settings:
       dockerfile: ./Dockerfile
       repo: registry.cn-hangzhou.aliyuncs.com/windwithlife/smart-iot
