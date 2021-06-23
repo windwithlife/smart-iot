@@ -13,19 +13,19 @@ steps:
       - cd  ./service
       - mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 
-  - name: 构建镜像&PUSH镜像到Hub.
-    image: plugins/docker
-    settings:
-      dockerfile: ./Dockerfile
-      repo: registry.cn-hangzhou.aliyuncs.com/windwithlife/smart-iot
-      registry: registry.cn-hangzhou.aliyuncs.com
-      mirror: https://89cgb0wn.mirror.aliyuncs.com
-      username: 379163259@qq.com
-      password: password7&
-      # 更多变量参考https://docs.drone.io/pipeline/environment/reference/
-      tags:
-        - ${DRONE_TAG=latest}
-        - build-${DRONE_BUILD_NUMBER}
+#  - name: 构建镜像&PUSH镜像到Hub.
+#    image: plugins/docker
+#    settings:
+#      dockerfile: ./Dockerfile
+#      repo: registry.cn-hangzhou.aliyuncs.com/windwithlife/smart-iot
+#      registry: registry.cn-hangzhou.aliyuncs.com
+#      mirror: https://89cgb0wn.mirror.aliyuncs.com
+#      username: 379163259@qq.com
+#      password: password7&
+#      # 更多变量参考https://docs.drone.io/pipeline/environment/reference/
+#      tags:
+#        - ${DRONE_TAG=latest}
+#        - build-${DRONE_BUILD_NUMBER}
 
 #  - name: k8s-deploy
 #    # Kubernetes插件
