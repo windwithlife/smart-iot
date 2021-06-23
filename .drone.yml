@@ -46,7 +46,7 @@ steps:
       kubeconfig:
         from_secret: kubeconfig
       # variables. Must be lowercase, Usage: {{.service_name}}
-      service_name: iot-service
+      service_name: service-iot
       image_version: 1.8
       repo_name: smart-iot
       build_tag: latest
