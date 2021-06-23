@@ -48,7 +48,7 @@ steps:
       app_name: smartiot
       image_version: 1.8
       repo_name: smart-iot
-      build_tag: latest
+      build_tag: build-34
 
 volumes:
   - name: mvncache
