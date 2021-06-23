@@ -48,7 +48,7 @@ steps:
       # variables. Must be lowercase, Usage: {{.service_name}}
       service_name: iot-service
       image_version: 1.8
-      build_tag: build-${DRONE_BUILD_NUMBER}
+      build_tag: latest
 
 volumes:
   - name: mvncache

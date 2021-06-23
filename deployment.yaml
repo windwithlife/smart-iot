@@ -1,37 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: demo-2048
+  name: smart-iot
   namespace: default
   labels:
-    app: demo-2048
-    name: demo-2048
+    app: app-iot
+    name: app-iot
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: demo-2048
-      name: demo-2048
+      app: app-iot
+      name: app-iot
   template:
     metadata:
       labels:
-        app: demo-2048
-        name: demo-2048
+        app: app-iot
+        name: app-iot
     spec:
       containers:
-        - name: demo-2048
+        - name: container-iot
           image: >-
-                 registry.cn-hangzhou.aliyuncs.com/windwithlife/smart-iot:latest
+                 registry.cn-hangzhou.aliyuncs.com/windwithlife/smart-iot:{{.build_tag}}
           ports:
             - containerPort: 8080
               protocol: TCP
-          resources:
-            limits:
-              cpu: 128m
-              memory: 256Mi
-            requests:
-              cpu: 128m
-              memory: 128Mi
           imagePullPolicy: IfNotPresent
       restartPolicy: Always
 
