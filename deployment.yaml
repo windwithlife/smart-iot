@@ -41,4 +41,27 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app: {{.service_name}}
+    app: app-iot
+
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-{{.app_name}}
+  annotations:
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+    nginx.ingress.kubernetes.io/cors-allow-headers: "token,DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization"
+    nginx.ingress.kubernetes.io/cors-expose-headers: "token"
+    nginx.ingress.kubernetes.io/ssl-redirect: 'false' #http 自动转https
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: drone.koudaibook.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              serviceName: {{.service_name}}
+              servicePort: 80
