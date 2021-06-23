@@ -60,7 +60,7 @@ spec:
     - host: drone.koudaibook.com
       http:
         paths:
-          - path: /
+          - path: /simple/deployment
             pathType: Prefix
             backend:
               serviceName: {{.service_name}}
