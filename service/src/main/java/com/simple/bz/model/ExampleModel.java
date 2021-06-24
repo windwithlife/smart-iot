@@ -17,7 +17,7 @@ import java.util.Date;
 @Builder
 @Entity
 @Table(name="EndPoint")
-public class EndPointModel {
+public class ExampleModel {
     @Id
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @GeneratedValue(generator = "system-uuid")

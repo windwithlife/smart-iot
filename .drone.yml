@@ -17,6 +17,7 @@ steps:
     image: plugins/docker
     settings:
       dockerfile: ./Dockerfile
+      use_cache: true
       repo: registry.cn-hangzhou.aliyuncs.com/windwithlife/smart-iot
       registry: registry.cn-hangzhou.aliyuncs.com
       mirror: https://89cgb0wn.mirror.aliyuncs.com

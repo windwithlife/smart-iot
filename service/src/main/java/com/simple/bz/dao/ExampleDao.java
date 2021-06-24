@@ -1,13 +1,11 @@
 package com.simple.bz.dao;
 
 
-import com.simple.bz.dto.ExampleVO;
-import com.simple.bz.model.EndPointModel;
+import com.simple.bz.model.ExampleModel;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 
-import java.util.List;
 import java.util.Map;
 
 
@@ -28,14 +26,14 @@ public interface ExampleDao {
      * @param
      * @throws Exception
      */
-    void add(EndPointModel model) throws Exception;
+    void add(ExampleModel model) throws Exception;
 
     /**
      * 修改
      * @param
      * @throws Exception
      */
-    void update(EndPointModel model) throws Exception;
+    void update(ExampleModel model) throws Exception;
 
     /**
      * 分页获取全部总记录数
@@ -53,7 +51,7 @@ public interface ExampleDao {
      * @return
      * @throws Exception
      */
-    EndPointModel findById(@Param("id") Integer id) throws Exception;
+    ExampleModel findById(@Param("id") Integer id) throws Exception;
 
 
     /**

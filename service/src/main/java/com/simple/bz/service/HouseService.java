@@ -2,8 +2,9 @@ package com.simple.bz.service;
 
 
 import com.simple.bz.dao.HouseRepository;
+import com.simple.bz.dto.ExampleDto;
 import com.simple.bz.dto.HouseDto;
-import com.simple.bz.dto.IOTDeviceDto;
+import javax.persistence.EntityManager;
 import com.simple.bz.model.HouseModel;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -18,7 +19,7 @@ public class HouseService {
     private final ModelMapper modelMapper;
     
     private final HouseRepository dao;
-
+    private final EntityManager entityManager;
 
     public HouseModel convertToModel(HouseDto dto){
         return this.modelMapper.map(dto, HouseModel.class);
@@ -68,6 +69,10 @@ public class HouseService {
         System.out.println(model.toString());
         this.dao.save(model);
         return item;
+    }
+    public List<ExampleDto> findAllPages(){
+        List<ExampleDto> list = dao.findList("select * from example", null,this.entityManager, ExampleDto.class);
+        return  list;
     }
 
     public void remove(Long id){
