@@ -57,10 +57,10 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: drone.koudaibook.com
+    - host: service.koudaibook.com
       http:
         paths:
-          - path: /simple/deployment
+          - path: /{{.app_name}}
             pathType: Prefix
             backend:
               serviceName: {{.service_name}}

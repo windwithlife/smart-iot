@@ -28,7 +28,7 @@ spring:
 
 server:
   servlet:
-    context-path: /simple/deployment
+    context-path: /smart-iot
 simple:
   domainName: koudaibook.com
 qiniu:
