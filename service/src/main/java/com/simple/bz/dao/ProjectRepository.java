@@ -10,7 +10,4 @@ public interface ProjectRepository extends JpaRepository<ProjectModel, Long> {
     public List<ProjectModel> findByName(String name);
     public  List<ProjectModel> findByNameLike(String name);
     public ProjectModel findOneByName(String name);
-
-
-
 }

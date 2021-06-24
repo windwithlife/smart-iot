@@ -12,6 +12,7 @@ com/simple/bz/model/ApplicationDeploymentModel.class
 com/simple/bz/dto/ReleaseRequest$ReleaseRequestBuilder.class
 com/simple/bz/dao/DeviceRepository.class
 com/simple/bz/model/DockerImageModel$DockerImageModelBuilder.class
+com/simple/bz/dto/HouseDto.class
 com/simple/bz/dto/DictionaryDto$DictionaryDtoBuilder.class
 com/simple/bz/service/ApplicationDeploymentService.class
 com/simple/bz/service/DictionaryService.class
@@ -30,6 +31,7 @@ com/simple/bz/controller/IOTDeviceController.class
 com/simple/bz/model/ProjectModel.class
 com/simple/bz/dto/ReleaseRequest.class
 com/simple/bz/dao/DockerImageRepository.class
+com/simple/bz/model/HouseModel.class
 com/simple/common/props/AppProps$AppPropsBuilder.class
 com/simple/bz/dto/DeviceStatusDto$DeviceStatusDtoBuilder.class
 com/simple/bz/dto/ProjectDto$ProjectDtoBuilder.class
@@ -39,7 +41,6 @@ com/simple/bz/dto/ApplicationReleaseListRequest$ApplicationReleaseListRequestBui
 com/simple/bz/dao/DeploymentGroupRepository.class
 com/simple/bz/controller/DeviceStatusController.class
 com/simple/bz/dto/GitHeadCommit.class
-com/simple/bz/controller/DeploymentConfigController.class
 com/simple/bz/dao/ApplicationDeploymentRepository.class
 com/simple/bz/model/DeviceStatusModel$DeviceStatusModelBuilder.class
 com/simple/bz/dao/BuiildRecordDao.class
@@ -65,12 +66,10 @@ com/simple/bz/dto/ClientDto.class
 com/simple/bz/model/CategoryModel$CategoryModelBuilder.class
 com/simple/bz/model/DeploymentConfigModel.class
 com/simple/bz/dto/ExampleVO.class
-com/simple/bz/controller/ApplicationDeploymentController.class
 com/simple/SimpleApplication.class
 com/simple/common/mqtt/MqttProxy.class
 com/simple/bz/dao/ApplicationTypeRepository.class
 com/simple/bz/dto/EndPointDto.class
-com/simple/bz/controller/ApplicationController.class
 com/simple/bz/dto/IOTDeviceDto.class
 com/simple/bz/dao/ExampleDao.class
 com/simple/bz/dto/DockerBuildRequest.class
@@ -78,7 +77,6 @@ com/simple/bz/dto/ApplicationTypeDto.class
 com/simple/bz/dto/EndPointDto$EndPointDtoBuilder.class
 com/simple/bz/service/DeviceStatusService.class
 com/simple/bz/service/IOTService.class
-com/simple/bz/controller/DeploymentGroupController.class
 com/simple/common/mqtt/MqttSenderConfig.class
 com/simple/bz/controller/DictionaryController.class
 com/simple/bz/dto/ExampleDto$ExampleDtoBuilder.class
@@ -87,6 +85,7 @@ com/simple/bz/service/CategoryService.class
 com/simple/bz/dto/DockerBuildGitRequest$DockerBuildGitRequestBuilder.class
 com/simple/bz/dto/GatewayDeviceStatusDto$GatewayDeviceStatusDtoBuilder.class
 com/simple/bz/model/EndPointModel$EndPointModelBuilder.class
+com/simple/bz/service/HouseService.class
 com/simple/bz/dto/DockerImageDto.class
 com/simple/bz/service/ApplicationService.class
 com/simple/bz/dto/DockerBuildGitRequest.class
@@ -105,6 +104,7 @@ com/simple/bz/model/GatewayDeviceModel.class
 com/simple/common/mqtt/MqttRequest$MqttRequestBuilder.class
 com/simple/bz/dto/BuildRecordRequest.class
 com/simple/bz/service/DeploymentConfigService.class
+com/simple/bz/model/HouseModel$HouseModelBuilder.class
 com/simple/bz/dto/ClientDto$ClientDtoBuilder.class
 com/simple/bz/dto/ReleaseDetail.class
 com/simple/bz/model/EndPointModel.class
@@ -113,6 +113,7 @@ com/simple/common/mqtt/MqttMessageHandler.class
 com/simple/bz/model/DockerImageModel.class
 com/simple/bz/service/ApplicationTypeService.class
 com/simple/bz/service/GatewayDeviceService.class
+com/simple/bz/controller/HouseController.class
 com/simple/bz/dto/DeviceWifi.class
 com/simple/bz/dto/ApplicationDeploymentDto$ApplicationDeploymentDtoBuilder.class
 com/simple/common/props/AppProps.class
@@ -120,10 +121,10 @@ com/simple/bz/model/ApplicationModel.class
 com/simple/bz/service/DockerImageService.class
 com/simple/bz/dao/DictionaryRepository.class
 com/simple/bz/model/DeploymentGroupModel.class
-com/simple/bz/controller/ApplicationTypeController.class
 com/simple/bz/model/BuildRecord$BuildRecordBuilder.class
 com/simple/bz/dto/ExampleVO$ExampleVOBuilder.class
 com/simple/bz/dto/DeploymentConfigDto.class
+com/simple/bz/dao/HouseRepository.class
 com/simple/bz/dao/DeploymentConfigRepository.class
 com/simple/bz/model/GatewayDeviceModel$GatewayDeviceModelBuilder.class
 com/simple/bz/model/DictionaryModel$DictionaryModelBuilder.class
@@ -139,8 +140,6 @@ com/simple/bz/dto/ApplicationDeploymentDto.class
 com/simple/bz/dto/DeploymentGroupDto$DeploymentGroupDtoBuilder.class
 com/simple/bz/dto/DeviceWifi$DeviceWifiBuilder.class
 com/simple/bz/dao/GatewayDeviceRepository.class
-com/simple/bz/controller/DockerImageController.class
-com/simple/bz/controller/ProjectController.class
-com/simple/bz/controller/CategoryController.class
+com/simple/bz/dto/HouseDto$HouseDtoBuilder.class
 com/simple/common/mqtt/MqttGateway.class
 com/simple/bz/service/DeploymentGroupService.class

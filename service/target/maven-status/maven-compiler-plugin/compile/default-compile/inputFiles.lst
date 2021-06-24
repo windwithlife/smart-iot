@@ -1,7 +1,6 @@
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/EndPointDto.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/ExampleVO.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dao/DeploymentGroupRepository.java
-/Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/controller/ApplicationController.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/DeploymentConfigDto.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/ExampleDto.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/service/GatewayDeviceService.java
@@ -10,7 +9,6 @@
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/ReleaseDetail.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/ReleaseRequest.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/DockerBuildGitRequest.java
-/Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/controller/DeploymentConfigController.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/DeploymentGroupDto.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dao/ApplicationTypeRepository.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/model/DeploymentGroupModel.java
@@ -20,7 +18,7 @@
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/BuildRecordRequest.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dao/GatewayDeviceRepository.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/CategoryDto.java
-/Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/controller/DeploymentGroupController.java
+/Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/service/HouseService.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/service/DictionaryService.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/common/mqtt/MqttDto.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/ApplicationDto.java
@@ -30,11 +28,12 @@
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/ProjectDto.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/service/ApplicationDeploymentService.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/service/ApplicationTypeService.java
+/Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dao/HouseRepository.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dao/ApplicationRepository.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/model/GatewayDeviceModel.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/ApplicationTypeDto.java
-/Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/controller/ApplicationTypeController.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/model/ApplicationDeploymentModel.java
+/Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/controller/HouseController.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/DeviceStatusDto.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/service/DeploymentGroupService.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dao/ExampleDao.java
@@ -46,12 +45,11 @@
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/service/ProjectService.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/ApplicationReleaseListRequest.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/model/DockerImageModel.java
-/Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/controller/DockerImageController.java
+/Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/model/HouseModel.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/StatusLogDto.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/model/IOTDeviceModel.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/service/DockerImageService.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/common/image/MultimediaUtils.java
-/Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/controller/ProjectController.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/DictionaryDto.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/SimpleApplication.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/ClientDto.java
@@ -60,10 +58,10 @@
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/common/mqtt/MqttMessageHandler.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/GatewayDeviceStatusDto.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/common/config/SwaggerConfig.java
+/Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/HouseDto.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/controller/MultiMediaController.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/service/CategoryService.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dao/DeviceStatusRepository.java
-/Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/controller/CategoryController.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/model/ApplicationTypeModel.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/ApplicationDeploymentDto.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/model/ProjectModel.java
@@ -83,7 +81,6 @@
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/common/mqtt/MqttRequest.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dao/ProjectRepository.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/DockerBuildRequest.java
-/Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/controller/ApplicationDeploymentController.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dao/CategoryRepository.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/model/BuildRecord.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/common/mqtt/MqttGateway.java
