@@ -41,7 +41,7 @@ public class HouseController extends BaseController {
         return result.success(UserHousesDto.builder().houseList(houseList).userId(userId).build());
     }
     @ApiOperation(value="根据ID获取房子信息",notes = "用于处理房子信息处理")
-    @GetMapping(path = "/findById")
+    @PostMapping(path = "/findById")
     public SimpleResponse<HouseDto> findById (@RequestBody SimpleRequest<Long> request){
         Long houseId = request.getParams();
         System.out.println("applicationId:" + houseId);
