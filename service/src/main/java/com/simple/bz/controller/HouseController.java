@@ -1,12 +1,10 @@
 package com.simple.bz.controller;
 
 import com.simple.bz.dto.HouseDto;
-import com.simple.bz.dto.RequestTemplate;
-import com.simple.bz.dto.ResponseTemplate;
+
 import com.simple.bz.dto.UserHousesDto;
 import com.simple.bz.service.HouseService;
-import com.simple.common.api.GenericRequest;
-import com.simple.common.api.GenericResponse;
+
 import com.simple.common.api.SimpleRequest;
 import com.simple.common.api.SimpleResponse;
 import com.simple.common.controller.BaseController;
@@ -25,7 +23,7 @@ public class HouseController extends BaseController {
     private final HouseService service;
 
     @ApiOperation(value="当前房子集合（用于测试）",notes = "用于测试接口")
-    @GetMapping(path = "/queryAll")
+    @PostMapping(path = "/queryAll")
     public SimpleResponse<UserHousesDto> queryAll (){
 
         List<HouseDto> houseList = service.queryAll();
@@ -35,7 +33,7 @@ public class HouseController extends BaseController {
         return result.success(UserHousesDto.builder().houseList(houseList).userId("0").build());
     }
     @ApiOperation(value="根据用户ID获取所属所有住房信息",notes = "用于处理房子信息处理")
-    @GetMapping(path = "/queryHouseByUser")
+    @PostMapping(path = "/queryHouseByUser")
     public SimpleResponse<UserHousesDto>  queryUserHouses (@RequestBody SimpleRequest<String> request){
         String userId = request.getParams();
         List<HouseDto> houseList = service.queryByUser(userId);
@@ -70,11 +68,9 @@ public class HouseController extends BaseController {
 
 
     @ApiOperation(value="修改房子",notes = "用于处理房子信息处理")
-    @PostMapping(path = "/update/{id}")
-    public SimpleResponse<HouseDto> updateSave(@RequestBody SimpleRequest<HouseDto> req, @PathVariable Long id) {
+    @PostMapping(path = "/update")
+    public SimpleResponse<HouseDto> updateSave(@RequestBody SimpleRequest<HouseDto> req) {
         HouseDto dto = req.getParams();
-        dto.setId(id);
-        System.out.println("projectInfo:" + String.valueOf(id));
         System.out.println(dto.toString());
         service.update(dto);
         SimpleResponse<HouseDto> result = new SimpleResponse<HouseDto>();

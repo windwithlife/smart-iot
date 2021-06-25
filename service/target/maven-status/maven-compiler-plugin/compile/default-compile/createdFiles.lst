@@ -25,10 +25,8 @@ com/simple/JsonUtils.class
 com/simple/bz/controller/GatewayDeviceController.class
 com/simple/common/config/SwaggerConfig.class
 com/simple/bz/model/GatewayDeviceStatusModel$GatewayDeviceStatusModelBuilder.class
-com/simple/bz/dto/ResponseTemplate.class
 com/simple/bz/model/ExampleModel.class
 com/simple/bz/dto/GatewayDeviceDto.class
-com/simple/bz/dto/ResponseTemplate$ResponseTemplateBuilder.class
 com/simple/bz/model/IOTDeviceModel.class
 com/simple/bz/model/GatewayDeviceModel.class
 com/simple/common/mqtt/MqttRequest$MqttRequestBuilder.class
@@ -43,7 +41,6 @@ com/simple/bz/dto/RoomDto.class
 com/simple/bz/controller/DeviceStatusController.class
 com/simple/bz/dto/GitHeadCommit.class
 com/simple/common/mqtt/MqttMessageHandler.class
-com/simple/bz/dto/RequestTemplate.class
 com/simple/bz/service/GatewayDeviceService.class
 com/simple/bz/controller/HouseController.class
 com/simple/bz/dto/DeviceWifi.class
