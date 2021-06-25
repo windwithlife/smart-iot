@@ -1,11 +1,12 @@
 package com.simple.bz.service;
 
 
+import com.simple.bz.dao.ContextQuery;
 import com.simple.bz.dao.HouseRepository;
-import com.simple.bz.dto.ExampleDto;
 import com.simple.bz.dto.HouseDto;
 import javax.persistence.EntityManager;
 import com.simple.bz.model.HouseModel;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -17,9 +18,8 @@ import java.util.List;
 @Service
 public class HouseService {
     private final ModelMapper modelMapper;
-    
     private final HouseRepository dao;
-    private final EntityManager entityManager;
+    private final ContextQuery contextQuery;
 
     public HouseModel convertToModel(HouseDto dto){
         return this.modelMapper.map(dto, HouseModel.class);
@@ -54,6 +54,7 @@ public class HouseService {
         HouseModel model =  dao.findById(id).get();
         return this.convertToDto(model);
     }
+    @ApiOperation(value="获取用户信息",tags={"获取用户信息copy"},notes="注意问题点")
     public HouseDto save(HouseDto item){
         HouseModel model = this.convertToModel(item);
         this.dao.save(model);
@@ -70,11 +71,14 @@ public class HouseService {
         this.dao.save(model);
         return item;
     }
-    public List<ExampleDto> findAllPages(){
-        List<ExampleDto> list = dao.findList("select * from example", null,this.entityManager, ExampleDto.class);
+    public List<HouseDto> queryAll(){
+        List<HouseDto> list = contextQuery.findList("select * from tbl_house", HouseDto.class);
         return  list;
     }
-
+    public List<HouseDto> queryPage(int pageIndex, int pageSize){
+        List<HouseDto> listPage = contextQuery.findPage("select * from tbl_house", pageIndex,pageSize, HouseDto.class);
+        return  listPage;
+    }
     public void remove(Long id){
         this.dao.deleteById(id);
     }

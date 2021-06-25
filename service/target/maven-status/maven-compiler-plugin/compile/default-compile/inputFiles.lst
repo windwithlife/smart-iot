@@ -5,6 +5,7 @@
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/common/image/MultimediaUtils.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/ExampleDto.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/SimpleApplication.java
+/Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/ResponseTemplate.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/service/GatewayDeviceService.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/JsonUtils.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/common/mqtt/MqttMessageHandler.java
@@ -33,6 +34,7 @@
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/DeviceStatusDto.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/controller/DeviceStatusController.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/GatewayDeviceDto.java
+/Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/RequestTemplate.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dao/RoomRepository.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dao/ExampleDao.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/model/RoomModel.java
@@ -47,6 +49,8 @@
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/model/DeviceStatusModel.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/model/ExampleModel.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/common/config/AppConfig.java
+/Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dao/ContextQuery.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/common/mqtt/MqttAdapter.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/RoomDto.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/service/DeviceStatusService.java
+/Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/UserHousesDto.java

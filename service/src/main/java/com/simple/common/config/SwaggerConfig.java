@@ -1,5 +1,6 @@
 package com.simple.common.config;
 
+import com.google.common.base.Predicates;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -18,7 +19,13 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.simple.bz.controller"))
+                //.apis(RequestHandlerSelectors.basePackage("com.simple.bz.controller;com.simple.bz.dto"))
+                .apis(
+                        Predicates.or(
+                                RequestHandlerSelectors.basePackage("com.simple.bz.controller")
+                                , RequestHandlerSelectors.basePackage("com.simple.bz.dto")
+                        )
+                )
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiEndPointsInfo())

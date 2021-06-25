@@ -1,12 +1,15 @@
 package com.simple.bz.service;
 
+import com.simple.bz.dao.ContextQuery;
 import com.simple.bz.dao.RoomRepository;
+import com.simple.bz.dto.HouseDto;
 import com.simple.bz.dto.RoomDto;
 import com.simple.bz.model.RoomModel;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +19,8 @@ public class RoomService {
     private final ModelMapper modelMapper;
     
     private final RoomRepository dao;
-
+    //private final EntityManager entityManager;
+    private final ContextQuery contextQuery;
 
     public RoomModel convertToModel(RoomDto dto){
         return this.modelMapper.map(dto, RoomModel.class);
@@ -50,6 +54,23 @@ public class RoomService {
     public RoomDto findById(Long id){
         RoomModel model =  dao.findById(id).get();
         return this.convertToDto(model);
+    }
+
+//    public List<RoomDto> findAllPages(){
+//        List<RoomDto> list = dao.findList("select * from tbl_room", null,this.entityManager, RoomDto.class);
+//        return  list;
+//    }
+//    public List<RoomDto> findPage(int pageIndex, int pageSize){
+//        List<RoomDto> listPage = dao.findPage("select * from tbl_room", null, this.entityManager,pageIndex,pageSize,RoomDto.class);
+//        return  listPage;
+//    }
+    public List<HouseDto> queryAll(){
+        List<HouseDto> list = contextQuery.findList("select * from tbl_house", HouseDto.class);
+        return  list;
+    }
+    public List<HouseDto> queryPage(int pageIndex, int pageSize){
+        List<HouseDto> listPage = contextQuery.findPage("select * from tbl_house", pageIndex,pageSize, HouseDto.class);
+        return  listPage;
     }
     public RoomDto save(RoomDto item){
         RoomModel model = this.convertToModel(item);

@@ -86,7 +86,7 @@ public interface BaseRepository {
 
         return new PageImpl<>(resultList, pageable, count.longValue());
     }
-    default <T> List<T> findPage(String querySql, Map<String, Object> params, EntityManager entityManager, int pageIndex, int pageSize, Class<T> clazz) throws IllegalAccessException, InstantiationException {
+    default <T> List<T> findPage(String querySql, Map<String, Object> params, EntityManager entityManager, int pageIndex, int pageSize, Class<T> clazz) {
 
         Query listQuery=entityManager.createNativeQuery(querySql);
 
@@ -106,19 +106,23 @@ public interface BaseRepository {
 
         List<Map<String,Object>> list= listQuery.getResultList();//由于上面已经将结果映射成了map所以这里直接转化成Map没问题
         List<T> resultList=new ArrayList<>();
-        for(Map<String,Object> map:list){//遍历map将map转化为实体类bean
-            T bean=clazz.newInstance();//实例化T，可能会抛出两个异常IllegalAccessException、InstantiationException
-            for(Map.Entry<String,Object> entry:map.entrySet()){//格式化Timestamp为String类型,数据库中日期类型为Timestamp，在这里需要转化一下，直接在前端使用
-                if(entry.getValue() instanceof BigInteger){
-                    map.put(entry.getKey(),((BigInteger) entry.getValue()).longValue());
+        try {
+            for (Map<String, Object> map : list) {//遍历map将map转化为实体类bean
+                T bean = clazz.newInstance();//实例化T，可能会抛出两个异常IllegalAccessException、InstantiationException
+                for (Map.Entry<String, Object> entry : map.entrySet()) {//格式化Timestamp为String类型,数据库中日期类型为Timestamp，在这里需要转化一下，直接在前端使用
+                    if (entry.getValue() instanceof BigInteger) {
+                        map.put(entry.getKey(), ((BigInteger) entry.getValue()).longValue());
+                    }
                 }
+                BeanMap.create(bean).putAll(map);
+
+                resultList.add(bean);
             }
-            BeanMap.create(bean).putAll(map);
-
-            resultList.add(bean);
+            BigInteger count = (BigInteger) countQuery.getSingleResult();
+        }catch  (Exception e){
+            e.printStackTrace();
+            System.out.println("Failed to create list of Beans");
         }
-        BigInteger count=(BigInteger) countQuery.getSingleResult();
-
         return resultList;
     }
     default <T> List<T> findList(String querySql, Map<String, Object> params, EntityManager entityManager, Class<T> clazz) {
