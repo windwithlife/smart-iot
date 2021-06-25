@@ -1,19 +1,20 @@
 package com.simple.bz.dto;
 
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RoomDto {
-    private Long     id;
-    private String   name;
-    private Long     homeId;
-    private String   floor;
+@ApiModel(value="房间列表")
+public class RoomsDto {
+    private Long   houseId;
+    private List<RoomDto> roomList;
+
 }

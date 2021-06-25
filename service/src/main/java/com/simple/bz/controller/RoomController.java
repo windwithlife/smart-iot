@@ -1,11 +1,14 @@
 package com.simple.bz.controller;
 
 import com.simple.bz.dto.RoomDto;
-import com.simple.bz.service.HouseService;
+import com.simple.bz.dto.RoomsDto;
+
 import com.simple.bz.service.RoomService;
-import com.simple.common.api.GenericRequest;
-import com.simple.common.api.GenericResponse;
+import com.simple.common.api.SimpleRequest;
+import com.simple.common.api.SimpleResponse;
 import com.simple.common.controller.BaseController;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,57 +17,69 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/room")
+@Api(tags = "处理房间或区域相关的SOA")
 public class RoomController extends BaseController {
 
     private final RoomService service;
 
+    @ApiOperation(value="当前房间或区域集合（用于测试")
+    @PostMapping(path = "/queryAll")
+    public SimpleResponse<RoomsDto> queryAll (){
 
-    @GetMapping(path = "/findAll")
-    GenericResponse findAll (){
+        List<RoomDto> rooms = service.queryAll();
+        SimpleResponse<RoomsDto> result = new SimpleResponse<RoomsDto>();
 
-        List<RoomDto> dtoLst = service.findAll();
-        GenericResponse result = GenericResponse.build().addKey$Value("list", dtoLst);
-
-        return result;
+        return result.success(RoomsDto.builder().roomList(rooms).houseId(-1L).build());
     }
-    @GetMapping(path = "/findById")
-    GenericResponse findById (@RequestParam("id") Long applicationId){
-
-        System.out.println("applicationId:" + applicationId);
-
-        RoomDto  application = service.findById(applicationId);
-        GenericResponse result = GenericResponse.build().setDataObject(application);
-        return result;
+    @ApiOperation(value="根据用户ID获取所属所有住房信息",notes = "用于处理房子信息处理")
+    @PostMapping(path = "/queryRoomsByHouseId")
+    public SimpleResponse<RoomsDto>  queryRoomsByHouse (@RequestBody SimpleRequest<Long> request){
+        Long houseId = request.getParams();
+        List<RoomDto> roomList = service.queryByHouseId(houseId);
+        SimpleResponse<RoomsDto> result = new SimpleResponse<RoomsDto>();
+        return result.success(RoomsDto.builder().roomList(roomList).houseId(houseId).build());
     }
-    @PostMapping(path = "/save")
-    GenericResponse save (@RequestBody GenericRequest req){
+    @ApiOperation(value="根据ID获取房子信息",notes = "用于处理房子信息处理")
+    @PostMapping(path = "/findById")
+    public SimpleResponse<RoomDto> findById (@RequestBody SimpleRequest<Long> request){
+        Long roomId = request.getParams();
+        System.out.println("roomId:" + roomId);
+        RoomDto  dto = service.findById(roomId);
+        SimpleResponse<RoomDto> result = new SimpleResponse<RoomDto>();
+        return result.success(dto);
+    }
 
-        RoomDto dto = req.getObject(RoomDto.class);
-        System.out.println(dto.toString());
+
+
+    @ApiOperation(value="新增房间")
+    @PostMapping(path = "/addRoom")
+    public SimpleResponse<RoomDto> addNew (@RequestBody SimpleRequest<RoomDto> request){
+        System.out.println(request.toString());
+        RoomDto dto = request.getParams();
         service.save(dto);
-        GenericResponse result = new GenericResponse(dto);
-        return result;
+        SimpleResponse<RoomDto> result = new SimpleResponse<RoomDto>();
+        return result.success(dto);
     }
 
 
-
-    @PostMapping(path = "/update/{id}")
-    public GenericResponse updateSave(@RequestBody GenericRequest req, @PathVariable Long id) {
-        RoomDto dto = req.getObject(RoomDto.class);
-        dto.setId(id);
-        System.out.println("projectInfo:" + String.valueOf(id));
+    @ApiOperation(value="修改房间信息")
+    @PostMapping(path = "/update")
+    public SimpleResponse<RoomDto> updateSave(@RequestBody SimpleRequest<RoomDto> req) {
+        RoomDto dto = req.getParams();
         System.out.println(dto.toString());
         service.update(dto);
-        GenericResponse result = new GenericResponse(dto);
-        return result;
+        SimpleResponse<RoomDto> result = new SimpleResponse<RoomDto>();
+        return result.success(dto);
 
     }
 
+    @ApiOperation(value="删除房间")
     @ResponseBody
-    @RequestMapping(value = "/remove/{id}", method = RequestMethod.POST)
-    public Long removeById(@PathVariable Long id) {
-        service.remove(id);
-        return id;
+    @RequestMapping(value = "/remove", method = RequestMethod.POST)
+    public SimpleResponse<Long> removeById(@RequestBody SimpleRequest<Long> req) {
+        service.remove(req.getParams());
+        SimpleResponse<Long> result = new SimpleResponse<Long>();
+        return result.success(req.getParams());
     }
 
 

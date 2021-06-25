@@ -19,7 +19,6 @@ public class RoomService {
     private final ModelMapper modelMapper;
     
     private final RoomRepository dao;
-    //private final EntityManager entityManager;
     private final ContextQuery contextQuery;
 
     public RoomModel convertToModel(RoomDto dto){
@@ -64,12 +63,12 @@ public class RoomService {
 //        List<RoomDto> listPage = dao.findPage("select * from tbl_room", null, this.entityManager,pageIndex,pageSize,RoomDto.class);
 //        return  listPage;
 //    }
-    public List<HouseDto> queryAll(){
-        List<HouseDto> list = contextQuery.findList("select * from tbl_house", HouseDto.class);
+    public List<RoomDto> queryAll(){
+        List<RoomDto> list = contextQuery.findList("select * from tbl_house", RoomDto.class);
         return  list;
     }
-    public List<HouseDto> queryPage(int pageIndex, int pageSize){
-        List<HouseDto> listPage = contextQuery.findPage("select * from tbl_house", pageIndex,pageSize, HouseDto.class);
+    public List<RoomDto> queryPage(int pageIndex, int pageSize){
+        List<RoomDto> listPage = contextQuery.findPage("select * from tbl_house", pageIndex,pageSize, RoomDto.class);
         return  listPage;
     }
     public RoomDto save(RoomDto item){
@@ -78,6 +77,11 @@ public class RoomService {
         return item;
     }
 
+
+    public List<RoomDto> queryByHouseId(Long houseId){
+        List<RoomDto> list = contextQuery.findList("select * from tbl_house where userId=" + String.valueOf(houseId) + "", RoomDto.class);
+        return  list;
+    }
     public RoomDto update(RoomDto item){
         Long id = item.getId();
         RoomModel model = dao.findById(id).get();

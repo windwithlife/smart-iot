@@ -8,7 +8,6 @@ com/simple/bz/service/RoomService.class
 com/simple/bz/service/IOTService.class
 com/simple/common/config/AppConfig.class
 com/simple/bz/dto/StatusLogDto.class
-com/simple/bz/dao/BaseRepository.class
 com/simple/bz/dao/DeviceStatusRepository.class
 com/simple/common/image/MultimediaUtils.class
 com/simple/common/mqtt/MqttSenderConfig.class
@@ -16,6 +15,7 @@ com/simple/bz/dto/GitHeadCommit$GitHeadCommitBuilder.class
 com/simple/bz/dto/ExampleDto$ExampleDtoBuilder.class
 com/simple/bz/dao/DeviceRepository.class
 com/simple/bz/dto/HouseDto.class
+com/simple/bz/dto/RoomsDto.class
 com/simple/bz/dto/GatewayDeviceStatusDto$GatewayDeviceStatusDtoBuilder.class
 com/simple/bz/model/RoomModel$RoomModelBuilder.class
 com/simple/bz/service/HouseService.class
@@ -37,6 +37,7 @@ com/simple/common/props/AppProps$AppPropsBuilder.class
 com/simple/bz/dto/DeviceStatusDto$DeviceStatusDtoBuilder.class
 com/simple/bz/model/HouseModel$HouseModelBuilder.class
 com/simple/bz/controller/MessageController.class
+com/simple/bz/dto/RoomsDto$RoomsDtoBuilder.class
 com/simple/bz/dto/RoomDto.class
 com/simple/bz/controller/DeviceStatusController.class
 com/simple/bz/dto/GitHeadCommit.class
