@@ -18,6 +18,4 @@ public class HouseDto {
     private String   name;
     private String   address;
     private String   userId;
-    private Date     createdDate;
-
 }

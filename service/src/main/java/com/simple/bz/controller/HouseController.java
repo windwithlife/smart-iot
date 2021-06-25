@@ -24,16 +24,6 @@ public class HouseController extends BaseController {
 
     private final HouseService service;
 
-
-    @GetMapping(path = "/findAll")
-    GenericResponse findAll (){
-
-        List<HouseDto> dtoLst = service.findAll();
-        GenericResponse result = GenericResponse.build().addKey$Value("list", dtoLst);
-
-        return result;
-    }
-
     @ApiOperation(value="当前房子集合（用于测试）",notes = "用于测试接口")
     @GetMapping(path = "/queryAll")
     public SimpleResponse<UserHousesDto> queryAll (){
@@ -46,29 +36,23 @@ public class HouseController extends BaseController {
     }
     @ApiOperation(value="根据用户ID获取所属所有住房信息",notes = "用于处理房子信息处理")
     @GetMapping(path = "/queryHouseByUser")
-    public SimpleResponse<UserHousesDto>  queryUserHouses (@RequestParam("userId") String userId){
-
-        List<HouseDto> houseList = service.queryAll();
-
+    public SimpleResponse<UserHousesDto>  queryUserHouses (@RequestBody SimpleRequest<String> request){
+        String userId = request.getParams();
+        List<HouseDto> houseList = service.queryByUser(userId);
         SimpleResponse<UserHousesDto> result = new SimpleResponse<UserHousesDto>();
-
         return result.success(UserHousesDto.builder().houseList(houseList).userId(userId).build());
     }
     @ApiOperation(value="根据ID获取房子信息",notes = "用于处理房子信息处理")
     @GetMapping(path = "/findById")
-    public SimpleResponse<HouseDto> findById (@RequestParam("id") Long houseId){
-
+    public SimpleResponse<HouseDto> findById (@RequestBody SimpleRequest<Long> request){
+        Long houseId = request.getParams();
         System.out.println("applicationId:" + houseId);
         HouseDto  dto = service.findById(houseId);
         SimpleResponse<HouseDto> result = new SimpleResponse<HouseDto>();
         return result.success(dto);
     }
 
-//    @ApiOperation(value="新增或修改",notes = "用于处理房子信息处理")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "name", value = "房子名称",required=true,defaultValue="我的房子", dataType = "string",paramType = "body"),
-//            @ApiImplicitParam(name = "address", value = "房子地址",required=true,defaultValue="无", dataType = "string",paramType = "body")
-//    })
+
 //    @ApiResponses({
 //            @ApiResponse(code=400,message="请求参数没填好"),
 //            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对")
@@ -100,10 +84,11 @@ public class HouseController extends BaseController {
 
     @ApiOperation(value="删除房子",notes = "用于处理房子信息处理")
     @ResponseBody
-    @RequestMapping(value = "/remove/{id}", method = RequestMethod.POST)
-    public Long removeById(@PathVariable Long id) {
-        service.remove(id);
-        return id;
+    @RequestMapping(value = "/remove", method = RequestMethod.POST)
+    public SimpleResponse<Long> removeById(@RequestBody SimpleRequest<Long> req) {
+        service.remove(req.getParams());
+        SimpleResponse<Long> result = new SimpleResponse<Long>();
+        return result.success(req.getParams());
     }
 
 

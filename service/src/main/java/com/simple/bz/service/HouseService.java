@@ -75,6 +75,10 @@ public class HouseService {
         List<HouseDto> list = contextQuery.findList("select * from tbl_house", HouseDto.class);
         return  list;
     }
+    public List<HouseDto> queryByUser(String userId){
+        List<HouseDto> list = contextQuery.findList("select * from tbl_house where userId='" + userId + "'", HouseDto.class);
+        return  list;
+    }
     public List<HouseDto> queryPage(int pageIndex, int pageSize){
         List<HouseDto> listPage = contextQuery.findPage("select * from tbl_house", pageIndex,pageSize, HouseDto.class);
         return  listPage;
