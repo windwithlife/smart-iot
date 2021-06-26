@@ -18,7 +18,7 @@ public class RoomModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long     id;
-    private Long     homeId;
+    private Long     houseId;
     private String   name;
     private String   floor;
 }

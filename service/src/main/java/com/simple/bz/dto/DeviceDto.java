@@ -1,5 +1,6 @@
 package com.simple.bz.dto;
 
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,8 +13,8 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
-public class IOTDeviceDto {
+@ApiModel(value="设备对象",description="设备请求参数或者返回参数")
+public class DeviceDto {
 
     private Long id;
     private Long     gatewayDeviceId; //绑定网关设备ID
@@ -23,8 +24,5 @@ public class IOTDeviceDto {
     private String   IEEEAddr;      //长地址
     private String   Endpoints;       //终端组
     private boolean  active;
-
-    private Date     createTime;
-
 
 }

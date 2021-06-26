@@ -14,13 +14,15 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name="GatewayDevice")
+@Table(name="tbl_gateway")
 public class GatewayDeviceModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long    id;
+    private Long    houseId;
     private String   nickName;
+    private String   macAddress;
     private String   model;
     private String   code;
 

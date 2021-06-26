@@ -1,8 +1,8 @@
 package com.simple.bz.service;
 
-
-
+import com.simple.bz.dao.ContextQuery;
 import com.simple.bz.dao.GatewayDeviceRepository;
+import com.simple.bz.dao.RoomRepository;
 import com.simple.bz.dto.GatewayDeviceDto;
 import com.simple.bz.model.GatewayDeviceModel;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class GatewayDeviceService {
     private final ModelMapper modelMapper;
     
     private final GatewayDeviceRepository dao;
-
+    private final ContextQuery contextQuery;
 
     public GatewayDeviceModel convertToModel(GatewayDeviceDto dto){
         return this.modelMapper.map(dto, GatewayDeviceModel.class);
@@ -53,18 +53,33 @@ public class GatewayDeviceService {
         GatewayDeviceModel model =  dao.findById(id).get();
         return this.convertToDto(model);
     }
+
+
+    public List<GatewayDeviceDto> queryAll(){
+        List<GatewayDeviceDto> list = contextQuery.findList("select * from tbl_house", GatewayDeviceDto.class);
+        return  list;
+    }
+    public List<GatewayDeviceDto> queryPage(int pageIndex, int pageSize){
+        List<GatewayDeviceDto> listPage = contextQuery.findPage("select * from tbl_house", pageIndex,pageSize, GatewayDeviceDto.class);
+        return  listPage;
+    }
     public GatewayDeviceDto save(GatewayDeviceDto item){
         GatewayDeviceModel model = this.convertToModel(item);
         this.dao.save(model);
         return item;
     }
 
+
+    public List<GatewayDeviceDto> queryByHouseId(Long houseId){
+        List<GatewayDeviceDto> list = contextQuery.findList("select * from tbl_gateway where houseId=" + String.valueOf(houseId), GatewayDeviceDto.class);
+        return  list;
+    }
     public GatewayDeviceDto update(GatewayDeviceDto item){
         Long id = item.getId();
         GatewayDeviceModel model = dao.findById(id).get();
-        if(null == model ){return null;}
+        if (null == model ){return null;}
         this.modelMapper.map(item, model);
-        System.out.println("gateway model info ");
+        System.out.println("Iot device model info ");
         System.out.println(model.toString());
         this.dao.save(model);
         return item;

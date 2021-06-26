@@ -79,7 +79,7 @@ public class RoomService {
 
 
     public List<RoomDto> queryByHouseId(Long houseId){
-        List<RoomDto> list = contextQuery.findList("select * from tbl_house where userId=" + String.valueOf(houseId) + "", RoomDto.class);
+        List<RoomDto> list = contextQuery.findList("select * from tbl_room where houseId=" + String.valueOf(houseId) + "", RoomDto.class);
         return  list;
     }
     public RoomDto update(RoomDto item){

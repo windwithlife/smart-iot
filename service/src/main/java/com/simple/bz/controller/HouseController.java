@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/house")
-@Api(tags = "处理房子相关的SOA")
+@Api(tags = "处理房子相关的SOA集")
 public class HouseController extends BaseController {
 
     private final HouseService service;

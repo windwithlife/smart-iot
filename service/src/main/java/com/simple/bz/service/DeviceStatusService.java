@@ -1,7 +1,6 @@
 package com.simple.bz.service;
 
-
-
+import com.simple.bz.dao.ContextQuery;
 import com.simple.bz.dao.DeviceRepository;
 import com.simple.bz.dao.DeviceStatusRepository;
 import com.simple.bz.dto.DeviceStatusDto;
@@ -19,7 +18,7 @@ public class DeviceStatusService {
     private final ModelMapper modelMapper;
     
     private final DeviceStatusRepository dao;
-
+    private final ContextQuery contextQuery;
 
     public DeviceStatusModel convertToModel(DeviceStatusDto dto){
         return this.modelMapper.map(dto, DeviceStatusModel.class);
@@ -54,18 +53,34 @@ public class DeviceStatusService {
         DeviceStatusModel model =  dao.findById(id).get();
         return this.convertToDto(model);
     }
+
+
+    public List<DeviceStatusDto> queryAll(){
+        List<DeviceStatusDto> list = contextQuery.findList("select * from tbl_device_status", DeviceStatusDto.class);
+        return  list;
+    }
+    public List<DeviceStatusDto> queryPage(int pageIndex, int pageSize){
+        List<DeviceStatusDto> listPage = contextQuery.findPage("select * from tbl_device_status", pageIndex,pageSize, DeviceStatusDto.class);
+        return  listPage;
+    }
     public DeviceStatusDto save(DeviceStatusDto item){
         DeviceStatusModel model = this.convertToModel(item);
         this.dao.save(model);
         return item;
     }
 
+
+    public DeviceStatusDto queryByDeviceId(Long deviceId){
+        DeviceStatusModel model = dao.findByDeviceId(deviceId);
+        return this.convertToDto(model);
+    }
+
     public DeviceStatusDto update(DeviceStatusDto item){
         Long id = item.getId();
         DeviceStatusModel model = dao.findById(id).get();
-        if(null == model ){return null;}
+        if (null == model ){return null;}
         this.modelMapper.map(item, model);
-        System.out.println("device status model info ");
+        System.out.println("Iot device model info ");
         System.out.println(model.toString());
         this.dao.save(model);
         return item;

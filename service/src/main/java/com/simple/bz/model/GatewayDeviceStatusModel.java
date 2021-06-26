@@ -13,14 +13,15 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name="GatewayDeviceStatus")
+@Table(name="tbl_gateway_status")
 public class GatewayDeviceStatusModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long     id;
     private Long     gatewayDeviceId;
     private String   nickName;
+    private String   macAddress;
     private int      wifiLinkCount;
     private int      wifiChannel;
     private String   wifiAp;

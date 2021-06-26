@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/room")
-@Api(tags = "处理房间或区域相关的SOA")
+@Api(tags = "处理房间或区域相关的SOA集")
 public class RoomController extends BaseController {
 
     private final RoomService service;
@@ -31,7 +31,7 @@ public class RoomController extends BaseController {
 
         return result.success(RoomsDto.builder().roomList(rooms).houseId(-1L).build());
     }
-    @ApiOperation(value="根据用户ID获取所属所有住房信息",notes = "用于处理房子信息处理")
+    @ApiOperation(value="根据房子ID获取所属所有房间信息")
     @PostMapping(path = "/queryRoomsByHouseId")
     public SimpleResponse<RoomsDto>  queryRoomsByHouse (@RequestBody SimpleRequest<Long> request){
         Long houseId = request.getParams();
@@ -39,7 +39,7 @@ public class RoomController extends BaseController {
         SimpleResponse<RoomsDto> result = new SimpleResponse<RoomsDto>();
         return result.success(RoomsDto.builder().roomList(roomList).houseId(houseId).build());
     }
-    @ApiOperation(value="根据ID获取房子信息",notes = "用于处理房子信息处理")
+    @ApiOperation(value="根据ID获取房间信息")
     @PostMapping(path = "/findById")
     public SimpleResponse<RoomDto> findById (@RequestBody SimpleRequest<Long> request){
         Long roomId = request.getParams();

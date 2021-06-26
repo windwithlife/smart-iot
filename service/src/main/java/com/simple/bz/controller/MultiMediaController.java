@@ -1,31 +1,21 @@
 package com.simple.bz.controller;
 
-import com.qiniu.common.Zone;
-import com.qiniu.http.Response;
-import com.qiniu.storage.UploadManager;
-import com.qiniu.storage.Configuration;
-
-import com.qiniu.util.Auth;
-
-import com.simple.bz.service.GatewayDeviceService;
 import com.simple.bz.service.MultimediaService;
 import com.simple.common.api.GenericResponse;
 import com.simple.common.controller.BaseController;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.annotation.PostConstruct;
-import java.io.IOException;
 
 import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/media")
+@Api(tags = "文件上传服务")
 public class MultiMediaController extends BaseController {
     private final MultimediaService service;
 
@@ -35,6 +25,7 @@ public class MultiMediaController extends BaseController {
      * @param file 文件数据
      * @return
      */
+    @ApiOperation(value="上传图片")
     @PostMapping("/uploadImage/{group}")
     public GenericResponse upload(@PathVariable("group") String group, @RequestParam("file") MultipartFile file) {
 

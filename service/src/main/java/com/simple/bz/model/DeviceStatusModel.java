@@ -14,7 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name="DeviceStatus")
+@Table(name="tbl_device_status")
 public class DeviceStatusModel {
 
     @Id

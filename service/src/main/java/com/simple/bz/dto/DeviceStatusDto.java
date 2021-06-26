@@ -12,12 +12,10 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity
-@Table(name="DeviceStatus")
+
 public class DeviceStatusDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
     private Long id;
 
     private Long     deviceId;

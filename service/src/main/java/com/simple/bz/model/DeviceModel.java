@@ -14,12 +14,12 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name="IOTDevice")
-public class IOTDeviceModel {
+@Table(name="tbl_device")
+public class DeviceModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long     id;
     private Long     gatewayDeviceId; //绑定网关设备ID
     private String   code;         //识别码
     private String   modelId;      //型号

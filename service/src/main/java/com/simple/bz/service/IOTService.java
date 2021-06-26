@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.simple.bz.dto.DeviceStatusDto;
 import com.simple.bz.dto.GatewayDeviceStatusDto;
-import com.simple.bz.dto.IOTDeviceDto;
+import com.simple.bz.dto.DeviceDto;
 import com.simple.common.mqtt.MqttAdapter;
 import com.simple.common.mqtt.MqttProxy;
 import lombok.RequiredArgsConstructor;
@@ -89,7 +89,7 @@ public class IOTService extends MqttAdapter {
                 JSONArray devices = jsonObject.getJSONArray(key);
                 devices.forEach(a ->{
                     JSONObject deviceObject = (JSONObject) a;
-                    IOTDeviceDto device = deviceObject.toJavaObject(IOTDeviceDto.class);
+                    DeviceDto device = deviceObject.toJavaObject(DeviceDto.class);
                     System.out.println("Devices info belong to gateway==>detail=======>");
                     System.out.println(device.toString());
                 });

@@ -10,6 +10,7 @@ import com.simple.bz.dto.ExampleVO;
 import com.simple.common.api.GenericRequest;
 import com.simple.common.api.GenericResponse;
 
+import io.swagger.annotations.Api;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/mqtt")
 @Validated
+@Api(tags = "消息相关的服务集")
 public class MessageController {
 
 
