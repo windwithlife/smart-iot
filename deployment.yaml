@@ -56,6 +56,10 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-redirect: 'false' #http 自动转https
 spec:
   ingressClassName: nginx
+  tls:
+  - secretName: ingress-cert-koudaibook
+    hosts:
+    - service.koudaibook.com
   rules:
     - host: service.koudaibook.com
       http:
