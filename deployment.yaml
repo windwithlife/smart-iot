@@ -83,6 +83,7 @@ metadata:
     nginx.ingress.kubernetes.io/configuration-snippet: |
        proxy_set_header Upgrade "websocket";
        proxy_set_header Connection "Upgrade";
+       proxy_read_timeout 600s; #配置点2，如果没效，可以考虑这个时间配置长一点
 spec:
   ingressClassName: nginx
   tls:

@@ -20,6 +20,7 @@
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dao/GatewayDeviceRepository.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/service/HouseService.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/common/mqtt/MqttDto.java
+/Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/service/WebSocketService.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/common/mqtt/MqttSenderConfig.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/controller/RoomController.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/RoomsDto.java

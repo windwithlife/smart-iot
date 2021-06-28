@@ -47,6 +47,10 @@ public class WebSocketService {
     @OnClose
     public void onColse(Session session){
         System.out.println("断开连接"+session.getId());
+        String username = SESSION_ID_TOKEN.get(session.getId());
+        TOKEN_SESSION.remove(username);
+        SESSION_ID_TOKEN.remove(session.getId());
+
     }
     @OnMessage
     public void onMessage(Session session,String message){
@@ -54,9 +58,13 @@ public class WebSocketService {
         sendMessageToTarget(SESSION_ID_TOKEN.get(session.getId()),message+"已收到");
     }
     public void sendMessage(String message){
-        System.out.println("发送全体消息");
+        System.out.println("发送心跳包");
         TOKEN_SESSION.values().forEach((session)->{
-            session.getAsyncRemote().sendText(message);
+            if (session != null && session.isOpen()) {
+                String user = SESSION_ID_TOKEN.get(session.getId());
+                session.getAsyncRemote().sendText("To User===>" + message);
+            }
+
         });
     }
     public <T> void sendMessageToTarget(String token,Object t){
@@ -66,5 +74,9 @@ public class WebSocketService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    @OnError
+    public void onError(Throwable throwable) {
+        throwable.printStackTrace();
     }
 }
