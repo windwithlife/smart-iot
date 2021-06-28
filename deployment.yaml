@@ -85,10 +85,10 @@ metadata:
        proxy_set_header Connection "Upgrade";
 spec:
   ingressClassName: nginx
-  # tls:
-  # - secretName: ingress-cert-koudaibook
-  #   hosts:
-  #   - service.koudaibook.com
+  tls:
+  - secretName: ingress-cert-koudaibook
+    hosts:
+    - service.koudaibook.com
   rules:
     - host: service.koudaibook.com
       http:
