@@ -24,6 +24,7 @@ com/simple/bz/dto/DeviceDto$DeviceDtoBuilder.class
 com/simple/bz/dto/DevicesDto.class
 com/simple/bz/controller/RoomController.class
 com/simple/JsonUtils.class
+com/simple/bz/service/WebSocketService.class
 com/simple/common/config/SwaggerConfig.class
 com/simple/bz/model/GatewayDeviceStatusModel$GatewayDeviceStatusModelBuilder.class
 com/simple/bz/model/ExampleModel.class
@@ -81,4 +82,5 @@ com/simple/common/mqtt/MqttProxy.class
 com/simple/common/mqtt/MqttGateway.class
 com/simple/bz/dto/UserHousesDto$UserHousesDtoBuilder.class
 com/simple/bz/controller/DeviceController.class
+com/simple/common/config/WebSocketConfig.class
 com/simple/bz/controller/GatewayController.class
