@@ -28,6 +28,7 @@ public class HouseController extends BaseController {
         SimpleResponse<UserHousesDto> result = new SimpleResponse<UserHousesDto>();
         return result.success(UserHousesDto.builder().houseList(houseList).userId("0").build());
     }
+
     @ApiOperation(value="根据用户ID获取所属所有住房信息",notes = "用于处理房子信息处理")
     @PostMapping(path = "/queryHouseByUser")
     public SimpleResponse<UserHousesDto>  queryUserHouses (@RequestBody SimpleRequest<String> request){
