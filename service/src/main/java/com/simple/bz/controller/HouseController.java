@@ -21,8 +21,7 @@ import java.util.List;
 public class HouseController extends BaseController {
 
     private final HouseService service;
-
-    @ApiOperation(value="当前房子集合（用于测试）",notes = "用于测试接口")
+    @ApiOperation(value="当前房子集合（用于测试）")
     @PostMapping(path = "/queryAll")
     public SimpleResponse<UserHousesDto> queryAll (){
 
