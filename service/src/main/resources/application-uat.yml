@@ -19,9 +19,9 @@ spring:
     port: 31379
   mqtt:
     server:
-      username: ""
-      password: ""
-      url:  tcp://mq.koudaibook.com:30883
+      username: admin
+      password: public
+      url: tcp://drone.koudaibook.com:1883
     client:
       publishId: "publish-id"
       subscribeId: "subscribe-id"

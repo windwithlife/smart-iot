@@ -2,12 +2,14 @@ com/simple/bz/dto/RoomDto$RoomDtoBuilder.class
 com/simple/bz/dao/ExampleDao.class
 com/simple/bz/service/DeviceService.class
 com/simple/bz/service/DeviceStatusService.class
+com/simple/bz/dto/UserDto.class
 com/simple/bz/dto/GatewayDeviceDto$GatewayDeviceDtoBuilder.class
 com/simple/bz/dto/ExampleDto.class
 com/simple/bz/service/RoomService.class
 com/simple/bz/service/IOTService.class
 com/simple/common/config/AppConfig.class
 com/simple/bz/dto/StatusLogDto.class
+com/simple/bz/dto/UserDto$UserDtoBuilder.class
 com/simple/bz/dao/DeviceStatusRepository.class
 com/simple/common/image/MultimediaUtils.class
 com/simple/common/mqtt/MqttSenderConfig.class
@@ -23,7 +25,6 @@ com/simple/bz/service/HouseService.class
 com/simple/bz/dto/DeviceDto$DeviceDtoBuilder.class
 com/simple/bz/dto/DevicesDto.class
 com/simple/bz/controller/RoomController.class
-com/simple/JsonUtils.class
 com/simple/bz/service/WebSocketService.class
 com/simple/common/config/SwaggerConfig.class
 com/simple/bz/model/GatewayDeviceStatusModel$GatewayDeviceStatusModelBuilder.class
@@ -51,6 +52,7 @@ com/simple/common/mqtt/MqttDto$MqttDtoBuilder.class
 com/simple/bz/service/GatewayStatusService.class
 com/simple/bz/dto/ExampleVO$ExampleVOBuilder.class
 com/simple/bz/dto/DeviceStatusDto.class
+com/simple/bz/dto/AccountDto$AccountDtoBuilder.class
 com/simple/bz/dto/UserHousesDto.class
 com/simple/bz/dao/HouseRepository.class
 com/simple/bz/dto/DeviceDto.class
@@ -71,6 +73,7 @@ com/simple/bz/dao/ContextQuery.class
 com/simple/bz/dto/GatewayDevicesDto.class
 com/simple/bz/model/GatewayDeviceStatusModel.class
 com/simple/bz/model/DeviceStatusModel.class
+com/simple/bz/dto/AccountDto.class
 com/simple/bz/dto/DeviceWifi$DeviceWifiBuilder.class
 com/simple/bz/dao/GatewayDeviceRepository.class
 com/simple/bz/model/ExampleModel$ExampleModelBuilder.class

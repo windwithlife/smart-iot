@@ -18,10 +18,10 @@ spring:
     server:
       username: admin
       password: public
-      url: tcp://drone.koudaibook.com:1883
+      url: tcp://mq.koudaibook.com:1883
     client:
-      publishId: "publish-id"
-      subscribeId: "subscribe-id"
+      publishId: "publish_Prod_id"
+      subscribeId: "subscribe_prod_id"
     default:
       topic: "ci/simple/center/soa-server/#"
       completionTimeout: 3000
