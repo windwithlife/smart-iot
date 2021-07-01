@@ -26,7 +26,6 @@ public class HouseController extends BaseController {
     public SimpleResponse<UserHousesDto> queryAll (){
 
         List<HouseDto> houseList = service.queryAll();
-
         SimpleResponse<UserHousesDto> result = new SimpleResponse<UserHousesDto>();
 
         return result.success(UserHousesDto.builder().houseList(houseList).userId("0").build());
