@@ -22,7 +22,7 @@ public class RoomController extends BaseController {
 
     private final RoomService service;
 
-    @ApiOperation(value="当前房间或区域集合（用于测试)")
+    @ApiOperation(value="当前房间或区域集合（用于开发测试)")
     @PostMapping(path = "/queryAll")
     public SimpleResponse<RoomsDto> queryAll (){
 
