@@ -76,9 +76,9 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: 'false' 
     nginx.ingress.kubernetes.io/configuration-snippet: |
-       proxy_set_header Upgrade "websocket";
-       proxy_set_header Connection "Upgrade";
-       proxy_read_timeout 600s;
+        proxy_set_header Upgrade "websocket";
+        proxy_set_header Connection "Upgrade";
+        proxy_read_timeout 600s;
 spec:
   ingressClassName: nginx
   tls:
