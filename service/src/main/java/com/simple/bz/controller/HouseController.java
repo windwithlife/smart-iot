@@ -72,7 +72,6 @@ public class HouseController extends BaseController {
         String userId = Sessions.getSessionUserInfo(token).getUserId();
         System.out.println(request.toString());
         HouseDto dto = request.getParams();
-        dto.get
         dto.setUserId(userId);
         service.save(dto);
         SimpleResponse<HouseDto> result = new SimpleResponse<HouseDto>();
