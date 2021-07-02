@@ -19,8 +19,9 @@ public class GatewayDeviceModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long    id;
-    private Long    houseId;
+    private Long     id;
+    private Long     houseId;
+    private String   name;
     private String   nickName;
     private String   macAddress;
     private String   model;

@@ -2,23 +2,33 @@ package com.simple.bz.service;
 
 
 import com.simple.bz.dao.ContextQuery;
+import com.simple.bz.dao.GatewayDeviceRepository;
 import com.simple.bz.dao.HouseRepository;
+import com.simple.bz.dao.UserHouseRepository;
+import com.simple.bz.dto.AccountDto;
 import com.simple.bz.dto.HouseDto;
 import javax.persistence.EntityManager;
+
+import com.simple.bz.model.GatewayDeviceModel;
 import com.simple.bz.model.HouseModel;
+import com.simple.bz.model.HouseUsersDto;
+import com.simple.bz.model.UserHouseModel;
+import com.simple.common.auth.Sessions;
+import com.simple.common.error.ServiceException;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
 public class HouseService {
     private final ModelMapper modelMapper;
     private final HouseRepository dao;
+    private final UserHouseRepository userHouseDao;
+    private final GatewayDeviceRepository gatewayDao;
     private final ContextQuery contextQuery;
 
     public HouseModel convertToModel(HouseDto dto){
@@ -75,6 +85,21 @@ public class HouseService {
         List<HouseDto> list = contextQuery.findList("select * from tbl_house", HouseDto.class);
         return  list;
     }
+    public List<HouseUsersDto> queryUsersByGatewayName(String name){
+        GatewayDeviceModel gateway =  gatewayDao.findOneByName(name);
+        if (null == gateway){
+            throw new ServiceException("根据此网关名称，找不到登记的网关设备");
+        }
+        List<UserHouseModel> list = userHouseDao.findByHouseId(gateway.getHouseId());
+        List<HouseUsersDto> retList = new ArrayList<HouseUsersDto>();
+        list.forEach(item->{
+            String token = Sessions.getSessionUserStatusByUserId(item.getUserId()).getToken();
+            HouseUsersDto  houseUsers = HouseUsersDto.builder().userId(item.getUserId()).houseId(item.getHouseId()).token(token).build();
+            retList.add(houseUsers);
+        });
+        return retList;
+    }
+
     public List<HouseDto> queryByUser(String userId){
         List<HouseDto> list = contextQuery.findList("select * from tbl_house where userId='" + userId + "'", HouseDto.class);
         return  list;

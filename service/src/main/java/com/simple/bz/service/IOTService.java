@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.simple.bz.dto.DeviceStatusDto;
 import com.simple.bz.dto.GatewayDeviceStatusDto;
 import com.simple.bz.dto.DeviceDto;
+import com.simple.bz.model.HouseUsersDto;
 import com.simple.common.mqtt.MqttAdapter;
 import com.simple.common.mqtt.MqttProxy;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 @RequiredArgsConstructor
@@ -21,10 +23,15 @@ import java.util.Set;
 public class IOTService extends MqttAdapter {
 
     private final MqttProxy mqttProxy;
+    private final HouseService houseService;
+    private final WebSocketService webSocketService;
 
     @PostConstruct
     private void init() {
+
         mqttProxy.registerHandler("tele/",this);
+        mqttProxy.registerHandler("stat/",this);
+
     }
 
     @Override
@@ -55,8 +62,10 @@ public class IOTService extends MqttAdapter {
             if(command.toUpperCase().equals("STATE")){
                 GatewayDeviceStatusDto  dto = JSON.parseObject(payload, GatewayDeviceStatusDto.class);
                 System.out.println("have parse gateway device status json object ===>");
+                this.processGatewayState(topic,payload);
                 System.out.println(dto.toString());
             }
+            //传感器
             if(command.toUpperCase().equals("SENSOR")){
                 JSONObject jsonObject = JSON.parseObject(payload);
                 JSONObject receivedObject = jsonObject.getJSONObject("ZbReceived");
@@ -72,7 +81,9 @@ public class IOTService extends MqttAdapter {
                     System.out.println("have parse device status json object value2===>" + resultObject.toJSONString());
                     DeviceStatusDto dto = resultObject.toJavaObject(DeviceStatusDto.class);
                     System.out.println("have parse device status json object ===>");
+                    this.processSensorState(gatewayDevice,dto);
                     System.out.println(dto.toString());
+
                 }
             }
         }
@@ -100,7 +111,12 @@ public class IOTService extends MqttAdapter {
 
     }
 
-    public void processSensorState(){
+    private void processSensorState(String gateway, DeviceStatusDto data){
+        List<HouseUsersDto> targetUsers = houseService.queryUsersByGatewayName(gateway);
+        targetUsers.forEach(user->{
+            webSocketService.sendMessageToTarget(user.getToken(),data.toString());
+        });
+
 
     }
 

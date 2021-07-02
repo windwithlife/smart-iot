@@ -74,6 +74,10 @@ public class GatewayDeviceService {
         List<GatewayDeviceDto> list = contextQuery.findList("select * from tbl_gateway where houseId=" + String.valueOf(houseId), GatewayDeviceDto.class);
         return  list;
     }
+    public Long findHouseIdByGatewayName(String name){
+        GatewayDeviceModel model = this.dao.findOneByName(name);
+        return model.getHouseId();
+    }
     public GatewayDeviceDto update(GatewayDeviceDto item){
         Long id = item.getId();
         GatewayDeviceModel model = dao.findById(id).get();

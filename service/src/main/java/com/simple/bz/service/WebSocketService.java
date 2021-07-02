@@ -58,7 +58,7 @@ public class WebSocketService {
         sendMessageToTarget(SESSION_ID_TOKEN.get(session.getId()),message+"已收到");
     }
     public void sendMessage(String message){
-        System.out.println("发送心跳包");
+
         TOKEN_SESSION.values().forEach((session)->{
             if (session != null && session.isOpen()) {
                 String user = SESSION_ID_TOKEN.get(session.getId());
