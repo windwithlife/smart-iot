@@ -36,12 +36,11 @@ steps:
       yaml: ./deployment.yaml
       kubeconfig:
         from_secret: kubeconfig
-      # variables. Must be lowercase, Usage: {{.service_name}}
+
       service_name: service-iot
       app_name: smart-iot
       repo_name: smart-iot
-      build_tag: build-90
-      # build_tag: build-${DRONE_BUILD_NUMBER}
+      build_tag: build-${DRONE_BUILD_NUMBER}
 
 volumes:
   - name: mvncache
