@@ -40,6 +40,7 @@ public class HouseController extends BaseController {
         if (StringUtils.isBlank(token)){
             throw new ServiceException("请先登录");
         }
+        System.out.println("current token--->" + token);
         String userId = Sessions.getSessionUserInfo(token).getUserId();
         System.out.println("Current UserId ===>" + userId);
         //String userId = request.getParams();
@@ -66,9 +67,13 @@ public class HouseController extends BaseController {
 
     @ApiOperation(value="新增房子",notes = "用于处理房子信息处理")
     @PostMapping(path = "/addHouse")
-    public SimpleResponse<HouseDto> addNew (@RequestBody SimpleRequest<HouseDto> request){
+    public SimpleResponse<HouseDto> addNew (@RequestBody SimpleRequest<HouseDto> request,HttpServletRequest req){
+        String token = Sessions.getAuthToken(req);
+        String userId = Sessions.getSessionUserInfo(token).getUserId();
         System.out.println(request.toString());
         HouseDto dto = request.getParams();
+        dto.get
+        dto.setUserId(userId);
         service.save(dto);
         SimpleResponse<HouseDto> result = new SimpleResponse<HouseDto>();
         return result.success(dto);

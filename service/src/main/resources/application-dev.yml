@@ -27,7 +27,7 @@ spring:
       completionTimeout: 3000
 
 server:
-  port: 8888
+  port: 5388
   servlet:
     context-path: /smart-iot
 simple:
