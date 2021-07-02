@@ -3,15 +3,15 @@ type: docker
 name: smart-iot
 
 steps:
-  - name: 编译打包代码
-    image: maven:3-jdk-10
-    volumes:
-      - name : mvncache
-        path : /root/.m2
-    commands:
-      - echo 'test echo'
-      - cd  ./service
-      - mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true -B
+  # - name: 编译打包代码
+  #   image: maven:3-jdk-10
+  #   volumes:
+  #     - name : mvncache
+  #       path : /root/.m2
+  #   commands:
+  #     - echo 'test echo'
+  #     - cd  ./service
+  #     - mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true -B
 
   # - name: 构建镜像&PUSH镜像到Hub.
   #   image: plugins/docker

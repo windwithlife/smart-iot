@@ -7,11 +7,15 @@ import com.simple.bz.service.HouseService;
 
 import com.simple.common.api.SimpleRequest;
 import com.simple.common.api.SimpleResponse;
+import com.simple.common.auth.Sessions;
 import com.simple.common.controller.BaseController;
+import com.simple.common.error.ServiceException;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @AllArgsConstructor
@@ -31,8 +35,14 @@ public class HouseController extends BaseController {
 
     @ApiOperation(value="根据用户ID获取所属所有住房信息",notes = "用于处理房子信息处理")
     @PostMapping(path = "/queryHouseByUser")
-    public SimpleResponse<UserHousesDto>  queryUserHouses (@RequestBody SimpleRequest<String> request){
-        String userId = request.getParams();
+    public SimpleResponse<UserHousesDto>  queryUserHouses (HttpServletRequest req){
+        String token = Sessions.getAuthToken(req);
+        if (StringUtils.isBlank(token)){
+            throw new ServiceException("请先登录");
+        }
+        String userId = Sessions.getSessionUserInfo(token).getUserId();
+        System.out.println("Current UserId ===>" + userId);
+        //String userId = request.getParams();
         List<HouseDto> houseList = service.queryByUser(userId);
         SimpleResponse<UserHousesDto> result = new SimpleResponse<UserHousesDto>();
         return result.success(UserHousesDto.builder().houseList(houseList).userId(userId).build());
