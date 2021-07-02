@@ -18,7 +18,7 @@ spring:
     server:
       username: admin
       password: public
-      url:  tcp://drone.koudaibook.com:1883
+      url:  tcp://mq.koudaibook.com:1883
     client:
       publishId: "publish_id"
       subscribeId: "subscribe_id"
