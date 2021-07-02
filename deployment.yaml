@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: container-smart-iot
-          image: registry.cn-hangzhou.aliyuncs.com/windwithlife/{{.repo_name}}:{{.build_tag}}
+          image: registry.cn-hangzhou.aliyuncs.com/windwithlife/{{.repo_name}}:build-90
           ports:
             - containerPort: 80
               protocol: TCP
@@ -52,7 +52,7 @@ metadata:
     nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
     nginx.ingress.kubernetes.io/cors-allow-headers: "token,DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization"
     nginx.ingress.kubernetes.io/cors-expose-headers: "token"
-    nginx.ingress.kubernetes.io/ssl-redirect: 'false' #http
+    nginx.ingress.kubernetes.io/ssl-redirect: 'false' 
 spec:
   ingressClassName: nginx
   tls:
@@ -68,4 +68,4 @@ spec:
             backend:
               serviceName: {{.service_name}}
               servicePort: 80
----
+
