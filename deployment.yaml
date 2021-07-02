@@ -26,3 +26,18 @@ spec:
               protocol: TCP
           imagePullPolicy: IfNotPresent
       restartPolicy: Always
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{.service_name}}
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
+  selector:
+    app: app-iot
