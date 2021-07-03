@@ -14,6 +14,6 @@ import java.util.Date;
 public class RoomDto {
     private Long     id;
     private String   name;
-    private Long     homeId;
+    private Long     houseId;
     private String   floor;
 }
