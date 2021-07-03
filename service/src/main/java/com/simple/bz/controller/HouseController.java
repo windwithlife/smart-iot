@@ -76,6 +76,7 @@ public class HouseController extends BaseController {
         service.save(dto);
         SimpleResponse<HouseDto> result = new SimpleResponse<HouseDto>();
         return result.success(dto);
+
     }
 
 
