@@ -20,7 +20,8 @@ public class DeviceModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long     id;
-    private Long     gatewayDeviceId; //绑定网关设备ID
+    private Long     gatewayId; //绑定网关设备ID
+    private Long     roomId;    //房间或区域ID
     private String   code;         //识别码
     private String   modelId;      //型号
     private String   manufacturer; //制造厂商

@@ -25,16 +25,7 @@ public class DeviceController extends BaseController {
     private final DeviceService service;
     private final DeviceStatusService serviceStatus;
 
-    @ApiOperation(value="当前网关组（用于测试")
-    @PostMapping(path = "/queryAll")
-    public SimpleResponse<DevicesDto> queryAll (){
-
-        List<DeviceDto> list = service.queryAll();
-        SimpleResponse<DevicesDto> result = new SimpleResponse<DevicesDto>();
-
-        return result.success(DevicesDto.builder().deviceList(list).gatewayId(-1L).build());
-    }
-    @ApiOperation(value="根据房子ID获取所属所有网关信息")
+    @ApiOperation(value="根据网关ID获取所属所有设备信息")
     @PostMapping(path = "/queryDevicesByGatewayId")
     public SimpleResponse<DevicesDto>  queryDevicesByGateway (@RequestBody SimpleRequest<Long> request){
         Long gatewayId = request.getParams();
@@ -64,9 +55,9 @@ public class DeviceController extends BaseController {
 
 
 
-    @ApiOperation(value="新增一个网关")
-    @PostMapping(path = "/addRoom")
-    public SimpleResponse<DeviceDto> addNew (@RequestBody SimpleRequest<DeviceDto> request){
+    @ApiOperation(value="新增一个设备")
+    @PostMapping(path = "/addDevice")
+    public SimpleResponse<DeviceDto> addNewDevice (@RequestBody SimpleRequest<DeviceDto> request){
         System.out.println(request.toString());
         DeviceDto dto = request.getParams();
         service.save(dto);
@@ -75,7 +66,7 @@ public class DeviceController extends BaseController {
     }
 
 
-    @ApiOperation(value="修改网关信息")
+    @ApiOperation(value="修改设备信息")
     @PostMapping(path = "/update")
     public SimpleResponse<DeviceDto> updateSave(@RequestBody SimpleRequest<DeviceDto> req) {
         DeviceDto dto = req.getParams();
@@ -86,7 +77,7 @@ public class DeviceController extends BaseController {
 
     }
 
-    @ApiOperation(value="根扰ID删除一个网关")
+    @ApiOperation(value="根扰ID删除一个设备")
     @ResponseBody
     @RequestMapping(value = "/remove", method = RequestMethod.POST)
     public SimpleResponse<Long> removeById(@RequestBody SimpleRequest<Long> req) {

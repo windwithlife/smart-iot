@@ -65,8 +65,13 @@ public class GatewayDeviceService {
     }
     public GatewayDeviceDto save(GatewayDeviceDto item){
         GatewayDeviceModel model = this.convertToModel(item);
-        this.dao.save(model);
-        return item;
+        GatewayDeviceModel oldModel = dao.findOneByLocationTopic(model.getLocationTopic());
+        if(null == oldModel){
+            GatewayDeviceModel newModel = this.dao.save(model);
+            return this.convertToDto(newModel);
+        }else{
+            return this.convertToDto(oldModel);
+        }
     }
 
 

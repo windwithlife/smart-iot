@@ -62,13 +62,37 @@ public class IOTService extends MqttAdapter {
             if(command.toUpperCase().equals("STATE")){
                 GatewayDeviceStatusDto  dto = JSON.parseObject(payload, GatewayDeviceStatusDto.class);
                 System.out.println("have parse gateway device status json object ===>");
-                this.processGatewayState(topic,payload);
+                this.processGatewayState(gatewayDevice,dto);
+                System.out.println(dto.toString());
+            }
+            if(command.equalsIgnoreCase("result")){
+                GatewayDeviceStatusDto  dto = JSON.parseObject(payload, GatewayDeviceStatusDto.class);
+                System.out.println("have parse gateway device status json object ===>");
+                this.processGatewayState(gatewayDevice,dto);
+                System.out.println(dto.toString());
+            }
+            if(command.toUpperCase().equals("LWT")){
+                GatewayDeviceStatusDto  dto = GatewayDeviceStatusDto.builder().active(true).build();
+                if (payload.equalsIgnoreCase("offline")){
+                    dto.setActive(false);
+                    System.out.println("gateway device will be offline");
+                }else{
+                    dto.setActive(true);
+                    System.out.println("gateway device will be online");
+                }
+
+                this.processGatewayState(gatewayDevice,dto);
                 System.out.println(dto.toString());
             }
             //传感器
             if(command.toUpperCase().equals("SENSOR")){
                 JSONObject jsonObject = JSON.parseObject(payload);
-                JSONObject receivedObject = jsonObject.getJSONObject("ZbReceived");
+                String statusName = "ZbState";
+                JSONObject receivedObject = jsonObject.getJSONObject("ZbState");
+                if (receivedObject.isEmpty()){
+                    receivedObject = jsonObject.getJSONObject("ZbReceived");
+                    statusName = "ZbReceived";
+                }
                 Set<String> keys = receivedObject.keySet();
                 Iterator<String> it = keys.iterator();
                 JSONObject resultObject;
@@ -81,10 +105,14 @@ public class IOTService extends MqttAdapter {
                     System.out.println("have parse device status json object value2===>" + resultObject.toJSONString());
                     DeviceStatusDto dto = resultObject.toJavaObject(DeviceStatusDto.class);
                     System.out.println("have parse device status json object ===>");
+                    if(statusName.equalsIgnoreCase("ZbState")){
+                        this.processDevicePairing(gatewayDevice,dto);
+                    }
                     this.processSensorState(gatewayDevice,dto);
                     System.out.println(dto.toString());
 
                 }
+
             }
         }
 
@@ -111,6 +139,17 @@ public class IOTService extends MqttAdapter {
 
     }
 
+
+    private void processDevicePairing(String gateway, DeviceStatusDto data){
+
+        List<HouseUsersDto> targetUsers = houseService.queryUsersByGatewayName(gateway);
+
+        targetUsers.forEach(user->{
+            webSocketService.sendMessageToTarget(user.getToken(),data.toString());
+        });
+
+
+    }
     private void processSensorState(String gateway, DeviceStatusDto data){
         List<HouseUsersDto> targetUsers = houseService.queryUsersByGatewayName(gateway);
         targetUsers.forEach(user->{
@@ -120,8 +159,18 @@ public class IOTService extends MqttAdapter {
 
     }
 
-    public void processGatewayState(String topic,String payload){
-
+    public void processGatewayState(String gateway,GatewayDeviceStatusDto status){
+        List<HouseUsersDto> targetUsers = houseService.queryUsersByGatewayName(gateway);
+        targetUsers.forEach(user->{
+            webSocketService.sendMessageToTarget(user.getToken(),status.toString());
+        });
     }
 
+    public boolean sendMQTTCommand(String targetGateway, String command, String payload){
+        mqttProxy.sendMsg("cmnd/" + targetGateway + "/" + command, payload);
+        return true;
+    }
+    public boolean openDevicePairing(String gateway){
+        return this.sendMQTTCommand(gateway,"ZbPermitJoin", "1");
+    }
 }

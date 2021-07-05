@@ -17,11 +17,12 @@ import java.util.Date;
 public class DeviceDto {
 
     private Long id;
-    private Long     gatewayDeviceId; //绑定网关设备ID
+    private Long     gatewayId; //绑定网关设备ID
+    private Long     roomId;    //房间或区域ID
     private String   ModelId;      //型号
     private String   Manufacturer; //制造厂商
     private String   Device;       //短地址
-    private String   IEEEAddr;      //长地址
+    private String   address;      //长地址
     private String   Endpoints;       //终端组
     private boolean  active;
 

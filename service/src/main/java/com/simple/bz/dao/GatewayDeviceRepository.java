@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface GatewayDeviceRepository extends JpaRepository<GatewayDeviceModel, Long> {
     public GatewayDeviceModel findOneByName(String name);
+    public GatewayDeviceModel findOneByLocationTopic(String topic);
 }

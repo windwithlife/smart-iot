@@ -15,8 +15,11 @@ import java.util.Date;
 
 public class GatewayDeviceDto {
 
-    private Long id;
+    private Long     id;
+    private Long     houseId;
+    private String   name;
     private String   nickName;
+    private String   macAddress;
     private String   model;
     private String   code;
     private boolean  active;

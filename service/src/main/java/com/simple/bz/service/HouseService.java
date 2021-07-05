@@ -86,7 +86,7 @@ public class HouseService {
         return  list;
     }
     public List<HouseUsersDto> queryUsersByGatewayName(String name){
-        GatewayDeviceModel gateway =  gatewayDao.findOneByName(name);
+        GatewayDeviceModel gateway =  gatewayDao.findOneByLocationTopic(name);
         if (null == gateway){
             throw new ServiceException("根据此网关名称，找不到登记的网关设备");
         }
@@ -96,7 +96,9 @@ public class HouseService {
             String token = Sessions.getSessionUserStatusByUserId(item.getUserId()).getToken();
             HouseUsersDto  houseUsers = HouseUsersDto.builder().userId(item.getUserId()).houseId(item.getHouseId()).token(token).build();
             retList.add(houseUsers);
+            System.out.println("find the target user of the gateway and house -->" + houseUsers.getUserId() +"---" +  houseUsers.getToken());
         });
+
         return retList;
     }
 

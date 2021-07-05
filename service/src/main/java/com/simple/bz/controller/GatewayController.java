@@ -1,11 +1,14 @@
 package com.simple.bz.controller;
 
+import com.simple.bz.dto.GatewayCommandRequest;
 import com.simple.bz.dto.GatewayDeviceDto;
 import com.simple.bz.dto.GatewayDeviceStatusDto;
 import com.simple.bz.dto.GatewayDevicesDto;
 import com.simple.bz.service.GatewayDeviceService;
 import com.simple.bz.service.GatewayStatusService;
+import com.simple.bz.service.IOTService;
 import com.simple.bz.service.RoomService;
+import com.simple.common.api.BaseResponse;
 import com.simple.common.api.SimpleRequest;
 import com.simple.common.api.SimpleResponse;
 import com.simple.common.controller.BaseController;
@@ -23,7 +26,8 @@ import java.util.List;
 public class GatewayController extends BaseController {
 
     private final GatewayDeviceService service;
-    private final GatewayStatusService serviceStatus;
+    private final GatewayStatusService statusService;
+    private final IOTService iotService;
 
     @ApiOperation(value="当前网关组（用于测试")
     @PostMapping(path = "/queryAll")
@@ -34,6 +38,17 @@ public class GatewayController extends BaseController {
 
         return result.success(GatewayDevicesDto.builder().gatewayList(list).houseId(-1L).build());
     }
+    @ApiOperation(value="开始添加设备（打开网关允许配对模式）")
+    @PostMapping(path = "/openDevicePairing")
+    public BaseResponse  openDevicePairing (@RequestBody SimpleRequest<GatewayCommandRequest> request){
+
+        this.iotService.openDevicePairing(request.getParams().getLocationTopic());
+
+        return BaseResponse.buildSuccess();
+    }
+
+
+
     @ApiOperation(value="根据房子ID获取所属所有网关信息")
     @PostMapping(path = "/queryGatewaysByHouseId")
     public SimpleResponse<GatewayDevicesDto>  queryRoomsByHouse (@RequestBody SimpleRequest<Long> request){
@@ -57,7 +72,7 @@ public class GatewayController extends BaseController {
     public SimpleResponse<GatewayDeviceStatusDto> findStatusById (@RequestBody SimpleRequest<Long> request){
         Long gatewayId = request.getParams();
         System.out.println("gatewayIDd:" + gatewayId);
-        GatewayDeviceStatusDto dto = serviceStatus.queryStatusByGatewayId(gatewayId);
+        GatewayDeviceStatusDto dto = statusService.queryStatusByGatewayId(gatewayId);
         SimpleResponse<GatewayDeviceStatusDto> result = new SimpleResponse<GatewayDeviceStatusDto>();
         return result.success(dto);
     }
@@ -65,13 +80,15 @@ public class GatewayController extends BaseController {
 
 
     @ApiOperation(value="新增一个网关")
-    @PostMapping(path = "/addRoom")
+    @PostMapping(path = "/addGateway")
     public SimpleResponse<GatewayDeviceDto> addNew (@RequestBody SimpleRequest<GatewayDeviceDto> request){
         System.out.println(request.toString());
         GatewayDeviceDto dto = request.getParams();
-        service.save(dto);
+        dto.setLocationTopic(dto.getMacAddress());
+        dto.setName(dto.getMacAddress());
+        GatewayDeviceDto newGateway = service.save(dto);
         SimpleResponse<GatewayDeviceDto> result = new SimpleResponse<GatewayDeviceDto>();
-        return result.success(dto);
+        return result.success(newGateway);
     }
 
 

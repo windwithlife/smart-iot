@@ -23,6 +23,7 @@ com/simple/common/props/AppProps$AppPropsBuilder.class
 com/simple/bz/dto/DeviceStatusDto$DeviceStatusDtoBuilder.class
 com/simple/bz/model/HouseUsersDto.class
 com/simple/bz/controller/MessageController.class
+com/simple/bz/dto/GatewayCommandRequest.class
 com/simple/bz/dto/RoomsDto$RoomsDtoBuilder.class
 com/simple/bz/dto/GitHeadCommit.class
 com/simple/bz/model/DeviceStatusModel$DeviceStatusModelBuilder.class
@@ -51,6 +52,7 @@ com/simple/bz/dao/ExampleDao.class
 com/simple/bz/service/DeviceStatusService.class
 com/simple/bz/service/RoomService.class
 com/simple/bz/service/IOTService.class
+com/simple/bz/dto/GatewayCommandRequest$GatewayCommandRequestBuilder.class
 com/simple/bz/dto/UserDto$UserDtoBuilder.class
 com/simple/common/mqtt/MqttSenderConfig.class
 com/simple/bz/dto/ExampleDto$ExampleDtoBuilder.class
@@ -61,6 +63,7 @@ com/simple/bz/controller/RoomController.class
 com/simple/bz/model/UserHouseModel$UserHouseModelBuilder.class
 com/simple/bz/model/GatewayDeviceStatusModel$GatewayDeviceStatusModelBuilder.class
 com/simple/bz/dto/GatewayDeviceDto.class
+com/simple/bz/dto/GatewayCommandResponse$GatewayCommandResponseBuilder.class
 com/simple/bz/model/GatewayDeviceModel.class
 com/simple/common/mqtt/MqttRequest$MqttRequestBuilder.class
 com/simple/bz/model/RoomModel.class
@@ -73,6 +76,7 @@ com/simple/bz/service/GatewayDeviceService.class
 com/simple/bz/controller/HouseController.class
 com/simple/bz/dto/DeviceWifi.class
 com/simple/common/props/AppProps.class
+com/simple/bz/dto/GatewayCommandResponse.class
 com/simple/bz/dto/ExampleVO$ExampleVOBuilder.class
 com/simple/bz/dto/UserHousesDto.class
 com/simple/bz/dao/HouseRepository.class

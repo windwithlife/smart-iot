@@ -11,10 +11,14 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RoomDto {
-    private Long     id;
-    private String   name;
-    private Long     houseId;
 
-    private String   floor;
+public class GatewayCommandRequest {
+
+    private Long     id;
+    private Long     houseId;
+    private String   name;
+    private String   macAddress;
+    private String   locationTopic;
+
+
 }
