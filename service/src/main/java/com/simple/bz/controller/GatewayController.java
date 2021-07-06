@@ -1,9 +1,6 @@
 package com.simple.bz.controller;
 
-import com.simple.bz.dto.GatewayCommandRequest;
-import com.simple.bz.dto.GatewayDeviceDto;
-import com.simple.bz.dto.GatewayDeviceStatusDto;
-import com.simple.bz.dto.GatewayDevicesDto;
+import com.simple.bz.dto.*;
 import com.simple.bz.service.GatewayDeviceService;
 import com.simple.bz.service.GatewayStatusService;
 import com.simple.bz.service.IOTService;
@@ -38,6 +35,13 @@ public class GatewayController extends BaseController {
 
         return result.success(GatewayDevicesDto.builder().gatewayList(list).houseId(-1L).build());
     }
+    @ApiOperation(value="透传命令进行控制")
+    @PostMapping(path = "/originCommand")
+    public BaseResponse originCommand (@RequestBody SimpleRequest<OriginCommandRequest> request){
+        OriginCommandRequest dto = request.getParams();
+        iotService.sendMQTTCommand(dto.getGatewayTopic(),dto.getCommand(),dto.getPayload());
+        return BaseResponse.buildSuccess();
+    }
     @ApiOperation(value="开始添加设备（打开网关允许配对模式）")
     @PostMapping(path = "/openDevicePairing")
     public BaseResponse  openDevicePairing (@RequestBody SimpleRequest<GatewayCommandRequest> request){
@@ -46,8 +50,6 @@ public class GatewayController extends BaseController {
 
         return BaseResponse.buildSuccess();
     }
-
-
 
     @ApiOperation(value="根据房子ID获取所属所有网关信息")
     @PostMapping(path = "/queryGatewaysByHouseId")
@@ -90,6 +92,7 @@ public class GatewayController extends BaseController {
         SimpleResponse<GatewayDeviceDto> result = new SimpleResponse<GatewayDeviceDto>();
         return result.success(newGateway);
     }
+
 
 
     @ApiOperation(value="修改网关信息")
