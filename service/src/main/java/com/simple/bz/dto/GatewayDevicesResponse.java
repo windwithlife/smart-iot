@@ -1,20 +1,20 @@
 package com.simple.bz.dto;
 
-import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ApiModel(value="网关集合列表")
-public class GatewayDevicesDto {
-    private Long   houseId;
-    private List<GatewayDeviceDto> gatewayList;
+
+public class GatewayDevicesResponse {
+    private Long            houseId;
+    private List<DeviceDto> devices;
 
 }

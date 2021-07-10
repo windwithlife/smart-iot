@@ -55,16 +55,6 @@ public class DeviceController extends BaseController {
 
 
 
-    @ApiOperation(value="新增一个设备")
-    @PostMapping(path = "/addDevice")
-    public SimpleResponse<DeviceDto> addNewDevice (@RequestBody SimpleRequest<DeviceDto> request){
-        System.out.println(request.toString());
-        DeviceDto dto = request.getParams();
-        service.save(dto);
-        SimpleResponse<DeviceDto> result = new SimpleResponse<DeviceDto>();
-        return result.success(dto);
-    }
-
 
     @ApiOperation(value="修改设备信息")
     @PostMapping(path = "/update")

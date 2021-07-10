@@ -67,8 +67,8 @@ public class HouseService {
     @ApiOperation(value="获取用户信息",tags={"获取用户信息copy"},notes="注意问题点")
     public HouseDto save(HouseDto item){
         HouseModel model = this.convertToModel(item);
-        this.dao.save(model);
-        return item;
+        HouseModel newModel = this.dao.save(model);
+        return this.convertToDto(newModel);
     }
 
     public HouseDto update(HouseDto item){

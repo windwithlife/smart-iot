@@ -13,7 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 
-public class GatewayDeviceStatusDto {
+public class GatewayStatusDto {
     private Long id;
     private Long     gatewayDeviceId;
     private String   nickName;

@@ -73,9 +73,9 @@ public class HouseController extends BaseController {
         System.out.println(request.toString());
         HouseDto dto = request.getParams();
         dto.setUserId(userId);
-        service.save(dto);
+        HouseDto data = service.save(dto);
         SimpleResponse<HouseDto> result = new SimpleResponse<HouseDto>();
-        return result.success(dto);
+        return result.success(data);
 
     }
 

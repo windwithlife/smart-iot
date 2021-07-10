@@ -2,9 +2,9 @@ package com.simple.bz.service;
 
 import com.simple.bz.dao.ContextQuery;
 import com.simple.bz.dao.GatewayDeviceRepository;
-import com.simple.bz.dao.RoomRepository;
-import com.simple.bz.dto.GatewayDeviceDto;
+import com.simple.bz.dto.GatewayDto;
 import com.simple.bz.model.GatewayDeviceModel;
+import com.simple.common.error.ServiceException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -20,70 +20,70 @@ public class GatewayDeviceService {
     private final GatewayDeviceRepository dao;
     private final ContextQuery contextQuery;
 
-    public GatewayDeviceModel convertToModel(GatewayDeviceDto dto){
+    public GatewayDeviceModel convertToModel(GatewayDto dto){
         return this.modelMapper.map(dto, GatewayDeviceModel.class);
     }
-    public List<GatewayDeviceModel> convertToModels(List<GatewayDeviceDto> dtos){
+    public List<GatewayDeviceModel> convertToModels(List<GatewayDto> dtos){
         List<GatewayDeviceModel> resultList = new ArrayList<GatewayDeviceModel>();
         for (int i=0; i < dtos.size(); i++){
             resultList.add(this.convertToModel(dtos.get(i)));
         }
         return resultList;
     }
-    public GatewayDeviceDto convertToDto(GatewayDeviceModel model){
-        return this.modelMapper.map(model, GatewayDeviceDto.class);
+    public GatewayDto convertToDto(GatewayDeviceModel model){
+        return this.modelMapper.map(model, GatewayDto.class);
     }
 
-    public List<GatewayDeviceDto> convertToDtos(List<GatewayDeviceModel> models){
-        List<GatewayDeviceDto> resultList = new ArrayList<GatewayDeviceDto>();
+    public List<GatewayDto> convertToDtos(List<GatewayDeviceModel> models){
+        List<GatewayDto> resultList = new ArrayList<GatewayDto>();
         for (int i=0; i < models.size(); i++){
             resultList.add(this.convertToDto(models.get(i)));
         }
         return resultList;
 
     }
-    public List<GatewayDeviceDto> findAll(){
+    public List<GatewayDto> findAll(){
 
         List<GatewayDeviceModel> list =   dao.findAll();
         return  this.convertToDtos(list);
     }
 
 
-    public GatewayDeviceDto findById(Long id){
+    public GatewayDto findById(Long id){
         GatewayDeviceModel model =  dao.findById(id).get();
         return this.convertToDto(model);
     }
 
 
-    public List<GatewayDeviceDto> queryAll(){
-        List<GatewayDeviceDto> list = contextQuery.findList("select * from tbl_house", GatewayDeviceDto.class);
+    public List<GatewayDto> queryAll(){
+        List<GatewayDto> list = contextQuery.findList("select * from tbl_house", GatewayDto.class);
         return  list;
     }
-    public List<GatewayDeviceDto> queryPage(int pageIndex, int pageSize){
-        List<GatewayDeviceDto> listPage = contextQuery.findPage("select * from tbl_house", pageIndex,pageSize, GatewayDeviceDto.class);
+    public List<GatewayDto> queryPage(int pageIndex, int pageSize){
+        List<GatewayDto> listPage = contextQuery.findPage("select * from tbl_house", pageIndex,pageSize, GatewayDto.class);
         return  listPage;
     }
-    public GatewayDeviceDto save(GatewayDeviceDto item){
+    public GatewayDto save(GatewayDto item){
         GatewayDeviceModel model = this.convertToModel(item);
         GatewayDeviceModel oldModel = dao.findOneByLocationTopic(model.getLocationTopic());
         if(null == oldModel){
             GatewayDeviceModel newModel = this.dao.save(model);
             return this.convertToDto(newModel);
         }else{
-            return this.convertToDto(oldModel);
+            throw new ServiceException("此网关已添加");
         }
     }
 
 
-    public List<GatewayDeviceDto> queryByHouseId(Long houseId){
-        List<GatewayDeviceDto> list = contextQuery.findList("select * from tbl_gateway where houseId=" + String.valueOf(houseId), GatewayDeviceDto.class);
+    public List<GatewayDto> queryByHouseId(Long houseId){
+        List<GatewayDto> list = contextQuery.findList("select * from tbl_gateway where houseId=" + String.valueOf(houseId), GatewayDto.class);
         return  list;
     }
     public Long findHouseIdByGatewayName(String name){
         GatewayDeviceModel model = this.dao.findOneByName(name);
         return model.getHouseId();
     }
-    public GatewayDeviceDto update(GatewayDeviceDto item){
+    public GatewayDto update(GatewayDto item){
         Long id = item.getId();
         GatewayDeviceModel model = dao.findById(id).get();
         if (null == model ){return null;}

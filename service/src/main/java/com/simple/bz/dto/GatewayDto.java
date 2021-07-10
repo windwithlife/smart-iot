@@ -13,7 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 
-public class GatewayDeviceDto {
+public class GatewayDto {
 
     private Long     id;
     private Long     houseId;
