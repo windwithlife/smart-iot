@@ -2,8 +2,11 @@ package com.simple.bz.service;
 
 import com.simple.bz.dao.ContextQuery;
 import com.simple.bz.dao.GatewayDeviceRepository;
+import com.simple.bz.dao.GatewayStatusRepository;
 import com.simple.bz.dto.GatewayDto;
+import com.simple.bz.dto.GatewayStatusDto;
 import com.simple.bz.model.GatewayDeviceModel;
+import com.simple.bz.model.GatewayDeviceStatusModel;
 import com.simple.common.error.ServiceException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -18,6 +21,7 @@ public class GatewayDeviceService {
     private final ModelMapper modelMapper;
     
     private final GatewayDeviceRepository dao;
+    private final GatewayStatusRepository statusDao;
     private final ContextQuery contextQuery;
 
     public GatewayDeviceModel convertToModel(GatewayDto dto){
@@ -92,6 +96,23 @@ public class GatewayDeviceService {
         System.out.println(model.toString());
         this.dao.save(model);
         return item;
+    }
+    public GatewayStatusDto updateStatus(String locationTopic, GatewayStatusDto item){
+        Long id = item.getId();
+        GatewayDeviceStatusModel  model = this.statusDao.findOneByLocationTopic(locationTopic);
+        if (null == model ){return null;}
+        this.modelMapper.map(item, model);
+        System.out.println("Iot device model info ");
+        System.out.println(model.toString());
+        this.statusDao.save(model);
+        return item;
+    }
+    public boolean updateOnline(String gatewayTopic, boolean isOnline){
+        GatewayDeviceStatusModel  model = this.statusDao.findOneByLocationTopic(gatewayTopic);
+        if (null == model ){return false;}
+        model.setActive(isOnline);
+        this.statusDao.save(model);
+        return  true;
     }
 
     public void remove(Long id){
