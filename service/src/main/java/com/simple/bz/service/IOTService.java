@@ -2,10 +2,10 @@ package com.simple.bz.service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.simple.bz.dao.DeviceClusterRepository;
 import com.simple.bz.dao.DeviceRepository;
 import com.simple.bz.dao.DeviceStatusAttributeRepository;
-import com.simple.bz.dao.GatewayDeviceRepository;
 import com.simple.bz.dto.*;
 import com.simple.bz.model.DeviceClusterModel;
 import com.simple.bz.model.DeviceModel;
@@ -13,7 +13,11 @@ import com.simple.bz.model.HouseUsersDto;
 import com.simple.bz.model.StatusAttributeModel;
 import com.simple.common.mqtt.MqttAdapter;
 import com.simple.common.mqtt.MqttProxy;
+import com.simple.common.redis.MessageQueueProxy;
+import com.simple.common.redis.RedisMessageQueueClient;
+import com.simple.common.redis.RedisSubscriber;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +30,7 @@ import java.util.List;
 public class IOTService extends MqttAdapter {
 
     private final MqttProxy mqttProxy;
+    private final MessageQueueProxy mqProxy;
     private final HouseService houseService;
     private final WebSocketService webSocketService;
     private final DeviceService deviceService;
@@ -39,6 +44,7 @@ public class IOTService extends MqttAdapter {
 
         mqttProxy.registerHandler("tele/", this);
         mqttProxy.registerHandler("stat/", this);
+        mqProxy.registerMessageHandler("test",new RedisSubscriber());
 
     }
 
@@ -49,7 +55,7 @@ public class IOTService extends MqttAdapter {
         String statusType = "tele";
         String gatewayDevice = "";
         String command = "";
-        if ((!topic.startsWith("tele/")) && (!topic.startsWith("stat"))) {
+        if ((!topic.startsWith("tele")) && (!topic.startsWith("stat"))) {
             //System.out.println("Not IOT Message !");
             return;
         } else {
@@ -99,7 +105,7 @@ public class IOTService extends MqttAdapter {
                 //doInfo3(gatewayMacAddress,payload);
                 break;
             case "tele/#/SENSOR":
-                this.processesSensorStatus(payload);
+                this.processesSensorStatus(gatewayDevice,payload);
                 break;
         }
 
@@ -121,11 +127,13 @@ public class IOTService extends MqttAdapter {
                     //{"ZbState":{"Status":30,"IEEEAddr":"0x000D6FFFFED209BF","ShortAddr":"0x7984","PowerSource":false,"ReceiveWhenIdle":false,"Security":false}}
                     DeviceState30 state30 = stateJsonObject.toJavaObject(DeviceState30.class);
 
-                    if (state30 != null) {
-                        DeviceModel device = DeviceModel.builder().ieee(state30.getIEEEAddr()).shortAddress(state30.getShortAddr()).powerSource(state30.getPowerSource())
+                    if (state30 == null) { break;}
+                    DeviceModel oldDevice= deviceDao.findOneByShortAddress(state30.getShortAddr());
+                    if (null != oldDevice) {break;}
+                    DeviceModel device = DeviceModel.builder().ieee(state30.getIEEEAddr()).shortAddress(state30.getShortAddr()).powerSource(state30.getPowerSource())
                                 .receiveWhenIdle(state30.getReceiveWhenIdle()).security(state30.getSecurity()).build();
-                        deviceResult = deviceDao.save(device);
-                    }
+                    deviceResult = deviceDao.save(device);
+
                     break;
                 case 33:
                     //Received the simple Descriptor with active ZCL clusters for a Zigbee device
@@ -148,6 +156,11 @@ public class IOTService extends MqttAdapter {
                         break;
                     }
                     List<String> inClusters = state33.getInClusters();
+                    List<DeviceClusterModel> oldClusterList = clusterDao.findByIeee(deviceModel.getIeee());
+                    if (null != oldClusterList && oldClusterList.size() >0){
+                        //说明已存过已设备的clusters
+                        break;
+                    }
                     inClusters.forEach(cluster -> {
                         clusterDao.save(DeviceClusterModel.builder()
                                 .ieee(deviceModel.getIeee())
@@ -166,7 +179,7 @@ public class IOTService extends MqttAdapter {
                                 .inOrOut("out")
                                 .build());
                     });
-                    this.notifyClientUsers(gateway, deviceResult.toString());
+                    this.notifyClientUsers(gateway, deviceResult,"device-new");
                     break;
             }
 
@@ -175,7 +188,7 @@ public class IOTService extends MqttAdapter {
     }
 
 
-    public void processesSensorStatus(String payload) {
+    public void processesSensorStatus(String gateway,String payload) {
 
         //{"ZbReceived":{"0x8602":{"Device":"0x8602","0001/0100":0,"Endpoint":1,"LinkQuality":97}}}
         JSONObject jsonObject = JSON.parseObject(payload);
@@ -191,22 +204,42 @@ public class IOTService extends MqttAdapter {
             key = iterator.next().toString();
             JSONObject deviceStatus = StatusItems.getJSONObject(key);
             String deviceShortAddress = (String) deviceStatus.get("Device");
-            String endpoint = (String) deviceStatus.get("Endpoint");
+            String endpoint = String.valueOf(deviceStatus.get("Endpoint"));
             DeviceModel device = deviceDao.findOneByShortAddress(deviceShortAddress);
+            if(null == device){
+                continue;
+            }
             deviceStatus.entrySet().forEach(entry -> {
 
                 String attributeName = entry.getKey();
-                String attributeValue = (String) entry.getValue();
+                if(attributeName.equalsIgnoreCase("Device") || attributeName.equalsIgnoreCase("Endpoint")){
+                    return;
+                }
+                String attributeValue = null;
+                if (entry.getValue() instanceof String){
+                    attributeValue = (String)entry.getValue();
+                }else if(entry.getValue() instanceof Integer){
+                    attributeValue = String.valueOf(entry.getValue());
+                }
+
                 if (attributeName.equalsIgnoreCase("Device") && attributeName.equalsIgnoreCase("Endpoint")) {
                     return;
                 }
-                StatusAttributeModel statusModel = StatusAttributeModel.builder()
-                        .clusterAttribute(attributeName).value(attributeValue)
-                        .endpoint(endpoint)
-                        .ieee(device.getIeee())
-                        .deviceId(device.getId())
-                        .build();
-                deviceStatusAttributeRepository.save(statusModel);
+                StatusAttributeModel oldModel = deviceStatusAttributeRepository.findOneByIeeeAndClusterAttribute(device.getIeee(),attributeName);
+                if(null != oldModel){
+                    oldModel.setValue(attributeValue);
+                    deviceStatusAttributeRepository.save(oldModel);
+                }else{
+                    StatusAttributeModel statusModel = StatusAttributeModel.builder()
+                            .clusterAttribute(attributeName).value(attributeValue)
+                            .endpoint(endpoint)
+                            .ieee(device.getIeee())
+                            .deviceId(device.getId())
+                            .shortAddress(deviceShortAddress)
+                            .build();
+                    deviceStatusAttributeRepository.save(statusModel);
+                }
+                this.notifyClientUsers(gateway, deviceStatus,"device-status");
 
             });
             //HashMap<String, Object> data = ((JSONObject)StatusItems.get(key)).toJavaObject(new TypeReference<HashMap<String, Object>>(){});
@@ -218,14 +251,17 @@ public class IOTService extends MqttAdapter {
     private void processGatewayOffline(String gatewayTopic, String payload) {
         if (payload.equalsIgnoreCase("offline")) {
             this.gatewayDeviceService.updateOnline(gatewayTopic, true);
+            this.notifyClientUsers(gatewayTopic, "offline","gateway-status");
         } else {
             this.gatewayDeviceService.updateOnline(gatewayTopic, false);
+            this.notifyClientUsers(gatewayTopic, "online","gateway-status");
         }
+
     }
 
     public void processGatewayStatus(String gateway, GatewayStatusDto status) {
         gatewayDeviceService.updateStatus(gateway, status);
-        this.notifyClientUsers(gateway, status.toString());
+        this.notifyClientUsers(gateway, status,"gateway-status");
     }
 
     public boolean sendMQTTCommand(String targetGateway, String command, String payload) {
@@ -237,14 +273,26 @@ public class IOTService extends MqttAdapter {
         return this.sendMQTTCommand(gateway, "ZbPermitJoin", "1");
     }
 
-    public void notifyClientUsers(String fromGateway, String message) {
+    public void notifyClientUsers(String fromGateway, Object message,String messageType) {
 
         List<HouseUsersDto> targetUsers = houseService.queryUsersByGatewayName(fromGateway);
+        System.out.println("**********************Start to notify Clients-->" + String.valueOf(targetUsers.size()));
+
         Iterator iter = targetUsers.iterator();
 
         while (iter.hasNext()) {
             HouseUsersDto user = (HouseUsersDto) iter.next();
-            webSocketService.sendMessageToTarget(user.getToken(), message);
+            this.NotifyIMServer(user.getToken(),message,messageType);
         }
+    }
+    private void NotifyIMServer(String targetUser, Object message, String messageType){
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("target", targetUser);
+        jsonObject.put("messageBody", message);
+        jsonObject.put("messageType", messageType);
+        //NotifyClientMessage msg = NotifyClientMessage.builder().targetClient(targetUser).messageType(messageType).message(messageBody).build();
+        String msgString = jsonObject.toJSONString();
+        System.out.println("Source String ------------>" + msgString);
+        this.mqProxy.sendMessage("WebSocketMessage",msgString);
     }
 }

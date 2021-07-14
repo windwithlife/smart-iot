@@ -4,6 +4,7 @@ import com.github.structlog4j.ILogger;
 import com.github.structlog4j.SLoggerFactory;
 import com.simple.common.error.ServiceHelper;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -26,14 +27,19 @@ public class MqttProxy {
 
         //System.out.println("MQTT Service Received topic: " + topic);
         //System.out.println("MQTT Service Received payload: " + payload);
+        String[] params = StringUtils.split(topic, "/");
+        String topicType = params[0] + "/";
         Set<String> keys = handlerMap.keySet();
         Iterator<String> it = keys.iterator();
         String key;
         while (it.hasNext()) {
             key = it.next();
             //System.out.println(key+":"+handlerMap.get(key).toString());
-            MqttMessageHandler handler = handlerMap.get(key);
-            handler.handleMessage(topic, payload);
+            if(topicType.equalsIgnoreCase(key)){
+                MqttMessageHandler handler = handlerMap.get(key);
+                handler.handleMessage(topic, payload);
+            }
+
         }
 //        if (!JsonUtils.isJson(payload)) {
 //            System.out.println("Invalid String Message ! Received payload: " + payload);

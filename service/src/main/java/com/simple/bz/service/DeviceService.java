@@ -64,7 +64,7 @@ public class DeviceService {
         return  listPage;
     }
     public DeviceDto save(DeviceDto item){
-        DeviceModel oldModel =  dao.findOneByGatewayIdAndAddress(item.getGatewayId(),item.getAddress());
+        DeviceModel oldModel =  dao.findOneByGatewayIdAndIeee(item.getGatewayId(),item.getIeee());
         if (null == oldModel){
             DeviceModel model = this.convertToModel(item);
             DeviceModel newModel = dao.save(model);

@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DeviceStatusAttributeRepository extends JpaRepository<StatusAttributeModel, Long> {
 
-    //public  StatusAttributeModel findOneByIeee(String ieee);
+    public  StatusAttributeModel findOneByIeeeAndClusterAttribute(String ieee,String clusterAttr);
 
 }

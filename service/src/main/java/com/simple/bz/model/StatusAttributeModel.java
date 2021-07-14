@@ -21,6 +21,7 @@ public class StatusAttributeModel {
     private Long     id;
     private Long     deviceId;          //设备ID
     private String   ieee;               //长地址
+    private String   shortAddress;       //短地址
     private String   clusterAttribute;  //功能cluster的属性名；
     private String   value;              //功能cluster的属性值
     private String   endpoint;           //服务端口；

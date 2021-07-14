@@ -13,6 +13,7 @@ import com.simple.bz.model.GatewayDeviceModel;
 import com.simple.bz.model.HouseModel;
 import com.simple.bz.model.HouseUsersDto;
 import com.simple.bz.model.UserHouseModel;
+import com.simple.common.auth.AuthModel;
 import com.simple.common.auth.Sessions;
 import com.simple.common.error.ServiceException;
 import io.swagger.annotations.ApiOperation;
@@ -64,10 +65,17 @@ public class HouseService {
         HouseModel model =  dao.findById(id).get();
         return this.convertToDto(model);
     }
-    @ApiOperation(value="获取用户信息",tags={"获取用户信息copy"},notes="注意问题点")
+
     public HouseDto save(HouseDto item){
         HouseModel model = this.convertToModel(item);
         HouseModel newModel = this.dao.save(model);
+        return this.convertToDto(newModel);
+    }
+    public HouseDto addHouse(HouseDto item){
+        HouseModel model = this.convertToModel(item);
+        HouseModel newModel = this.dao.save(model);
+        UserHouseModel userHouse = UserHouseModel.builder().userId(newModel.getUserId()).houseId(newModel.getId()).build();
+        userHouseDao.save(userHouse);
         return this.convertToDto(newModel);
     }
 
@@ -93,10 +101,14 @@ public class HouseService {
         List<UserHouseModel> list = userHouseDao.findByHouseId(gateway.getHouseId());
         List<HouseUsersDto> retList = new ArrayList<HouseUsersDto>();
         list.forEach(item->{
-            String token = Sessions.getSessionUserStatusByUserId(item.getUserId()).getToken();
-            HouseUsersDto  houseUsers = HouseUsersDto.builder().userId(item.getUserId()).houseId(item.getHouseId()).token(token).build();
-            retList.add(houseUsers);
-            System.out.println("find the target user of the gateway and house -->" + houseUsers.getUserId() +"---" +  houseUsers.getToken());
+            AuthModel auth = Sessions.getSessionUserStatusByUserId(item.getUserId());
+            if(null != auth){
+                String token = Sessions.getSessionUserStatusByUserId(item.getUserId()).getToken();
+                HouseUsersDto  houseUsers = HouseUsersDto.builder().userId(item.getUserId()).houseId(item.getHouseId()).token(token).build();
+                retList.add(houseUsers);
+                System.out.println("find the target user of the gateway and house -->" + houseUsers.getUserId() +"---" +  houseUsers.getToken());
+            }
+
         });
 
         return retList;

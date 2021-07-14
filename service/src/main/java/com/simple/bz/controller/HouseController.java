@@ -7,6 +7,8 @@ import com.simple.bz.service.HouseService;
 
 import com.simple.common.api.SimpleRequest;
 import com.simple.common.api.SimpleResponse;
+import com.simple.common.auth.LoginUser;
+import com.simple.common.auth.SessionUser;
 import com.simple.common.auth.Sessions;
 import com.simple.common.controller.BaseController;
 import com.simple.common.error.ServiceException;
@@ -67,13 +69,15 @@ public class HouseController extends BaseController {
 
     @ApiOperation(value="新增房子",notes = "用于处理房子信息处理")
     @PostMapping(path = "/addHouse")
-    public SimpleResponse<HouseDto> addNew (@RequestBody SimpleRequest<HouseDto> request,HttpServletRequest req){
+    public SimpleResponse<HouseDto> addNewHouse (@RequestBody SimpleRequest<HouseDto> request, HttpServletRequest req, @LoginUser SessionUser sessionUser){
         String token = Sessions.getAuthToken(req);
         String userId = Sessions.getSessionUserInfo(token).getUserId();
         System.out.println(request.toString());
+        System.out.println("current user-->"+ sessionUser.toString());
         HouseDto dto = request.getParams();
         dto.setUserId(userId);
-        HouseDto data = service.save(dto);
+        //HouseDto data = service.save(dto);
+        HouseDto data = service.addHouse(dto);
         SimpleResponse<HouseDto> result = new SimpleResponse<HouseDto>();
         return result.success(data);
 

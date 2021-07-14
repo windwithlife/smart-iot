@@ -1,5 +1,11 @@
 package com.simple.bz.service;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.simple.bz.dto.NotifyClientMessage;
+import com.simple.common.redis.MessageQueueHandler;
+import com.simple.common.redis.MessageQueueProxy;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -14,10 +20,11 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-
+@RequiredArgsConstructor
 @Component
 @ServerEndpoint("/webSocket/{username}")//encoders = { ServerEncoder.class },可选值，指定编码转换器，传输对象时用到,这里直接转json就ok
 public class WebSocketService {
+
 
     private static final Map<String, Session> TOKEN_SESSION = new HashMap<>();
     private static final Map<String,String> SESSION_ID_TOKEN = new HashMap<>();
@@ -25,10 +32,9 @@ public class WebSocketService {
 
     @PostConstruct
     public void refreshDate(){
-        Executors.newSingleThreadScheduledExecutor().scheduleWithFixedDelay(()->{
-            sendMessage(FORMAT.format(new Date()));
-        },1000,1000, TimeUnit.MILLISECONDS);
+
     }
+
     @OnOpen
     public void onOpen(Session session,@PathParam("username")String username){
         System.out.println("新的连接进来了"+session.getId());
@@ -64,13 +70,17 @@ public class WebSocketService {
                 String user = SESSION_ID_TOKEN.get(session.getId());
                 session.getAsyncRemote().sendText("To User===>" + message);
             }
-
         });
     }
     public <T> void sendMessageToTarget(String token,Object t){
         System.out.println("发送指定token消息");
         try {
-            TOKEN_SESSION.get(token).getBasicRemote().sendText((String)t);
+            Session session = TOKEN_SESSION.get(token);
+            if(null == session){
+                System.out.println("没有上线用户");
+                return;
+            }
+            session.getBasicRemote().sendText((String)t);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -79,4 +89,13 @@ public class WebSocketService {
     public void onError(Throwable throwable) {
         throwable.printStackTrace();
     }
+
+//    @Override
+//    public void onMessage(String topic, String message) {
+//        System.out.println("message body=====>"  + message);
+//        NotifyClientMessage msg = JSONObject.parseObject(message,NotifyClientMessage.class);
+//        System.out.println("Recv Message Topic -->" + topic + "Body---->" + msg.toString());
+//        this.sendMessageToTarget(msg.getTargetClient(),msg.toString());
+//        //System.out.println("Recv Message Topic -->" + topic + "Body---->" + msg.toString());
+//    }
 }
