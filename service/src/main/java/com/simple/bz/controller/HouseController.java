@@ -2,6 +2,8 @@ package com.simple.bz.controller;
 
 import com.simple.bz.dto.HouseDto;
 
+import com.simple.bz.dto.IDRequest;
+import com.simple.bz.dto.IDResponse;
 import com.simple.bz.dto.UserHousesDto;
 import com.simple.bz.service.HouseService;
 
@@ -53,8 +55,8 @@ public class HouseController extends BaseController {
 
     @ApiOperation(value="根据ID获取房子信息",notes = "用于处理房子信息处理")
     @PostMapping(path = "/findById")
-    public SimpleResponse<HouseDto> findById (@RequestBody SimpleRequest<Long> request){
-        Long houseId = request.getParams();
+    public SimpleResponse<HouseDto> findById (@RequestBody SimpleRequest<IDRequest> request){
+        Long houseId = request.getParams().getId();
         System.out.println("applicationId:" + houseId);
         HouseDto  dto = service.findById(houseId);
         SimpleResponse<HouseDto> result = new SimpleResponse<HouseDto>();
@@ -98,10 +100,11 @@ public class HouseController extends BaseController {
     @ApiOperation(value="删除房子",notes = "用于处理房子信息处理")
     @ResponseBody
     @RequestMapping(value = "/remove", method = RequestMethod.POST)
-    public SimpleResponse<Long> removeById(@RequestBody SimpleRequest<Long> req) {
-        service.remove(req.getParams());
-        SimpleResponse<Long> result = new SimpleResponse<Long>();
-        return result.success(req.getParams());
+    public SimpleResponse<IDResponse> removeById(@RequestBody SimpleRequest<IDRequest> req) {
+        service.remove(req.getParams().getId());
+        SimpleResponse<IDResponse> result = new SimpleResponse<IDResponse>();
+
+        return result.success(IDResponse.builder().id(req.getParams().getId()).build());
     }
 
 

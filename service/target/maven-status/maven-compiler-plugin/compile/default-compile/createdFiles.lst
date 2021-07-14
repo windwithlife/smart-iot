@@ -64,7 +64,9 @@ com/simple/bz/service/RoomService.class
 com/simple/bz/service/IOTService.class
 com/simple/bz/dto/GatewayCommandRequest$GatewayCommandRequestBuilder.class
 com/simple/bz/dto/UserDto$UserDtoBuilder.class
+com/simple/bz/dto/IDRequest.class
 com/simple/common/mqtt/MqttSenderConfig.class
+com/simple/bz/dto/IDResponse.class
 com/simple/bz/dto/ExampleDto$ExampleDtoBuilder.class
 com/simple/bz/dto/HouseGatewaysDto.class
 com/simple/bz/model/RoomModel$RoomModelBuilder.class
@@ -75,6 +77,7 @@ com/simple/bz/model/UserHouseModel$UserHouseModelBuilder.class
 com/simple/bz/model/GatewayDeviceStatusModel$GatewayDeviceStatusModelBuilder.class
 com/simple/bz/dto/GatewayCommandResponse$GatewayCommandResponseBuilder.class
 com/simple/bz/model/GatewayDeviceModel.class
+com/simple/bz/dto/IDResponse$IDResponseBuilder.class
 com/simple/common/mqtt/MqttRequest$MqttRequestBuilder.class
 com/simple/bz/model/StatusAttributeModel$StatusAttributeModelBuilder.class
 com/simple/bz/model/RoomModel.class

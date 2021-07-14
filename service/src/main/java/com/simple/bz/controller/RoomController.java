@@ -1,5 +1,6 @@
 package com.simple.bz.controller;
 
+import com.simple.bz.dto.IDRequest;
 import com.simple.bz.dto.RoomDto;
 import com.simple.bz.dto.RoomsDto;
 
@@ -33,16 +34,16 @@ public class RoomController extends BaseController {
     }
     @ApiOperation(value="根据房子ID获取所属所有房间信息")
     @PostMapping(path = "/queryRoomsByHouseId")
-    public SimpleResponse<RoomsDto>  queryRoomsByHouse (@RequestBody SimpleRequest<Long> request){
-        Long houseId = request.getParams();
+    public SimpleResponse<RoomsDto>  queryRoomsByHouse (@RequestBody SimpleRequest<IDRequest> request){
+        Long houseId = request.getParams().getId();
         List<RoomDto> roomList = service.queryByHouseId(houseId);
         SimpleResponse<RoomsDto> result = new SimpleResponse<RoomsDto>();
         return result.success(RoomsDto.builder().roomList(roomList).houseId(houseId).build());
     }
     @ApiOperation(value="根据ID获取房间信息")
     @PostMapping(path = "/findById")
-    public SimpleResponse<RoomDto> findById (@RequestBody SimpleRequest<Long> request){
-        Long roomId = request.getParams();
+    public SimpleResponse<RoomDto> findById (@RequestBody SimpleRequest<IDRequest> request){
+        Long roomId = request.getParams().getId();
         System.out.println("roomId:" + roomId);
         RoomDto  dto = service.findById(roomId);
         SimpleResponse<RoomDto> result = new SimpleResponse<RoomDto>();
@@ -76,9 +77,9 @@ public class RoomController extends BaseController {
     @ApiOperation(value="删除房间")
     @ResponseBody
     @RequestMapping(value = "/remove", method = RequestMethod.POST)
-    public SimpleResponse<Long> removeById(@RequestBody SimpleRequest<Long> req) {
-        service.remove(req.getParams());
-        SimpleResponse<Long> result = new SimpleResponse<Long>();
+    public SimpleResponse<IDRequest> removeById(@RequestBody SimpleRequest<IDRequest> req) {
+        service.remove(req.getParams().getId());
+        SimpleResponse<IDRequest> result = new SimpleResponse<IDRequest>();
         return result.success(req.getParams());
     }
 

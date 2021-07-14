@@ -60,7 +60,7 @@ public class GatewayDeviceService {
 
 
     public List<GatewayDto> queryAll(){
-        List<GatewayDto> list = contextQuery.findList("select * from tbl_house", GatewayDto.class);
+        List<GatewayDto> list = contextQuery.findList("select * from tbl_gateway", GatewayDto.class);
         return  list;
     }
     public List<GatewayDto> queryPage(int pageIndex, int pageSize){

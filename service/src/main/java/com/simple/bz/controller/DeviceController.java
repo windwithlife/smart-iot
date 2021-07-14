@@ -27,16 +27,16 @@ public class DeviceController extends BaseController {
 
     @ApiOperation(value="根据网关ID获取所属所有设备信息")
     @PostMapping(path = "/queryDevicesByGatewayId")
-    public SimpleResponse<DevicesDto>  queryDevicesByGateway (@RequestBody SimpleRequest<Long> request){
-        Long gatewayId = request.getParams();
+    public SimpleResponse<DevicesDto>  queryDevicesByGatewayId (@RequestBody SimpleRequest<IDRequest> request){
+        Long gatewayId = request.getParams().getId();
         List<DeviceDto> list = service.queryByGatewayId(gatewayId);
         SimpleResponse<DevicesDto> result = new SimpleResponse<DevicesDto>();
         return result.success(DevicesDto.builder().deviceList(list).gatewayId(gatewayId).build());
     }
     @ApiOperation(value="根据ID获取设备信息")
     @PostMapping(path = "/findById")
-    public SimpleResponse<DeviceDto> findById (@RequestBody SimpleRequest<Long> request){
-        Long deviceId = request.getParams();
+    public SimpleResponse<DeviceDto> findById (@RequestBody SimpleRequest<IDRequest> request){
+        Long deviceId = request.getParams().getId();
         System.out.println("deviceId:" + deviceId);
         DeviceDto  dto = service.findById(deviceId);
         SimpleResponse<DeviceDto> result = new SimpleResponse<DeviceDto>();
@@ -45,8 +45,8 @@ public class DeviceController extends BaseController {
 
     @ApiOperation(value="根据设备ID获取设备状态")
     @PostMapping(path = "/findStatusByDeviceId")
-    public SimpleResponse<DeviceStatusDto> findStatusByDeviceId (@RequestBody SimpleRequest<Long> request){
-        Long deviceId = request.getParams();
+    public SimpleResponse<DeviceStatusDto> findStatusByDeviceId (@RequestBody SimpleRequest<IDRequest> request){
+        Long deviceId = request.getParams().getId();
         System.out.println("ID:" + deviceId);
         DeviceStatusDto dto = serviceStatus.queryByDeviceId(deviceId);
         SimpleResponse<DeviceStatusDto> result = new SimpleResponse<DeviceStatusDto>();

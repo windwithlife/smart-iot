@@ -76,7 +76,7 @@ public class DeviceService {
 
 
     public List<DeviceDto> queryByGatewayId(Long gatewayId){
-        List<DeviceDto> list = contextQuery.findList("select * from tbl_gateway where gatewayDeviceId=" + String.valueOf(gatewayId), DeviceDto.class);
+        List<DeviceDto> list = contextQuery.findList("select * from tbl_device where gatewayDeviceId=" + String.valueOf(gatewayId), DeviceDto.class);
         return  list;
     }
     public DeviceDto update(DeviceDto item){

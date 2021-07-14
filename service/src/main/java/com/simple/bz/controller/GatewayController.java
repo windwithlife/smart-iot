@@ -67,16 +67,21 @@ public class GatewayController extends BaseController {
     }
     @ApiOperation(value="根据房子ID获取所属所有网关信息")
     @PostMapping(path = "/queryGatewaysByHouseId")
-    public SimpleResponse<HouseGatewaysDto>  queryRoomsByHouse (@RequestBody SimpleRequest<Long> request){
-        Long houseId = request.getParams();
+    public SimpleResponse<HouseGatewaysDto>  queryRoomsByHouse (@RequestBody SimpleRequest<IDRequest> request){
+        Long houseId = request.getParams().getId();
         List<GatewayDto> list = service.queryByHouseId(houseId);
         SimpleResponse<HouseGatewaysDto> result = new SimpleResponse<HouseGatewaysDto>();
         return result.success(HouseGatewaysDto.builder().gatewayList(list).houseId(houseId).build());
     }
     @ApiOperation(value="根据ID获取网关信息")
     @PostMapping(path = "/findById")
-    public SimpleResponse<GatewayDto> findById (@RequestBody SimpleRequest<Long> request){
-        Long gatewayId = request.getParams();
+    public SimpleResponse<GatewayDto> findById (@RequestBody SimpleRequest<IDRequest> request){
+        IDRequest req = request.getParams();
+        if(null == req){
+            SimpleResponse<GatewayDto> result = new SimpleResponse<GatewayDto>();
+            return result.failure("参数错误");
+        }
+        Long gatewayId = req.getId();
         System.out.println("gatewayIDd:" + gatewayId);
         GatewayDto dto = service.findById(gatewayId);
         SimpleResponse<GatewayDto> result = new SimpleResponse<GatewayDto>();
