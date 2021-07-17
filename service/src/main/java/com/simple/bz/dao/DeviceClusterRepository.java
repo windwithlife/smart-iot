@@ -10,5 +10,6 @@ import java.util.List;
 public interface DeviceClusterRepository extends JpaRepository<DeviceClusterModel, Long> {
 
     public List<DeviceClusterModel> findByIeee(String ieee);
+    public List<DeviceClusterModel> findByDeviceId(Long deviceId);
 
 }

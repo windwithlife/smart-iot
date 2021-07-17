@@ -21,12 +21,15 @@ public class DeviceDto {
     private Long     roomId;        //房间或区域ID
     private String   topic;         //主题
     private String   deviceId;      //设备类型识别
+    private String   description;   //设备描述名,终端用户不可以编辑
     private String   profileId;     //配置ID
     private String   modelId;       //型号
     private String   manufacturer;  //制造厂商
     private String   shortAddress;  //短地址
     private String   ieee;          //长地址
-    private String   nickName;      //别名
+    private String   nickName;      //别名,终端用户可以编辑
+
+    private DeviceClusterAttrDto clusterAttributes; //设备的操作属性
 
     private String   endpoint;      //服务端口；
     private String   powerSource;       //电源类型
@@ -36,5 +39,6 @@ public class DeviceDto {
     private int      status;
     private Date     upTime;
     private Date     createTime;
+
 
 }

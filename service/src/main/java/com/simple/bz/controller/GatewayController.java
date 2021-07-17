@@ -101,8 +101,8 @@ public class GatewayController extends BaseController {
 
     @ApiOperation(value="根据网关查询所有设备信息")
     @PostMapping(path = "/queryDevicesByGatewayId")
-    public SimpleResponse<GatewayDevicesResponse> queryDevicesByGatewayId (@RequestBody SimpleRequest<GatewayDto> request){
-        GatewayDto dto = request.getParams();
+    public SimpleResponse<GatewayDevicesResponse> queryDevicesByGatewayId (@RequestBody SimpleRequest<IDRequest> request){
+        IDRequest dto = request.getParams();
         List<DeviceDto> devices = deviceService.queryByGatewayId(dto.getId());
         GatewayDevicesResponse resp = GatewayDevicesResponse.builder().devices(devices).build();
         SimpleResponse<GatewayDevicesResponse> result = new SimpleResponse<GatewayDevicesResponse>();

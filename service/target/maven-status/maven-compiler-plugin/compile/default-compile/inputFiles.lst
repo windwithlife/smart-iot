@@ -1,3 +1,4 @@
+/Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/IDResponse.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/ExampleVO.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/model/HouseModel.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/NewDeviceResponse.java
@@ -35,6 +36,7 @@
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/controller/RoomController.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/GatewayCommandRequest.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/RoomsDto.java
+/Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/IDRequest.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/common/props/AppProps.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/model/GatewayDeviceStatusModel.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dao/HouseRepository.java

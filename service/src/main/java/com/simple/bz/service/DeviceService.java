@@ -1,15 +1,20 @@
 package com.simple.bz.service;
 
 import com.simple.bz.dao.ContextQuery;
+import com.simple.bz.dao.DeviceClusterRepository;
 import com.simple.bz.dao.DeviceRepository;
-import com.simple.bz.dao.GatewayDeviceRepository;
+import com.simple.bz.dto.ClusterAttributeDto;
+import com.simple.bz.dto.DeviceClusterAttrDto;
+import com.simple.bz.dto.DeviceClusterDto;
 import com.simple.bz.dto.DeviceDto;
+import com.simple.bz.model.DeviceClusterModel;
 import com.simple.bz.model.DeviceModel;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -18,6 +23,7 @@ public class DeviceService {
     private final ModelMapper modelMapper;
     
     private final DeviceRepository dao;
+    private final DeviceClusterRepository clusterDao;
     private final ContextQuery contextQuery;
 
     public DeviceModel convertToModel(DeviceDto dto){
@@ -76,8 +82,36 @@ public class DeviceService {
 
 
     public List<DeviceDto> queryByGatewayId(Long gatewayId){
-        List<DeviceDto> list = contextQuery.findList("select * from tbl_device where gatewayDeviceId=" + String.valueOf(gatewayId), DeviceDto.class);
+        List<DeviceDto> list = contextQuery.findList("select d.*,m.description from tbl_device d left join zig_meta_device_id m on m.device_id=d.deviceId where gatewayId=" + String.valueOf(gatewayId), DeviceDto.class);
+        Iterator iter = list.iterator();
+        while (iter.hasNext()){
+            DeviceDto deviceInfo = (DeviceDto)iter.next();
+            DeviceClusterAttrDto clusterAttribute = this.querySupportClusterAttribute(deviceInfo.getId());
+            deviceInfo.setClusterAttributes(clusterAttribute);
+        }
         return  list;
+    }
+    public DeviceClusterAttrDto querySupportClusterAttribute(Long deviceId){
+        List<DeviceClusterModel> clusters =  clusterDao.findByDeviceId(deviceId);
+        Iterator iter = clusters.iterator();
+        DeviceClusterAttrDto response = DeviceClusterAttrDto.builder().deviceId(deviceId).build();
+        List<DeviceClusterDto>  clusterStatusList = new ArrayList<DeviceClusterDto>();
+        List<DeviceClusterDto>  clusterCommandList = new ArrayList<DeviceClusterDto>();
+        while (iter.hasNext()) {
+            DeviceClusterModel cluster = (DeviceClusterModel)iter.next();
+            String queryClusterAttr = "select * from tbl_meta_cluster_attribute where cluster='" + cluster.getCluster() + "'";
+            List<ClusterAttributeDto> listAttribute = contextQuery.findList(queryClusterAttr, ClusterAttributeDto.class);
+            DeviceClusterDto clusterDto = DeviceClusterDto.builder().deviceId(deviceId).cluster(cluster.getCluster()).inOrOut(cluster.getInOrOut()).endpoint(cluster.getEndpoint()).build();
+            clusterDto.setClusterAttributes(listAttribute);
+            if(cluster.getInOrOut().equalsIgnoreCase("in")){
+                clusterStatusList.add(clusterDto);
+            }else{
+                clusterCommandList.add(clusterDto);
+            }
+        } // end of while
+        response.setCommandCluster(clusterCommandList);
+        response.setStatusCluster(clusterStatusList);
+        return  response;
     }
     public DeviceDto update(DeviceDto item){
         Long id = item.getId();

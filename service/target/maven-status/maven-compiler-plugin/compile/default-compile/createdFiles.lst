@@ -18,6 +18,7 @@ com/simple/bz/dto/DeviceDto$DeviceDtoBuilder.class
 com/simple/bz/dto/DevicesDto.class
 com/simple/bz/dto/HouseGatewaysDto$HouseGatewaysDtoBuilder.class
 com/simple/bz/service/WebSocketService.class
+com/simple/bz/model/ClusterAttributeMetaModel$ClusterAttributeMetaModelBuilder.class
 com/simple/common/config/SwaggerConfig.class
 com/simple/bz/model/ExampleModel.class
 com/simple/bz/dto/GatewayDto$GatewayDtoBuilder.class
@@ -32,6 +33,7 @@ com/simple/bz/dto/GitHeadCommit.class
 com/simple/bz/dto/GatewayStatusDto$GatewayStatusDtoBuilder.class
 com/simple/common/redis/RedisSubscriber.class
 com/simple/bz/model/DeviceStatusModel$DeviceStatusModelBuilder.class
+com/simple/bz/dto/DeviceClusterDto$DeviceClusterDtoBuilder.class
 com/simple/common/mqtt/MqttDto$MqttDtoBuilder.class
 com/simple/bz/dto/DeviceState30.class
 com/simple/bz/service/GatewayStatusService.class
@@ -64,14 +66,17 @@ com/simple/bz/service/RoomService.class
 com/simple/bz/service/IOTService.class
 com/simple/bz/dto/GatewayCommandRequest$GatewayCommandRequestBuilder.class
 com/simple/bz/dto/UserDto$UserDtoBuilder.class
+com/simple/bz/dto/ClusterAttributeDto$ClusterAttributeDtoBuilder.class
 com/simple/bz/dto/IDRequest.class
 com/simple/common/mqtt/MqttSenderConfig.class
 com/simple/bz/dto/IDResponse.class
 com/simple/bz/dto/ExampleDto$ExampleDtoBuilder.class
 com/simple/bz/dto/HouseGatewaysDto.class
+com/simple/bz/dto/ClusterAttributeDto.class
 com/simple/bz/model/RoomModel$RoomModelBuilder.class
 com/simple/bz/service/HouseService.class
 com/simple/bz/controller/RoomController.class
+com/simple/bz/model/ClusterAttributeMetaModel.class
 com/simple/bz/dto/OriginCommandRequest.class
 com/simple/bz/model/UserHouseModel$UserHouseModelBuilder.class
 com/simple/bz/model/GatewayDeviceStatusModel$GatewayDeviceStatusModelBuilder.class
@@ -87,7 +92,9 @@ com/simple/bz/dao/UserHouseRepository.class
 com/simple/bz/model/HouseModel$HouseModelBuilder.class
 com/simple/bz/dto/DeviceState33.class
 com/simple/bz/dto/RoomDto.class
+com/simple/bz/dto/DeviceClusterAttrDto$DeviceClusterAttrDtoBuilder.class
 com/simple/common/mqtt/MqttMessageHandler.class
+com/simple/bz/dto/DeviceClusterDto.class
 com/simple/bz/service/GatewayDeviceService.class
 com/simple/bz/controller/HouseController.class
 com/simple/bz/dto/DeviceWifi.class
@@ -116,6 +123,7 @@ com/simple/bz/dto/HouseDto$HouseDtoBuilder.class
 com/simple/bz/dao/GatewayStatusRepository.class
 com/simple/bz/service/ConnectionService.class
 com/simple/common/mqtt/MqttGateway.class
+com/simple/bz/dto/DeviceClusterAttrDto.class
 com/simple/bz/controller/DeviceController.class
 com/simple/bz/model/DeviceClusterModel$DeviceClusterModelBuilder.class
 com/simple/common/config/WebSocketConfig.class

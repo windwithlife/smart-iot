@@ -4,8 +4,6 @@ import com.simple.bz.dto.*;
 import com.simple.bz.dto.DeviceDto;
 import com.simple.bz.service.DeviceService;
 import com.simple.bz.service.DeviceStatusService;
-import com.simple.bz.service.GatewayDeviceService;
-import com.simple.bz.service.GatewayStatusService;
 import com.simple.common.api.SimpleRequest;
 import com.simple.common.api.SimpleResponse;
 import com.simple.common.controller.BaseController;
@@ -13,8 +11,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -25,14 +21,14 @@ public class DeviceController extends BaseController {
     private final DeviceService service;
     private final DeviceStatusService serviceStatus;
 
-    @ApiOperation(value="根据网关ID获取所属所有设备信息")
-    @PostMapping(path = "/queryDevicesByGatewayId")
-    public SimpleResponse<DevicesDto>  queryDevicesByGatewayId (@RequestBody SimpleRequest<IDRequest> request){
-        Long gatewayId = request.getParams().getId();
-        List<DeviceDto> list = service.queryByGatewayId(gatewayId);
-        SimpleResponse<DevicesDto> result = new SimpleResponse<DevicesDto>();
-        return result.success(DevicesDto.builder().deviceList(list).gatewayId(gatewayId).build());
-    }
+//    @ApiOperation(value="根据网关ID获取所属所有设备信息")
+//    @PostMapping(path = "/queryDevicesByGatewayId")
+//    public SimpleResponse<DevicesDto>  queryDevicesByGatewayId (@RequestBody SimpleRequest<IDRequest> request){
+//        Long gatewayId = request.getParams().getId();
+//        List<DeviceDto> list = service.queryByGatewayId(gatewayId);
+//        SimpleResponse<DevicesDto> result = new SimpleResponse<DevicesDto>();
+//        return result.success(DevicesDto.builder().deviceList(list).gatewayId(gatewayId).build());
+//    }
     @ApiOperation(value="根据ID获取设备信息")
     @PostMapping(path = "/findById")
     public SimpleResponse<DeviceDto> findById (@RequestBody SimpleRequest<IDRequest> request){
@@ -43,6 +39,15 @@ public class DeviceController extends BaseController {
         return result.success(dto);
     }
 
+    @ApiOperation(value="根据设备ID获取设备所支持的所有功能")
+    @PostMapping(path = "/queryDeviceSupportAttributeById")
+    public SimpleResponse<DeviceClusterAttrDto> queryDeviceSupportAttributeById (@RequestBody SimpleRequest<IDRequest> request){
+        Long deviceId = request.getParams().getId();
+        System.out.println("deviceId:" + deviceId);
+        DeviceClusterAttrDto dto = service.querySupportClusterAttribute(deviceId);
+        SimpleResponse<DeviceClusterAttrDto> result = new SimpleResponse<DeviceClusterAttrDto>();
+        return result.success(dto);
+    }
     @ApiOperation(value="根据设备ID获取设备状态")
     @PostMapping(path = "/findStatusByDeviceId")
     public SimpleResponse<DeviceStatusDto> findStatusByDeviceId (@RequestBody SimpleRequest<IDRequest> request){
