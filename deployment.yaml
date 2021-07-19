@@ -56,11 +56,11 @@ metadata:
 spec:
   ingressClassName: nginx
   tls:
-  - secretName: ingress-cert-koudaibook
-    hosts:
+  #- secretName: ingress-cert-koudaibook
+  - secretName: m-koudaibook-com-cert
     - service.koudaibook.com
   rules:
-    - host: service.koudaibook.com
+    - host: m.koudaibook.com
       http:
         paths:
           - path: /{{.app_name}}
