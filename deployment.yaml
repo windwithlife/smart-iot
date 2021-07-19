@@ -56,7 +56,6 @@ metadata:
 spec:
   ingressClassName: nginx
   tls:
-  #- secretName: ingress-cert-koudaibook
   - secretName: m-koudaibook-com-cert
     - service.koudaibook.com
   rules:
