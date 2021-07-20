@@ -7,6 +7,7 @@
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/DeviceState33.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/model/UserHouseModel.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/common/image/MultimediaUtils.java
+/Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/DeviceClusterDto.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/GatewayDto.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/service/DeviceService.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/ExampleDto.java
@@ -29,6 +30,7 @@
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/service/HouseService.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/common/redis/RedisSubscriber.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/common/mqtt/MqttDto.java
+/Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/DeviceClusterAttrDto.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/AccountDto.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/service/WebSocketService.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/common/mqtt/MqttSenderConfig.java
@@ -57,6 +59,7 @@
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/common/mqtt/MqttRequest.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/model/DeviceModel.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/service/IOTService.java
+/Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/ClusterAttributeDto.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/service/ConnectionService.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/controller/MessageController.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/common/mqtt/MqttGateway.java
@@ -64,6 +67,7 @@
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/GatewayDevicesResponse.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/model/HouseUsersDto.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/UserDto.java
+/Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/model/ClusterAttributeMetaModel.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dao/DeviceRepository.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/DeviceDto.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/controller/DeviceController.java

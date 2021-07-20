@@ -20,8 +20,8 @@ public class ClusterAttributeMetaModel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long     id;
     private String   cluster;            //cluster编号
-    private boolean  statusOrCommand;    //是传感遥测还是控制信令。
-    private Long     attribute;          //cluster属性编号
+    private String   statusOrCommand;    //是传感遥测还是控制信令。
+    private String   attribute;          //cluster属性编号
     private String   attributeName;      //设备类型识别
     private String   attributeText;      //设备可读名称
     private String   valueType;          //数据类型 枚举（比如状态）数字，

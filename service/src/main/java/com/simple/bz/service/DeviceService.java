@@ -101,6 +101,7 @@ public class DeviceService {
             DeviceClusterModel cluster = (DeviceClusterModel)iter.next();
             String queryClusterAttr = "select * from tbl_meta_cluster_attribute where cluster='" + cluster.getCluster() + "'";
             List<ClusterAttributeDto> listAttribute = contextQuery.findList(queryClusterAttr, ClusterAttributeDto.class);
+            System.out.println("cluster->" + cluster.getCluster() + "values===>" + listAttribute.toString());
             DeviceClusterDto clusterDto = DeviceClusterDto.builder().deviceId(deviceId).cluster(cluster.getCluster()).inOrOut(cluster.getInOrOut()).endpoint(cluster.getEndpoint()).build();
             clusterDto.setClusterAttributes(listAttribute);
             if(cluster.getInOrOut().equalsIgnoreCase("in")){
@@ -111,6 +112,7 @@ public class DeviceService {
         } // end of while
         response.setCommandCluster(clusterCommandList);
         response.setStatusCluster(clusterStatusList);
+        System.out.println(response.toString());
         return  response;
     }
     public DeviceDto update(DeviceDto item){
