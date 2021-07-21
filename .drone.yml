@@ -35,7 +35,7 @@ steps:
     settings:
       yaml: ./deployment.yaml
       kubeconfig:
-        from_secret: kubeconfig
+        from_secret: kubeconfigk3s
 
       service_name: service-iot
       app_name: smart-iot
