@@ -12,6 +12,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping("/device")
@@ -37,6 +39,16 @@ public class DeviceController extends BaseController {
         DeviceDto  dto = service.findById(deviceId);
         SimpleResponse<DeviceDto> result = new SimpleResponse<DeviceDto>();
         return result.success(dto);
+    }
+
+    @ApiOperation(value="根据ID获取设备信息")
+    @PostMapping(path = "/findDevicesByRoomId")
+    public SimpleResponse<List<DeviceDto>> findByRoomId (@RequestBody SimpleRequest<IDRequest> request){
+        Long roomId = request.getParams().getId();
+        System.out.println("roomId:" + roomId);
+        List<DeviceDto> devices = service.queryByRoomId(roomId);
+        SimpleResponse<List<DeviceDto>> result = new SimpleResponse<List<DeviceDto>>();
+        return result.success(devices);
     }
 
     @ApiOperation(value="根据设备ID获取设备所支持的所有功能")

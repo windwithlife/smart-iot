@@ -91,6 +91,16 @@ public class DeviceService {
         }
         return  list;
     }
+    public List<DeviceDto> queryByRoomId(Long roomId){
+        List<DeviceDto> list = contextQuery.findList("select d.*,m.description from tbl_device d left join zig_meta_device_id m on m.device_id=d.deviceId where roomId=" + String.valueOf(roomId), DeviceDto.class);
+        Iterator iter = list.iterator();
+        while (iter.hasNext()){
+            DeviceDto deviceInfo = (DeviceDto)iter.next();
+            DeviceClusterAttrDto clusterAttribute = this.querySupportClusterAttribute(deviceInfo.getId());
+            deviceInfo.setClusterAttributes(clusterAttribute);
+        }
+        return  list;
+    }
     public DeviceClusterAttrDto querySupportClusterAttribute(Long deviceId){
         List<DeviceClusterModel> clusters =  clusterDao.findByDeviceId(deviceId);
         Iterator iter = clusters.iterator();
