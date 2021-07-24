@@ -58,12 +58,12 @@ public class GatewayController extends BaseController {
 
     @ApiOperation(value="新增一个设备")
     @PostMapping(path = "/addDevice")
-    public SimpleResponse<DeviceDto> addNewDevice (@RequestBody SimpleRequest<DeviceDto> request){
+    public SimpleResponse<DeviceDto> addNewDevice (@RequestBody SimpleRequest<DeviceRequest> request){
         System.out.println(request.toString());
-        DeviceDto dto = request.getParams();
-        deviceService.save(dto);
+        DeviceRequest dto = request.getParams();
+        DeviceDto vo = deviceService.save(dto);
         SimpleResponse<DeviceDto> result = new SimpleResponse<DeviceDto>();
-        return result.success(dto);
+        return result.success(vo);
     }
     @ApiOperation(value="根据房子ID获取所属所有网关信息")
     @PostMapping(path = "/queryGatewaysByHouseId")

@@ -38,6 +38,7 @@
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/controller/RoomController.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/GatewayCommandRequest.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/RoomsDto.java
+/Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/DeviceRequest.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/IDRequest.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/common/props/AppProps.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/model/GatewayDeviceStatusModel.java

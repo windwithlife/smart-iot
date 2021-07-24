@@ -110,10 +110,12 @@ com/simple/bz/dto/NotifyClientMessage.class
 com/simple/bz/model/GatewayDeviceModel$GatewayDeviceModelBuilder.class
 com/simple/bz/dto/GatewayDto.class
 com/simple/bz/dto/DeviceState30$DeviceState30Builder.class
+com/simple/bz/dto/DeviceRequest.class
 com/simple/common/mqtt/MqttRequest.class
 com/simple/bz/dao/RoomRepository.class
 com/simple/bz/controller/MultiMediaController.class
 com/simple/bz/model/GatewayDeviceStatusModel.class
+com/simple/bz/dto/DeviceRequest$DeviceRequestBuilder.class
 com/simple/bz/model/DeviceStatusModel.class
 com/simple/bz/dto/DeviceWifi$DeviceWifiBuilder.class
 com/simple/bz/dao/GatewayDeviceRepository.class

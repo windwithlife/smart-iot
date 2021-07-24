@@ -3,10 +3,7 @@ package com.simple.bz.service;
 import com.simple.bz.dao.ContextQuery;
 import com.simple.bz.dao.DeviceClusterRepository;
 import com.simple.bz.dao.DeviceRepository;
-import com.simple.bz.dto.ClusterAttributeDto;
-import com.simple.bz.dto.DeviceClusterAttrDto;
-import com.simple.bz.dto.DeviceClusterDto;
-import com.simple.bz.dto.DeviceDto;
+import com.simple.bz.dto.*;
 import com.simple.bz.model.DeviceClusterModel;
 import com.simple.bz.model.DeviceModel;
 import lombok.RequiredArgsConstructor;
@@ -69,10 +66,10 @@ public class DeviceService {
         List<DeviceDto> listPage = contextQuery.findPage("select * from tbl_device", pageIndex,pageSize, DeviceDto.class);
         return  listPage;
     }
-    public DeviceDto save(DeviceDto item){
+    public DeviceDto save(DeviceRequest item){
         DeviceModel oldModel =  dao.findOneByGatewayIdAndIeee(item.getGatewayId(),item.getIeee());
         if (null == oldModel){
-            DeviceModel model = this.convertToModel(item);
+            DeviceModel model = this.modelMapper.map(item, DeviceModel.class);
             DeviceModel newModel = dao.save(model);
             return this.convertToDto(newModel);
         }else{
