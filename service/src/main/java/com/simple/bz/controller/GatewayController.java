@@ -55,7 +55,6 @@ public class GatewayController extends BaseController {
 
         return BaseResponse.buildSuccess();
     }
-
     @ApiOperation(value="新增一个设备")
     @PostMapping(path = "/addDevice")
     public SimpleResponse<DeviceDto> addNewDevice (@RequestBody SimpleRequest<DeviceRequest> request){
