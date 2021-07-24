@@ -40,19 +40,20 @@ public class HouseController extends BaseController {
     @ApiOperation(value="根据用户ID获取所属所有住房信息",notes = "用于处理房子信息处理")
     @PostMapping(path = "/queryHouseByUser")
     public SimpleResponse<UserHousesDto>  queryUserHouses (HttpServletRequest req){
-        String token = Sessions.getAuthToken(req);
-        if (StringUtils.isBlank(token)){
-            throw new ServiceException("请先登录");
-        }
-        System.out.println("current token--->" + token);
-        String userId = Sessions.getSessionUserInfo(token).getUserId();
-        System.out.println("Current UserId ===>" + userId);
+//        String token = Sessions.getAuthToken(req);
+//        if (StringUtils.isBlank(token)){
+//            throw new ServiceException("请先登录");
+//        }
+//        System.out.println("current token--->" + token);
+//        String userId = Sessions.getSessionUserInfo(token).getUserId();
+//        System.out.println("Current UserId ===>" + userId);
         //String userId = request.getParams();
         //List<HouseDto> houseList = service.queryByUser(userId);
 
         List<HouseDto> houseList = service.queryAll();
         SimpleResponse<UserHousesDto> result = new SimpleResponse<UserHousesDto>();
-        return result.success(UserHousesDto.builder().houseList(houseList).userId(userId).build());
+        //return result.success(UserHousesDto.builder().houseList(houseList).userId(userId).build());
+        return result.success(UserHousesDto.builder().houseList(houseList).build());
     }
 
     @ApiOperation(value="根据ID获取房子信息",notes = "用于处理房子信息处理")
