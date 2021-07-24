@@ -12,7 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ApiModel(value="设备对象",description="设备请求参数或者返回参数")
+@ApiModel(value="新增设备对象",description="设备请求参数对象")
 public class DeviceRequest {
 
     private Long     id;
