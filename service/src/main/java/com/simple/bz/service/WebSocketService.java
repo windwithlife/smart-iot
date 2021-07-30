@@ -47,6 +47,11 @@ public class WebSocketService {
         }else {
             SESSION_ID_TOKEN.put(session.getId(),username);
             TOKEN_SESSION.put(username,session);
+            Session sessionNew = TOKEN_SESSION.get(token);
+            if(null == sessionNew){
+                System.out.println("此用户没有上线");
+                return;
+            }
             System.out.println(username);
         }
     }
