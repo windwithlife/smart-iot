@@ -34,10 +34,12 @@ public class ConnectionService implements MessageQueueHandler {
 
     @Override
     public void onMessage(String topic, String message) {
-        System.out.println("message body=====>"  + message);
-        NotifyClientMessage msg = JSONObject.parseObject(message,NotifyClientMessage.class);
-        System.out.println("Recv Message Topic -->" + topic + "Body---->" + msg.toString());
-        webSocketService.sendMessageToTarget(msg.getTargetClient(),message);
+
+        JSONObject msgObject = JSONObject.parseObject(message);
+        String target = msgObject.getString("target");
+        String msgBody = msgObject.getString("messageBody");
+        System.out.println("Recv Message Topic -->" + topic + "Body---->" + msgBody);
+        webSocketService.sendMessageToTarget(target,message);
 
     }
 }

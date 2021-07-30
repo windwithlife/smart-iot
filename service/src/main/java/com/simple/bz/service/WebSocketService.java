@@ -3,6 +3,7 @@ package com.simple.bz.service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.simple.bz.dto.NotifyClientMessage;
+import com.simple.common.auth.Sessions;
 import com.simple.common.redis.MessageQueueHandler;
 import com.simple.common.redis.MessageQueueProxy;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +46,7 @@ public class WebSocketService {
                 throw new IllegalStateException(e.getMessage());
             }
         }else {
+            System.out.println("Current Connection userId ==> " + Sessions.getSessionUserInfo(username).getUserId());
             SESSION_ID_TOKEN.put(session.getId(),username);
             TOKEN_SESSION.put(username,session);
             Session sessionNew = TOKEN_SESSION.get(username);
@@ -93,7 +95,8 @@ public class WebSocketService {
     }
     @OnError
     public void onError(Throwable throwable) {
-        throwable.printStackTrace();
+        System.out.println("Connection is disconnected by gateway!");
+        //throwable.printStackTrace();
     }
 
 //    @Override
