@@ -37,7 +37,7 @@ public class WebSocketService {
 
     @OnOpen
     public void onOpen(Session session,@PathParam("username")String username){
-        System.out.println("新的连接进来了"+session.getId());
+        System.out.println("新的连接进来了！ SessionID==>"+session.getId() + "userID===>" + username);
         if (username == null){
             try {
                 session.close(new CloseReason(CloseReason.CloseCodes.CANNOT_ACCEPT,"username参数为空"));
@@ -73,14 +73,15 @@ public class WebSocketService {
         });
     }
     public <T> void sendMessageToTarget(String token,Object t){
-        System.out.println("发送指定token消息");
+
         try {
             Session session = TOKEN_SESSION.get(token);
             if(null == session){
-                System.out.println("没有上线用户");
+                System.out.println("此用户没有上线");
                 return;
             }
             session.getBasicRemote().sendText((String)t);
+            System.out.println("发送指定token===> token:[" + token + "]");
         } catch (Exception e) {
             e.printStackTrace();
         }
