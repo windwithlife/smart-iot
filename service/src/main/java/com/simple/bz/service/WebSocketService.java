@@ -81,7 +81,8 @@ public class WebSocketService {
         try {
             Session session = TOKEN_SESSION.get(token);
             if(null == session){
-                System.out.println("此用户没有上线");
+                System.out.println("此用户没有上线 username==>" + token + "session count ==>" + String.valueOf(TOKEN_SESSION.size()));
+                System.out.println("当前用户Session Detail" + TOKEN_SESSION.toString());
                 return;
             }
             session.getBasicRemote().sendText((String)t);
