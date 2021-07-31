@@ -171,7 +171,7 @@ public class IOTService extends MqttAdapter {
                     });
 
                     List<String> outClusters = state33.getOutClusters();
-                    inClusters.forEach(cluster -> {
+                    outClusters.forEach(cluster -> {
                         clusterDao.save(DeviceClusterModel.builder()
                                 .ieee(deviceModel.getIeee())
                                 .deviceId(deviceModel.getId())
@@ -270,7 +270,10 @@ public class IOTService extends MqttAdapter {
     }
 
     public boolean openDevicePairing(String gateway) {
-        return this.sendMQTTCommand(gateway, "ZbPermitJoin", "1");
+         this.sendMQTTCommand(gateway, "ZbPermitJoin", "1");
+        DeviceModel deviceResult = deviceDao.findById(78L).orElse(null);
+        this.notifyClientUsers(gateway, deviceResult,"device-new");
+        return true;
     }
 
     public void notifyClientUsers(String fromGateway, Object message,String messageType) {
