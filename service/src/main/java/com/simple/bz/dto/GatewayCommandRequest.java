@@ -14,7 +14,7 @@ import java.util.Date;
 
 public class GatewayCommandRequest {
 
-    private Long     id;
+    private Long     gatewayId;
     private Long     houseId;
     private String   name;
     private String   macAddress;

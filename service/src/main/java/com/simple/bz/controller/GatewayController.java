@@ -51,7 +51,7 @@ public class GatewayController extends BaseController {
     @PostMapping(path = "/openDevicePairing")
     public BaseResponse  openDevicePairing (@RequestBody SimpleRequest<GatewayCommandRequest> request){
 
-        this.iotService.openDevicePairing(request.getParams().getLocationTopic());
+        this.iotService.openDevicePairing(request.getParams().getGatewayId());
 
         return BaseResponse.buildSuccess();
     }

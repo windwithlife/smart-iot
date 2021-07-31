@@ -6,11 +6,9 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.simple.bz.dao.DeviceClusterRepository;
 import com.simple.bz.dao.DeviceRepository;
 import com.simple.bz.dao.DeviceStatusAttributeRepository;
+import com.simple.bz.dao.GatewayDeviceRepository;
 import com.simple.bz.dto.*;
-import com.simple.bz.model.DeviceClusterModel;
-import com.simple.bz.model.DeviceModel;
-import com.simple.bz.model.HouseUsersDto;
-import com.simple.bz.model.StatusAttributeModel;
+import com.simple.bz.model.*;
 import com.simple.common.mqtt.MqttAdapter;
 import com.simple.common.mqtt.MqttProxy;
 import com.simple.common.redis.MessageQueueProxy;
@@ -37,6 +35,7 @@ public class IOTService extends MqttAdapter {
     private final GatewayDeviceService gatewayDeviceService;
     private final DeviceRepository deviceDao;
     private final DeviceClusterRepository clusterDao;
+    private final GatewayDeviceRepository gatewayDao;
     private final DeviceStatusAttributeRepository deviceStatusAttributeRepository;
 
     @PostConstruct
@@ -269,10 +268,12 @@ public class IOTService extends MqttAdapter {
         return true;
     }
 
-    public boolean openDevicePairing(String gateway) {
-         this.sendMQTTCommand(gateway, "ZbPermitJoin", "1");
+    public boolean openDevicePairing(Long gatewayId) {
+        GatewayDeviceModel gatewayInfo = this.gatewayDao.findById(gatewayId).orElse(null);
+        String gatewayTopic = gatewayInfo.getLocationTopic();
+        this.sendMQTTCommand(gatewayTopic, "ZbPermitJoin", "1");
         DeviceModel deviceResult = deviceDao.findById(78L).orElse(null);
-        this.notifyClientUsers(gateway, deviceResult,"device-new");
+        this.notifyClientUsers(gatewayTopic, deviceResult,"device-new");
         return true;
     }
 
