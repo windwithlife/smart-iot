@@ -77,6 +77,14 @@ public class DeviceService {
         }
     }
 
+    public boolean bindToRoom(Long deviceId, Long roomId){
+        DeviceModel model = dao.findById(deviceId).orElse(null);
+        if (null == model ){return false;}
+        model.setRoomId(roomId);
+        System.out.println("Successful to bind device Id ==>" + String.valueOf(deviceId) + " To Room Id ==>" +  String.valueOf(roomId));
+        this.dao.save(model);
+        return true;
+    }
 
     public List<DeviceDto> queryByGatewayId(Long gatewayId){
         List<DeviceDto> list = contextQuery.findList("select d.*,m.description from tbl_device d left join zig_meta_device_id m on m.device_id=d.deviceId where gatewayId=" + String.valueOf(gatewayId), DeviceDto.class);

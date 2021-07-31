@@ -16,9 +16,7 @@ public class GatewayCommandRequest {
 
     private Long     gatewayId;
     private Long     houseId;
-    private String   name;
     private String   macAddress;
     private String   locationTopic;
-
 
 }

@@ -55,14 +55,18 @@ public class GatewayController extends BaseController {
 
         return BaseResponse.buildSuccess();
     }
-    @ApiOperation(value="新增一个简单设备")
+    @ApiOperation(value="新增一个简单设备（其实是与当所房间进行绑定")
     @PostMapping(path = "/addDevice")
     public SimpleResponse<DeviceDto> addNewDevice (@RequestBody SimpleRequest<DeviceRequest> request){
         System.out.println(request.toString());
         DeviceRequest dto = request.getParams();
-        DeviceDto vo = deviceService.save(dto);
+        boolean bindResult = deviceService.bindToRoom(dto.getDeviceId(),dto.getRoomId());
         SimpleResponse<DeviceDto> result = new SimpleResponse<DeviceDto>();
-        return result.success(vo);
+        if (bindResult){
+            return result.success(DeviceDto.builder().id(dto.getDeviceId()).roomId(dto.getRoomId()).build());
+        }else{
+            return result.failure();
+        }
     }
     @ApiOperation(value="根据房子ID获取所属所有网关信息")
     @PostMapping(path = "/queryGatewaysByHouseId")
