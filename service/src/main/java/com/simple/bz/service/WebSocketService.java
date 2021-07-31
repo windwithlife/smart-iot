@@ -46,14 +46,19 @@ public class WebSocketService {
                 throw new IllegalStateException(e.getMessage());
             }
         }else {
-            System.out.println("Current Connection userId ==> " + Sessions.getSessionUserInfo(username).getUserId());
-            SESSION_ID_TOKEN.put(session.getId(),username);
-            TOKEN_SESSION.put(username,session);
-            Session sessionNew = TOKEN_SESSION.get(username);
-            if(null == sessionNew){
-                System.out.println("此用户没有上线");
+            try{
+
+                System.out.println("Current Connection userId ==> " + Sessions.getSessionUserInfo(username).getUserId());
+                SESSION_ID_TOKEN.put(session.getId(),username);
+                TOKEN_SESSION.put(username,session);
+                Session sessionNew = TOKEN_SESSION.get(username);
+                if(null == sessionNew){
+                    System.out.println("此用户没有上线");
+                }
+                System.out.println(username);
+            }catch (Exception e) {
+                e.printStackTrace();
             }
-            System.out.println(username);
         }
     }
     @OnClose
