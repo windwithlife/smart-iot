@@ -208,6 +208,7 @@ public class IOTService extends MqttAdapter {
             if(null == device){
                 continue;
             }
+            deviceStatus.put("deviceId", device.getId());
             deviceStatus.entrySet().forEach(entry -> {
 
                 String attributeName = entry.getKey();
