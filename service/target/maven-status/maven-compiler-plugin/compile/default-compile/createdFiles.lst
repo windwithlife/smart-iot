@@ -45,9 +45,11 @@ com/simple/common/mqtt/MqttAdapter.class
 com/simple/bz/dto/StatusLogDto$StatusLogDtoBuilder.class
 META-INF/spring-configuration-metadata.json
 com/simple/common/mqtt/MqttDto.class
+com/simple/bz/dto/DeviceNewRequest$DeviceNewRequestBuilder.class
 com/simple/common/config/AppConfig$1.class
 com/simple/bz/dto/GatewayStatusDto.class
 com/simple/bz/service/MultimediaService.class
+com/simple/bz/dto/DeviceNewRequest.class
 com/simple/bz/dao/ContextQuery.class
 com/simple/bz/dto/NewDeviceResponse.class
 com/simple/bz/dto/AccountDto.class
@@ -110,12 +112,10 @@ com/simple/bz/dto/NotifyClientMessage.class
 com/simple/bz/model/GatewayDeviceModel$GatewayDeviceModelBuilder.class
 com/simple/bz/dto/GatewayDto.class
 com/simple/bz/dto/DeviceState30$DeviceState30Builder.class
-com/simple/bz/dto/DeviceRequest.class
 com/simple/common/mqtt/MqttRequest.class
 com/simple/bz/dao/RoomRepository.class
 com/simple/bz/controller/MultiMediaController.class
 com/simple/bz/model/GatewayDeviceStatusModel.class
-com/simple/bz/dto/DeviceRequest$DeviceRequestBuilder.class
 com/simple/bz/model/DeviceStatusModel.class
 com/simple/bz/dto/DeviceWifi$DeviceWifiBuilder.class
 com/simple/bz/dao/GatewayDeviceRepository.class

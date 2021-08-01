@@ -66,22 +66,25 @@ public class DeviceService {
         List<DeviceDto> listPage = contextQuery.findPage("select * from tbl_device", pageIndex,pageSize, DeviceDto.class);
         return  listPage;
     }
-    public DeviceDto save(DeviceRequest item){
-        DeviceModel oldModel =  dao.findOneByGatewayIdAndIeee(item.getGatewayId(),item.getIeee());
-        if (null == oldModel){
-            DeviceModel model = this.modelMapper.map(item, DeviceModel.class);
-            DeviceModel newModel = dao.save(model);
-            return this.convertToDto(newModel);
-        }else{
-            return this.convertToDto(oldModel);
-        }
+    public DeviceDto save(DeviceNewRequest item){
+//        DeviceModel oldModel =  dao.findOneByGatewayIdAndIeee(item.getGatewayId(),item.getIeee());
+//        if (null == oldModel){
+//            DeviceModel model = this.modelMapper.map(item, DeviceModel.class);
+//            DeviceModel newModel = dao.save(model);
+//            return this.convertToDto(newModel);
+//        }else{
+//            return this.convertToDto(oldModel);
+//        }
+        return null;
     }
 
-    public boolean bindToRoom(Long deviceId, Long roomId){
-        DeviceModel model = dao.findById(deviceId).orElse(null);
+    public boolean bindToRoom(DeviceNewRequest request){
+        DeviceModel model = dao.findById(request.getDeviceId()).orElse(null);
         if (null == model ){return false;}
-        model.setRoomId(roomId);
-        System.out.println("Successful to bind device Id ==>" + String.valueOf(deviceId) + " To Room Id ==>" +  String.valueOf(roomId));
+        model.setRoomId(request.getRoomId());
+        model.setNickName(request.getNickName());
+        model.setDescription(request.getDescription());
+        System.out.println("Successful to bind device Id ==>" + String.valueOf(request.getDeviceId()) + " To Room Id ==>" +  String.valueOf(request.getRoomId()));
         this.dao.save(model);
         return true;
     }

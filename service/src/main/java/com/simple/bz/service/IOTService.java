@@ -283,7 +283,10 @@ public class IOTService extends MqttAdapter {
         GatewayDeviceModel gatewayInfo = this.gatewayDao.findById(gatewayId).orElse(null);
         String gatewayTopic = gatewayInfo.getLocationTopic();
         this.sendMQTTCommand(gatewayTopic, "ZbPermitJoin", "1");
-        DeviceModel deviceResult = deviceDao.findById(78L).orElse(null);
+        //DeviceModel deviceResult = deviceDao.findById(160L).orElse(null);
+        //模拟库里任意一个设备进行添加。
+        List<DeviceModel> devicesResult = deviceDao.findAll();
+        DeviceModel deviceResult = devicesResult.get(0);
         this.notifyClientUsers(gatewayTopic, deviceResult,"device-new");
         return true;
     }

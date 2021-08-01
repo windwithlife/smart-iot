@@ -57,10 +57,12 @@ public class GatewayController extends BaseController {
     }
     @ApiOperation(value="新增一个简单设备（其实是与当所房间进行绑定")
     @PostMapping(path = "/addDevice")
-    public SimpleResponse<DeviceDto> addNewDevice (@RequestBody SimpleRequest<DeviceRequest> request){
+    public SimpleResponse<DeviceDto> addNewDevice (@RequestBody SimpleRequest<DeviceNewRequest> request){
         System.out.println(request.toString());
-        DeviceRequest dto = request.getParams();
-        boolean bindResult = deviceService.bindToRoom(dto.getDeviceId(),dto.getRoomId());
+        DeviceNewRequest dto = request.getParams();
+
+
+        boolean bindResult = deviceService.bindToRoom(dto);
         SimpleResponse<DeviceDto> result = new SimpleResponse<DeviceDto>();
         if (bindResult){
             return result.success(DeviceDto.builder().id(dto.getDeviceId()).roomId(dto.getRoomId()).build());

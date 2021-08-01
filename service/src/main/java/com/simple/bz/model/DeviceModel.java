@@ -36,6 +36,7 @@ public class DeviceModel {
     private String   powerSource;       //电源类型
     private String   security;          //安全性
     private String   receiveWhenIdle;   //
+    private String   description;
 
     private int      status;
     private Date     upTime;
