@@ -132,8 +132,9 @@ public class IOTService extends MqttAdapter {
                             this.contextQuery.executeQuery("delete from tbl_device_cluster where deviceId=" + String.valueOf(oldDevice.getId()));
                         }
 
+                        GatewayDeviceModel gatewayInfo = gatewayDao.findOneByLocationTopic(gateway);
                         DeviceModel device = DeviceModel.builder().ieee(state30.getIEEEAddr()).shortAddress(state30.getShortAddr()).powerSource(state30.getPowerSource())
-                                .receiveWhenIdle(state30.getReceiveWhenIdle()).security(state30.getSecurity()).build();
+                                .receiveWhenIdle(state30.getReceiveWhenIdle()).security(state30.getSecurity()).gatewayId(gatewayInfo.getId()).build();
                         deviceResult = deviceDao.save(device);
                     } catch (Exception e){
                         e.printStackTrace();
