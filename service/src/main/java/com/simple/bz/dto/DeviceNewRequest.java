@@ -19,4 +19,12 @@ public class DeviceNewRequest {
     private Long     deviceId;      //设备类型识别
     private String   description;   //设备描述名,终端用户不可以编辑
     private String   nickName;      //别名,终端用户可以编辑
+    public boolean verify(){
+        if ((null == this.gatewayId || this.gatewayId <= 0) || (null == this.roomId || this.roomId <=00)
+                || (null == this.deviceId || this.deviceId <=0)){
+            return false;
+        }else{
+            return true;
+        }
+    };
 }

@@ -6,6 +6,7 @@ import com.simple.common.api.BaseResponse;
 import com.simple.common.api.SimpleRequest;
 import com.simple.common.api.SimpleResponse;
 import com.simple.common.controller.BaseController;
+import com.simple.common.error.ServiceException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -60,7 +61,7 @@ public class GatewayController extends BaseController {
     public SimpleResponse<DeviceDto> addNewDevice (@RequestBody SimpleRequest<DeviceNewRequest> request){
         System.out.println(request.toString());
         DeviceNewRequest dto = request.getParams();
-
+        if(!dto.verify()){throw new ServiceException("Params is invalid!");}
 
         boolean bindResult = deviceService.bindToRoom(dto);
         SimpleResponse<DeviceDto> result = new SimpleResponse<DeviceDto>();
