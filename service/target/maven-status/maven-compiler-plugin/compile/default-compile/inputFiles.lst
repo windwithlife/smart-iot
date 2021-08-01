@@ -45,7 +45,6 @@
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dao/HouseRepository.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/model/GatewayDeviceModel.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/controller/GatewayController.java
-/Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/model/StatusAttributeModel.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/service/MultimediaService.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/DeviceState30.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/GitHeadCommit.java
@@ -72,6 +71,7 @@
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dao/DeviceRepository.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/DeviceDto.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/controller/DeviceController.java
+/Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/model/DeviceAttributeStatusModel.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/DeviceWifi.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/model/DeviceStatusModel.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/model/ExampleModel.java

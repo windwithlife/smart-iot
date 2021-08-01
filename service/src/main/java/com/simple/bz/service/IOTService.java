@@ -145,6 +145,7 @@ public class IOTService extends MqttAdapter {
                     //Received the simple Descriptor with active ZCL clusters for a Zigbee device
                     // {"ZbState":{"Status":33,"Device":"0x7984","Endpoint":"0x01","ProfileId":"0x0104","DeviceId":"0x0402","DeviceVersion":0,"InClusters":
                     DeviceState33 state33 = stateJsonObject.toJavaObject(DeviceState33.class);
+                    System.out.println("Recieved state33==>" + state33.toString());
                     if (state33 == null || state33.getDevice() == null) {
                         break;
                     }
@@ -216,10 +217,11 @@ public class IOTService extends MqttAdapter {
                 continue;
             }
 
+            deviceStatus.put("deviceId", device.getId());
             deviceStatus.entrySet().forEach(entry -> {
-
                 String attributeName = entry.getKey();
-                if(attributeName.equalsIgnoreCase("Device") || attributeName.equalsIgnoreCase("Endpoint")){
+                if(attributeName.equalsIgnoreCase("Device") || attributeName.equalsIgnoreCase("Endpoint")
+                || attributeName.equalsIgnoreCase("deviceId")){
                     return;
                 }
                 String attributeValue = null;
@@ -246,7 +248,7 @@ public class IOTService extends MqttAdapter {
                             .build();
                     deviceStatusAttributeRepository.save(statusModel);
                 }
-                deviceStatus.put("deviceId", device.getId());
+
                 this.notifyClientUsers(gateway, deviceStatus,"device-status");
 
             });
