@@ -2,20 +2,14 @@ package com.simple.bz.service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.simple.bz.dao.DeviceClusterRepository;
-import com.simple.bz.dao.DeviceRepository;
-import com.simple.bz.dao.DeviceStatusAttributeRepository;
-import com.simple.bz.dao.GatewayDeviceRepository;
+import com.simple.bz.dao.*;
 import com.simple.bz.dto.*;
 import com.simple.bz.model.*;
 import com.simple.common.mqtt.MqttAdapter;
 import com.simple.common.mqtt.MqttProxy;
 import com.simple.common.redis.MessageQueueProxy;
-import com.simple.common.redis.RedisMessageQueueClient;
 import com.simple.common.redis.RedisSubscriber;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +31,7 @@ public class IOTService extends MqttAdapter {
     private final DeviceClusterRepository clusterDao;
     private final GatewayDeviceRepository gatewayDao;
     private final DeviceStatusAttributeRepository deviceStatusAttributeRepository;
+    private final ContextQuery contextQuery;
 
     @PostConstruct
     private void init() {
@@ -124,14 +119,25 @@ public class IOTService extends MqttAdapter {
                 case 30:
                     //有设备连接上网关，插入设备表
                     //{"ZbState":{"Status":30,"IEEEAddr":"0x000D6FFFFED209BF","ShortAddr":"0x7984","PowerSource":false,"ReceiveWhenIdle":false,"Security":false}}
-                    DeviceState30 state30 = stateJsonObject.toJavaObject(DeviceState30.class);
+                    try {
+                        DeviceState30 state30 = stateJsonObject.toJavaObject(DeviceState30.class);
 
-                    if (state30 == null) { break;}
-                    DeviceModel oldDevice= deviceDao.findOneByShortAddress(state30.getShortAddr());
-                    if (null != oldDevice) {break;}
-                    DeviceModel device = DeviceModel.builder().ieee(state30.getIEEEAddr()).shortAddress(state30.getShortAddr()).powerSource(state30.getPowerSource())
+                        if (state30 == null) {
+                            break;
+                        }
+                        DeviceModel oldDevice = deviceDao.findOneByIeee(state30.getIEEEAddr());
+                        if (null != oldDevice) { //设备已存在过
+                            deviceDao.deleteById(oldDevice.getId());
+                            //clusterDao.deleteByDeviceId(oldDevice.getId());
+                            this.contextQuery.executeQuery("delete from tbl_device_cluster where deviceId=" + String.valueOf(oldDevice.getId()));
+                        }
+
+                        DeviceModel device = DeviceModel.builder().ieee(state30.getIEEEAddr()).shortAddress(state30.getShortAddr()).powerSource(state30.getPowerSource())
                                 .receiveWhenIdle(state30.getReceiveWhenIdle()).security(state30.getSecurity()).build();
-                    deviceResult = deviceDao.save(device);
+                        deviceResult = deviceDao.save(device);
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
 
                     break;
                 case 33:
@@ -155,7 +161,7 @@ public class IOTService extends MqttAdapter {
                         break;
                     }
                     List<String> inClusters = state33.getInClusters();
-                    List<DeviceClusterModel> oldClusterList = clusterDao.findByIeee(deviceModel.getIeee());
+                    List<DeviceClusterModel> oldClusterList = clusterDao.findByDeviceId(deviceModel.getId());
                     if (null != oldClusterList && oldClusterList.size() >0){
                         //说明已存过已设备的clusters
                         break;
@@ -225,12 +231,12 @@ public class IOTService extends MqttAdapter {
                 if (attributeName.equalsIgnoreCase("Device") && attributeName.equalsIgnoreCase("Endpoint")) {
                     return;
                 }
-                StatusAttributeModel oldModel = deviceStatusAttributeRepository.findOneByIeeeAndClusterAttribute(device.getIeee(),attributeName);
+                DeviceAttributeStatusModel oldModel = deviceStatusAttributeRepository.findOneByDeviceIdAndClusterAttribute(device.getId(),attributeName);
                 if(null != oldModel){
                     oldModel.setValue(attributeValue);
                     deviceStatusAttributeRepository.save(oldModel);
                 }else{
-                    StatusAttributeModel statusModel = StatusAttributeModel.builder()
+                    DeviceAttributeStatusModel statusModel = DeviceAttributeStatusModel.builder()
                             .clusterAttribute(attributeName).value(attributeValue)
                             .endpoint(endpoint)
                             .ieee(device.getIeee())

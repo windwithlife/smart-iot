@@ -28,5 +28,6 @@ public class ClusterAttributeMetaModel {
     private String   valueUnit;          //值单位，
     private String   valueRange;         //JSON数组对数据表达[{key:"0",val:"干燥"},{key:"1",val:"湿润"}],[{key:"min",val:"干燥"},{key:"max",val:"湿润"}]
     private String   controlType;        //控制类型
+    private String   defaultValue;       //控制类型
 
 }

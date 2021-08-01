@@ -11,5 +11,6 @@ public interface DeviceClusterRepository extends JpaRepository<DeviceClusterMode
 
     public List<DeviceClusterModel> findByIeee(String ieee);
     public List<DeviceClusterModel> findByDeviceId(Long deviceId);
+    //public int findByDeviceId(Long deviceId);
 
 }

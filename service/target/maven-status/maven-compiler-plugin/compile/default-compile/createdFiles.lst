@@ -49,7 +49,6 @@ com/simple/common/config/AppConfig$1.class
 com/simple/bz/dto/GatewayStatusDto.class
 com/simple/bz/service/MultimediaService.class
 com/simple/bz/dao/ContextQuery.class
-com/simple/bz/model/StatusAttributeModel.class
 com/simple/bz/dto/NewDeviceResponse.class
 com/simple/bz/dto/AccountDto.class
 com/simple/bz/dto/NotifyClientMessage$NotifyClientMessageBuilder.class
@@ -76,6 +75,8 @@ com/simple/bz/dto/ClusterAttributeDto.class
 com/simple/bz/model/RoomModel$RoomModelBuilder.class
 com/simple/bz/service/HouseService.class
 com/simple/bz/controller/RoomController.class
+com/simple/bz/model/DeviceAttributeStatusModel.class
+com/simple/bz/model/DeviceAttributeStatusModel$DeviceAttributeStatusModelBuilder.class
 com/simple/bz/model/ClusterAttributeMetaModel.class
 com/simple/bz/dto/OriginCommandRequest.class
 com/simple/bz/model/UserHouseModel$UserHouseModelBuilder.class
@@ -84,7 +85,6 @@ com/simple/bz/dto/GatewayCommandResponse$GatewayCommandResponseBuilder.class
 com/simple/bz/model/GatewayDeviceModel.class
 com/simple/bz/dto/IDResponse$IDResponseBuilder.class
 com/simple/common/mqtt/MqttRequest$MqttRequestBuilder.class
-com/simple/bz/model/StatusAttributeModel$StatusAttributeModelBuilder.class
 com/simple/bz/model/RoomModel.class
 com/simple/bz/dto/GatewayDevicesResponse.class
 com/simple/bz/dto/DevicesDto$DevicesDtoBuilder.class

@@ -1,12 +1,13 @@
 package com.simple.bz.dao;
 
 
-import com.simple.bz.model.DeviceClusterModel;
-import com.simple.bz.model.StatusAttributeModel;
+import com.simple.bz.model.DeviceAttributeStatusModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface DeviceStatusAttributeRepository extends JpaRepository<StatusAttributeModel, Long> {
+public interface DeviceStatusAttributeRepository extends JpaRepository<DeviceAttributeStatusModel, Long> {
 
-    public  StatusAttributeModel findOneByIeeeAndClusterAttribute(String ieee,String clusterAttr);
+    public DeviceAttributeStatusModel findOneByIeeeAndClusterAttribute(String ieee, String clusterAttr);
+    public DeviceAttributeStatusModel findOneByDeviceIdAndClusterAttribute(Long deviceId, String clusterAttr);
+
 
 }

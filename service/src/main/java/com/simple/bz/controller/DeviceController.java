@@ -1,5 +1,7 @@
 package com.simple.bz.controller;
 
+import com.simple.bz.dao.ContextQuery;
+import com.simple.bz.dao.DeviceRepository;
 import com.simple.bz.dto.*;
 import com.simple.bz.dto.DeviceDto;
 import com.simple.bz.service.DeviceService;
@@ -22,15 +24,19 @@ public class DeviceController extends BaseController {
 
     private final DeviceService service;
     private final DeviceStatusService serviceStatus;
+    //private final ContextQuery contextQuery;
+    //private final DeviceRepository deviceRepository;
 
-//    @ApiOperation(value="根据网关ID获取所属所有设备信息")
-//    @PostMapping(path = "/queryDevicesByGatewayId")
-//    public SimpleResponse<DevicesDto>  queryDevicesByGatewayId (@RequestBody SimpleRequest<IDRequest> request){
-//        Long gatewayId = request.getParams().getId();
-//        List<DeviceDto> list = service.queryByGatewayId(gatewayId);
-//        SimpleResponse<DevicesDto> result = new SimpleResponse<DevicesDto>();
-//        return result.success(DevicesDto.builder().deviceList(list).gatewayId(gatewayId).build());
-//    }
+    @ApiOperation(value="测试调用")
+    @GetMapping(path = "/testJPA")
+    public SimpleResponse<DeviceDto>  queryDevicesByGatewayId (@RequestParam("id") Long deviceId){
+        //deviceRepository.deleteByDeviceId(deviceId);
+        //this.contextQuery.executeQuery("delete from test where id=" + String.valueOf(deviceId));
+        SimpleResponse<DeviceDto> result = new SimpleResponse<DeviceDto>();
+        return result.success(DeviceDto.builder().id(deviceId).build());
+    }
+
+
     @ApiOperation(value="根据ID获取设备信息")
     @PostMapping(path = "/findById")
     public SimpleResponse<DeviceDto> findById (@RequestBody SimpleRequest<IDRequest> request){

@@ -14,7 +14,7 @@ import java.util.Date;
 @Builder
 @Entity
 @Table(name="tbl_status_attribute")
-public class StatusAttributeModel {
+public class DeviceAttributeStatusModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
