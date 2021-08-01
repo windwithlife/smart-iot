@@ -291,7 +291,7 @@ public class IOTService extends MqttAdapter {
     public void notifyClientUsers(String fromGateway, Object message,String messageType) {
 
         List<HouseUsersDto> targetUsers = houseService.queryUsersByGatewayName(fromGateway);
-        System.out.println("**********************Start to notify Clients-->" + String.valueOf(targetUsers.size()));
+        //System.out.println("**********************Start to notify Clients-->" + String.valueOf(targetUsers.size()));
 
         Iterator iter = targetUsers.iterator();
 
@@ -307,7 +307,7 @@ public class IOTService extends MqttAdapter {
         jsonObject.put("messageType", messageType);
         //NotifyClientMessage msg = NotifyClientMessage.builder().targetClient(targetUser).messageType(messageType).message(messageBody).build();
         String msgString = jsonObject.toJSONString();
-        System.out.println("Source String ------------>" + msgString);
+        //System.out.println("Source String ------------>" + msgString);
         this.mqProxy.sendMessage("WebSocketMessage",msgString);
     }
 }

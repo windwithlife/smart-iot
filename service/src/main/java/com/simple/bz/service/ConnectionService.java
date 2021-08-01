@@ -38,7 +38,7 @@ public class ConnectionService implements MessageQueueHandler {
         JSONObject msgObject = JSONObject.parseObject(message);
         String target = msgObject.getString("target");
         String msgBody = msgObject.getString("messageBody");
-        System.out.println("Recv Message Topic -->" + topic + "Body---->" + msgBody);
+        //System.out.println("Recv Message Topic -->" + topic + "Body---->" + msgBody);
         webSocketService.sendMessageToTarget(target,message);
 
     }
