@@ -21,7 +21,8 @@ public class DeviceDto {
     private Long     roomId;        //房间或区域ID
     private String   topic;         //主题
     private String   deviceId;      //设备类型识别
-    private String   description;   //设备描述名,终端用户不可以编辑
+    private String   description;   //设备描述名
+    private String   deviceDefine;  //设备类型识别
     private String   profileId;     //配置ID
     private String   modelId;       //型号
     private String   manufacturer;  //制造厂商
