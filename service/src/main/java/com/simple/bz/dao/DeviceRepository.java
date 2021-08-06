@@ -9,4 +9,6 @@ public interface DeviceRepository extends JpaRepository<DeviceModel, Long> {
     public  DeviceModel findOneByGatewayIdAndIeee(Long gatewayId, String address);
     public  DeviceModel findOneByShortAddress(String shortAddress);
     public  DeviceModel findOneByIeee(String shortAddress);
+    public  DeviceModel findOneByIeeeAndGatewayId(String shortAddress, Long gatewayId);
+
 }

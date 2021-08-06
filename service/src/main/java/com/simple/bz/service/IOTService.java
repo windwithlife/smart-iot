@@ -44,7 +44,7 @@ public class IOTService extends MqttAdapter {
 
     }
 
-    @Transactional
+
     @Override
     public void handleMessage(String topic, String payload) {
 
@@ -112,6 +112,7 @@ public class IOTService extends MqttAdapter {
 
     }
 
+    @Transactional
     private void processDevicePairing(Long gatewayId, String payload) {
         JSONObject jsonObject = JSON.parseObject(payload);
         if (jsonObject.get("ZbState") instanceof JSONObject &&
@@ -130,11 +131,13 @@ public class IOTService extends MqttAdapter {
                         if (state30 == null) {
                             break;
                         }
-                        DeviceModel oldDevice = deviceDao.findOneByIeee(state30.getIEEEAddr());
+                        DeviceModel oldDevice = deviceDao.findOneByIeeeAndGatewayId(state30.getIEEEAddr(),gatewayId);
                         if (null != oldDevice) { //设备已存在过
-                            deviceDao.deleteById(oldDevice.getId());
+                            oldDevice.setShortAddress(state30.getShortAddr());
+                            deviceDao.save(oldDevice);
+                            //deviceDao.deleteById(oldDevice.getId());
                             //clusterDao.deleteByDeviceId(oldDevice.getId());
-                            this.contextQuery.executeQuery("delete from tbl_device_cluster where deviceId=" + String.valueOf(oldDevice.getId()));
+                            // this.contextQuery.executeQuery("delete from tbl_device_cluster where deviceId=" + String.valueOf(oldDevice.getId()));
                         }
 
 
