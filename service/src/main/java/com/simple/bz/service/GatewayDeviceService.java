@@ -97,9 +97,9 @@ public class GatewayDeviceService {
         this.dao.save(model);
         return item;
     }
-    public GatewayStatusDto updateStatus(String locationTopic, GatewayStatusDto item){
+    public GatewayStatusDto updateStatus(Long gatewayId, GatewayStatusDto item){
         Long id = item.getId();
-        GatewayDeviceStatusModel  model = this.statusDao.findOneByLocationTopic(locationTopic);
+        GatewayDeviceStatusModel  model = this.statusDao.findById(gatewayId).orElse(null);
         if (null == model ){return null;}
         this.modelMapper.map(item, model);
         System.out.println("Iot device model info ");
@@ -107,8 +107,8 @@ public class GatewayDeviceService {
         this.statusDao.save(model);
         return item;
     }
-    public boolean updateOnline(String gatewayTopic, boolean isOnline){
-        GatewayDeviceStatusModel  model = this.statusDao.findOneByLocationTopic(gatewayTopic);
+    public boolean updateOnline(Long gatewayId, boolean isOnline){
+        GatewayDeviceStatusModel  model = this.statusDao.findById(gatewayId).orElse(null);
         if (null == model ){return false;}
         model.setActive(isOnline);
         this.statusDao.save(model);

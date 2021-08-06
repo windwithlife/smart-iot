@@ -93,8 +93,8 @@ public class HouseService {
         List<HouseDto> list = contextQuery.findList("select * from tbl_house", HouseDto.class);
         return  list;
     }
-    public List<HouseUsersDto> queryUsersByGatewayName(String name){
-        GatewayDeviceModel gateway =  gatewayDao.findOneByLocationTopic(name);
+    public List<HouseUsersDto> queryUsersByGatewayId(Long gatewayId){
+        GatewayDeviceModel gateway =  gatewayDao.findById(gatewayId).orElse(null);
         if (null == gateway){
             throw new ServiceException("根据此网关名称，找不到登记的网关设备");
         }

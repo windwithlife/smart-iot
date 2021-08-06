@@ -117,7 +117,7 @@ public class GatewayController extends BaseController {
 
     @ApiOperation(value="新增一个网关")
     @PostMapping(path = "/addGateway")
-    public SimpleResponse<GatewayDto> addNew (@RequestBody SimpleRequest<GatewayDto> request){
+    public SimpleResponse<GatewayDto> bindGateway (@RequestBody SimpleRequest<GatewayDto> request){
         try {
             System.out.println(request.toString());
             GatewayDto dto = request.getParams();

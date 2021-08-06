@@ -22,7 +22,6 @@ public class DeviceModel {
     private Long     id;
     private Long     gatewayId;     //绑定网关设备ID
     private Long     roomId;        //房间或区域ID
-    private String   topic;         //主题
     private String   deviceId;       //设备类型识别
     private String   deviceVersion;  //设备类型识别
     private String   profileId;      //配置ID
@@ -33,17 +32,10 @@ public class DeviceModel {
     private String   nickName;       //别名
     private String   endpoint;        //服务端口；
     private String   powerSource;       //电源类型
-    private String   security;          //安全性
     private String   receiveWhenIdle;   //
     private String   description;
     private int      status;
-    private Date     upTime;
     private Date     createTime;
-
-
-
-
-
 
 
 }
