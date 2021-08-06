@@ -38,7 +38,7 @@ public class WebSocketService {
 
     @OnOpen
     public void onOpen(Session session,@PathParam("username")String username){
-        System.out.println("新的连接进来了！ SessionID==>"+session.getId() + "userID===>" + username);
+        System.out.println("新的连接进来了！ SessionID==>"+session.getId() + "userID===>");
         if (username == null){
             try {
                 session.close(new CloseReason(CloseReason.CloseCodes.CANNOT_ACCEPT,"username参数为空"));
@@ -48,7 +48,8 @@ public class WebSocketService {
         }else {
             try{
 
-                System.out.println("Current Connection userId ==> " + Sessions.getSessionUserInfo(username).getUserId());
+                //System.out.println("Current Connection userId ==> " + Sessions.getSessionUserInfo(username).getUserId());
+                //System.out.println("Current Connection sessionId ==> " + session.getId());
                 SESSION_ID_TOKEN.put(session.getId(),username);
                 TOKEN_SESSION.put(username,session);
                 Session sessionNew = TOKEN_SESSION.get(username);
@@ -88,8 +89,9 @@ public class WebSocketService {
         try {
             Session session = TOKEN_SESSION.get(token);
             if(null == session){
-                System.out.println("此用户没有上线 username==>" + token + "session count ==>" + String.valueOf(TOKEN_SESSION.size()));
+                //System.out.println("此用户没有上线 username==>" + token + "session count ==>" + String.valueOf(TOKEN_SESSION.size()));
                 //System.out.println("当前用户Session Detail" + TOKEN_SESSION.toString());
+                System.out.println("此用户没有上线");
                 return;
             }
             session.getBasicRemote().sendText((String)t);

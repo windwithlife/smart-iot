@@ -138,12 +138,12 @@ public class IOTService extends MqttAdapter {
                             //deviceDao.deleteById(oldDevice.getId());
                             //clusterDao.deleteByDeviceId(oldDevice.getId());
                             // this.contextQuery.executeQuery("delete from tbl_device_cluster where deviceId=" + String.valueOf(oldDevice.getId()));
+                        }else{
+                            DeviceModel device = DeviceModel.builder().createTime(new Date()).ieee(state30.getIEEEAddr()).shortAddress(state30.getShortAddr()).powerSource(state30.getPowerSource())
+                                    .receiveWhenIdle(state30.getReceiveWhenIdle()).gatewayId(gatewayId).build();
+                            deviceResult = deviceDao.save(device);
                         }
 
-
-                        DeviceModel device = DeviceModel.builder().createTime(new Date()).ieee(state30.getIEEEAddr()).shortAddress(state30.getShortAddr()).powerSource(state30.getPowerSource())
-                                .receiveWhenIdle(state30.getReceiveWhenIdle()).gatewayId(gatewayId).build();
-                        deviceResult = deviceDao.save(device);
                     } catch (Exception e){
                         e.printStackTrace();
                     }
