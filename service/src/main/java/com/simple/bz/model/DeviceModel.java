@@ -31,13 +31,11 @@ public class DeviceModel {
     private String   shortAddress;   //短地址
     private String   ieee;           //长地址
     private String   nickName;       //别名
-
     private String   endpoint;        //服务端口；
     private String   powerSource;       //电源类型
     private String   security;          //安全性
     private String   receiveWhenIdle;   //
     private String   description;
-    private String   deviceDefine;
     private int      status;
     private Date     upTime;
     private Date     createTime;
