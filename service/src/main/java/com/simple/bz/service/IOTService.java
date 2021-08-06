@@ -202,7 +202,7 @@ public class IOTService extends MqttAdapter {
         }
     }
 
-
+    @Transactional
     public void processesSensorStatus(Long gatewayId,String payload) {
 
         //{"ZbReceived":{"0x8602":{"Device":"0x8602","0001/0100":0,"Endpoint":1,"LinkQuality":97}}}
