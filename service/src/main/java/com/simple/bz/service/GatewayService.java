@@ -1,12 +1,12 @@
 package com.simple.bz.service;
 
 import com.simple.bz.dao.ContextQuery;
-import com.simple.bz.dao.GatewayDeviceRepository;
+import com.simple.bz.dao.GatewayRepository;
 import com.simple.bz.dao.GatewayStatusRepository;
 import com.simple.bz.dto.GatewayDto;
 import com.simple.bz.dto.GatewayStatusDto;
-import com.simple.bz.model.GatewayDeviceModel;
-import com.simple.bz.model.GatewayDeviceStatusModel;
+import com.simple.bz.model.GatewayModel;
+import com.simple.bz.model.GatewayStatusModel;
 import com.simple.common.error.ServiceException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -17,28 +17,28 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class GatewayDeviceService {
+public class GatewayService {
     private final ModelMapper modelMapper;
     
-    private final GatewayDeviceRepository dao;
+    private final GatewayRepository dao;
     private final GatewayStatusRepository statusDao;
     private final ContextQuery contextQuery;
 
-    public GatewayDeviceModel convertToModel(GatewayDto dto){
-        return this.modelMapper.map(dto, GatewayDeviceModel.class);
+    public GatewayModel convertToModel(GatewayDto dto){
+        return this.modelMapper.map(dto, GatewayModel.class);
     }
-    public List<GatewayDeviceModel> convertToModels(List<GatewayDto> dtos){
-        List<GatewayDeviceModel> resultList = new ArrayList<GatewayDeviceModel>();
+    public List<GatewayModel> convertToModels(List<GatewayDto> dtos){
+        List<GatewayModel> resultList = new ArrayList<GatewayModel>();
         for (int i=0; i < dtos.size(); i++){
             resultList.add(this.convertToModel(dtos.get(i)));
         }
         return resultList;
     }
-    public GatewayDto convertToDto(GatewayDeviceModel model){
+    public GatewayDto convertToDto(GatewayModel model){
         return this.modelMapper.map(model, GatewayDto.class);
     }
 
-    public List<GatewayDto> convertToDtos(List<GatewayDeviceModel> models){
+    public List<GatewayDto> convertToDtos(List<GatewayModel> models){
         List<GatewayDto> resultList = new ArrayList<GatewayDto>();
         for (int i=0; i < models.size(); i++){
             resultList.add(this.convertToDto(models.get(i)));
@@ -48,13 +48,13 @@ public class GatewayDeviceService {
     }
     public List<GatewayDto> findAll(){
 
-        List<GatewayDeviceModel> list =   dao.findAll();
+        List<GatewayModel> list =   dao.findAll();
         return  this.convertToDtos(list);
     }
 
 
     public GatewayDto findById(Long id){
-        GatewayDeviceModel model =  dao.findById(id).get();
+        GatewayModel model =  dao.findById(id).get();
         return this.convertToDto(model);
     }
 
@@ -68,10 +68,10 @@ public class GatewayDeviceService {
         return  listPage;
     }
     public GatewayDto save(GatewayDto item){
-        GatewayDeviceModel model = this.convertToModel(item);
-        GatewayDeviceModel oldModel = dao.findOneByLocationTopic(model.getLocationTopic());
+        GatewayModel model = this.convertToModel(item);
+        GatewayModel oldModel = dao.findOneByLocationTopic(model.getLocationTopic());
         if(null == oldModel){
-            GatewayDeviceModel newModel = this.dao.save(model);
+            GatewayModel newModel = this.dao.save(model);
             return this.convertToDto(newModel);
         }else{
             throw new ServiceException("此网关已添加");
@@ -84,12 +84,12 @@ public class GatewayDeviceService {
         return  list;
     }
     public Long findHouseIdByGatewayName(String name){
-        GatewayDeviceModel model = this.dao.findOneByName(name);
+        GatewayModel model = this.dao.findOneByName(name);
         return model.getHouseId();
     }
     public GatewayDto update(GatewayDto item){
         Long id = item.getId();
-        GatewayDeviceModel model = dao.findById(id).get();
+        GatewayModel model = dao.findById(id).get();
         if (null == model ){return null;}
         this.modelMapper.map(item, model);
         System.out.println("Iot device model info ");
@@ -99,7 +99,7 @@ public class GatewayDeviceService {
     }
     public GatewayStatusDto updateStatus(Long gatewayId, GatewayStatusDto item){
         Long id = item.getId();
-        GatewayDeviceStatusModel  model = this.statusDao.findById(gatewayId).orElse(null);
+        GatewayStatusModel model = this.statusDao.findById(gatewayId).orElse(null);
         if (null == model ){return null;}
         this.modelMapper.map(item, model);
         System.out.println("Iot device model info ");
@@ -108,7 +108,7 @@ public class GatewayDeviceService {
         return item;
     }
     public boolean updateOnline(Long gatewayId, boolean isOnline){
-        GatewayDeviceStatusModel  model = this.statusDao.findById(gatewayId).orElse(null);
+        GatewayStatusModel model = this.statusDao.findById(gatewayId).orElse(null);
         if (null == model ){return false;}
         model.setActive(isOnline);
         this.statusDao.save(model);

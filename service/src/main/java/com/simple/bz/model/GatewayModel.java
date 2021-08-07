@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -13,27 +14,23 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name="tbl_gateway_status")
-public class GatewayDeviceStatusModel {
+@Table(name="tbl_gateway")
+public class GatewayModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long     id;
-    private Long     gatewayDeviceId;
+    private Long     houseId;
+    private String   name;
     private String   nickName;
     private String   macAddress;
-    private int      wifiLinkCount;
-    private int      wifiChannel;
-    private String   wifiAp;
+    private String   model;
+    private String   code;
+
     private boolean  active;
     private Date     upTime;
     private Date     createDate;
     private String   locationTopic;
-    private int      sleepSeconds;
-    private String   sleepMode;
-    private int      heap;
-    private int      loadAvg;
     private int      mqttCount;
-
 
 }

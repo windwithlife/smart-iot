@@ -10,7 +10,9 @@
         <artifactId>simple-parent</artifactId>
         <version>1.0</version>
     </parent>
- 
+
+
+
     <artifactId>simple-mqtt</artifactId>
     <version>1.0.0</version>
     <name>Simple-Mqtt</name>
@@ -110,7 +112,11 @@
             <groupId>org.springframework.integration</groupId>
             <artifactId>spring-integration-mqtt</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>3.12.5</version>
+        </dependency>
 
     </dependencies>
     <build>

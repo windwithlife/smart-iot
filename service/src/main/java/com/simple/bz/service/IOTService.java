@@ -11,6 +11,8 @@ import com.simple.common.redis.MessageQueueProxy;
 import com.simple.common.redis.RedisSubscriber;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.StringUtils;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,21 +20,22 @@ import javax.annotation.PostConstruct;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
 @Service
 public class IOTService extends MqttAdapter {
-
+    private RedissonClient redissonClient;
     private final MqttProxy mqttProxy;
     private final MessageQueueProxy mqProxy;
     private final HouseService houseService;
     private final WebSocketService webSocketService;
     private final DeviceService deviceService;
-    private final GatewayDeviceService gatewayDeviceService;
+    private final GatewayService gatewayService;
     private final DeviceRepository deviceDao;
     private final DeviceClusterRepository clusterDao;
-    private final GatewayDeviceRepository gatewayDao;
-    private final DeviceStatusAttributeRepository deviceStatusAttributeRepository;
+    private final GatewayRepository gatewayDao;
+    private final DeviceAttributeStatusRepository deviceStatusAttributeRepository;
     private final ContextQuery contextQuery;
 
     @PostConstruct
@@ -40,7 +43,7 @@ public class IOTService extends MqttAdapter {
 
         mqttProxy.registerHandler("tele/", this);
         mqttProxy.registerHandler("stat/", this);
-        mqProxy.registerMessageHandler("test",new RedisSubscriber());
+        mqProxy.registerMessageHandler("test", new RedisSubscriber());
 
     }
 
@@ -67,8 +70,8 @@ public class IOTService extends MqttAdapter {
             System.out.println("statusType==>【" + statusType + "】 gatewayDevice==>【" + gatewayDevice + "】 command ==>" + command);
         }
         String topicFormat = String.format("%s/#/%s", statusType, command);
-        GatewayDeviceModel gatewayInfo = gatewayDao.findOneByLocationTopic(gatewayDevice);
-        if(null == gatewayInfo){
+        GatewayModel gatewayInfo = gatewayDao.findOneByLocationTopic(gatewayDevice);
+        if (null == gatewayInfo) {
             System.out.println("Received unregistered gateway message! gateway topic ===>[" + gatewayDevice + "]");
             return;
         }
@@ -86,7 +89,18 @@ public class IOTService extends MqttAdapter {
 
                 //{"ZbReceived":{"0x7984":{"Device":"0x7984","BatteryPercentage":88,"0001/0100":0,"Endpoint":1,"LinkQuality":120}}}
                 //doZbState(gatewayMacAddress,payload);
-                this.processDevicePairing(gatewayInfo.getId(), payload);
+                RLock lock = redissonClient.getLock("process-device-pairing");
+                try{
+                    boolean hasChance  = lock.tryLock(10, 10, TimeUnit.SECONDS);
+                    if(hasChance){
+                        this.processDevicePairing(gatewayInfo.getId(), payload);
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }finally {
+                    lock.unlock();
+                }
+
                 break;
             case "tele/#/STATE":
                 //STATE = {"Time":"2021-06-19T00:37:17","Uptime":"0T00:00:09","UptimeSec":9,"Vcc":3.423,"Heap":27,"SleepMode":"Dynamic","Sleep":50,"LoadAvg":19,"MqttCount":1,"Wifi":{"AP":1,"SSId":"********","BSSId":"BC:2E:F6:DC:39:64","Channel":6,"RSSI":62,"Signal":-69,"LinkCount":1,"Downtime":"0T00:00:03"}}
@@ -106,7 +120,7 @@ public class IOTService extends MqttAdapter {
                 //doInfo3(gatewayMacAddress,payload);
                 break;
             case "tele/#/SENSOR":
-                this.processesSensorStatus(gatewayInfo.getId(),payload);
+                this.processesSensorStatus(gatewayInfo.getId(), payload);
                 break;
         }
 
@@ -131,20 +145,20 @@ public class IOTService extends MqttAdapter {
                         if (state30 == null) {
                             break;
                         }
-                        DeviceModel oldDevice = deviceDao.findOneByIeeeAndGatewayId(state30.getIEEEAddr(),gatewayId);
+                        DeviceModel oldDevice = deviceDao.findOneByIeeeAndGatewayId(state30.getIEEEAddr(), gatewayId);
                         if (null != oldDevice) { //设备已存在过
                             oldDevice.setShortAddress(state30.getShortAddr());
                             deviceDao.save(oldDevice);
                             //deviceDao.deleteById(oldDevice.getId());
                             //clusterDao.deleteByDeviceId(oldDevice.getId());
                             // this.contextQuery.executeQuery("delete from tbl_device_cluster where deviceId=" + String.valueOf(oldDevice.getId()));
-                        }else{
+                        } else {
                             DeviceModel device = DeviceModel.builder().createTime(new Date()).ieee(state30.getIEEEAddr()).shortAddress(state30.getShortAddr()).powerSource(state30.getPowerSource())
                                     .receiveWhenIdle(state30.getReceiveWhenIdle()).gatewayId(gatewayId).build();
                             deviceResult = deviceDao.save(device);
                         }
 
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
 
@@ -172,7 +186,7 @@ public class IOTService extends MqttAdapter {
                     }
                     List<String> inClusters = state33.getInClusters();
                     List<DeviceClusterModel> oldClusterList = clusterDao.findByDeviceId(deviceModel.getId());
-                    if (null != oldClusterList && oldClusterList.size() >0){
+                    if (null != oldClusterList && oldClusterList.size() > 0) {
                         //说明已存过已设备的clusters
                         break;
                     }
@@ -194,7 +208,7 @@ public class IOTService extends MqttAdapter {
                                 .inOrOut("out")
                                 .build());
                     });
-                    this.notifyClientUsers(gatewayId, deviceResult,"device-new");
+                    this.notifyClientUsers(gatewayId, deviceResult, "device-new");
                     break;
             }
 
@@ -203,7 +217,7 @@ public class IOTService extends MqttAdapter {
     }
 
 
-    public void processesSensorStatus(Long gatewayId,String payload) {
+    public void processesSensorStatus(Long gatewayId, String payload) {
 
         //{"ZbReceived":{"0x8602":{"Device":"0x8602","0001/0100":0,"Endpoint":1,"LinkQuality":97}}}
         JSONObject jsonObject = JSON.parseObject(payload);
@@ -221,28 +235,28 @@ public class IOTService extends MqttAdapter {
             String deviceShortAddress = (String) deviceStatus.get("Device");
             String endpoint = String.valueOf(deviceStatus.get("Endpoint"));
             DeviceModel device = deviceDao.findOneByShortAddress(deviceShortAddress);
-            if(null == device){
+            if (null == device) {
                 continue;
             }
 
             deviceStatus.put("deviceId", device.getId());
             deviceStatus.entrySet().forEach(entry -> {
                 String attributeName = entry.getKey();
-                if(attributeName.equalsIgnoreCase("Device") || attributeName.equalsIgnoreCase("Endpoint")
-                || attributeName.equalsIgnoreCase("deviceId")){
+                if (attributeName.equalsIgnoreCase("Device") || attributeName.equalsIgnoreCase("Endpoint")
+                        || attributeName.equalsIgnoreCase("deviceId")) {
                     return;
                 }
                 String attributeValue = null;
-                if (entry.getValue() instanceof String){
-                    attributeValue = (String)entry.getValue();
-                }else if(entry.getValue() instanceof Integer){
+                if (entry.getValue() instanceof String) {
+                    attributeValue = (String) entry.getValue();
+                } else if (entry.getValue() instanceof Integer) {
                     attributeValue = String.valueOf(entry.getValue());
                 }
 
                 if (attributeName.equalsIgnoreCase("Device") && attributeName.equalsIgnoreCase("Endpoint")) {
                     return;
                 }
-                this.updateSensorStatus(device,endpoint,attributeName,attributeValue);
+                this.updateSensorStatus(device, endpoint, attributeName, attributeValue);
 //                DeviceAttributeStatusModel oldModel = deviceStatusAttributeRepository.findOneByDeviceIdAndClusterAttribute(device.getId(),attributeName);
 //                if(null != oldModel){
 //                    oldModel.setValue(attributeValue);
@@ -258,7 +272,7 @@ public class IOTService extends MqttAdapter {
 //                    deviceStatusAttributeRepository.save(statusModel);
 //                }
 
-                this.notifyClientUsers(gatewayId, deviceStatus,"device-status");
+                this.notifyClientUsers(gatewayId, deviceStatus, "device-status");
 
             });
             //HashMap<String, Object> data = ((JSONObject)StatusItems.get(key)).toJavaObject(new TypeReference<HashMap<String, Object>>(){});
@@ -268,45 +282,49 @@ public class IOTService extends MqttAdapter {
     }
 
     @Transactional
-    protected boolean updateSensorStatus(DeviceModel device,String endpoint, String attributeName, String attributeValue){
-        try{
-
-
-        DeviceAttributeStatusModel oldModel = deviceStatusAttributeRepository.findOneByDeviceIdAndClusterAttribute(device.getId(),attributeName);
-        if(null != oldModel){
-            oldModel.setValue(attributeValue);
-            deviceStatusAttributeRepository.save(oldModel);
-        }else{
-            DeviceAttributeStatusModel statusModel = DeviceAttributeStatusModel.builder()
-                    .clusterAttribute(attributeName).value(attributeValue)
-                    .endpoint(endpoint)
-                    .ieee(device.getIeee())
-                    .deviceId(device.getId())
-                    .shortAddress(device.getShortAddress())
-                    .build();
-            deviceStatusAttributeRepository.save(statusModel);
-        }
-        }catch (Exception e){
+    protected boolean updateSensorStatus(DeviceModel device, String endpoint, String attributeName, String attributeValue) {
+        RLock lock = redissonClient.getLock("update-sensor-status");
+        try {
+            boolean res = lock.tryLock(10, 10, TimeUnit.SECONDS);
+            if (res) {
+                DeviceStatusModel oldModel = deviceStatusAttributeRepository.findOneByDeviceIdAndClusterAttribute(device.getId(), attributeName);
+                if (null != oldModel) {
+                    oldModel.setValue(attributeValue);
+                    deviceStatusAttributeRepository.save(oldModel);
+                } else {
+                    DeviceStatusModel statusModel = DeviceStatusModel.builder()
+                            .clusterAttribute(attributeName).value(attributeValue)
+                            .endpoint(endpoint)
+                            .ieee(device.getIeee())
+                            .deviceId(device.getId())
+                            .shortAddress(device.getShortAddress())
+                            .build();
+                    deviceStatusAttributeRepository.save(statusModel);
+                }
+            }
+        } catch (Exception e) {
             e.printStackTrace();
-            return  false;
+            return false;
+        } finally {
+            lock.unlock();
         }
         return true;
     }
 
     private void processGatewayOffline(Long gatewayId, String payload) {
         if (payload.equalsIgnoreCase("offline")) {
-            this.gatewayDeviceService.updateOnline(gatewayId, true);
-            this.notifyClientUsers(gatewayId, "offline","gateway-status");
+            this.gatewayService.updateOnline(gatewayId, true);
+            this.notifyClientUsers(gatewayId, "offline", "gateway-status");
         } else {
-            this.gatewayDeviceService.updateOnline(gatewayId, false);
-            this.notifyClientUsers(gatewayId, "online","gateway-status");
+            this.gatewayService.updateOnline(gatewayId, false);
+            this.notifyClientUsers(gatewayId, "online", "gateway-status");
         }
 
     }
 
     public void processGatewayStatus(Long gatewayId, GatewayStatusDto status) {
-        gatewayDeviceService.updateStatus(gatewayId, status);
-        this.notifyClientUsers(gatewayId, status,"gateway-status");
+        gatewayService.updateStatus(gatewayId, status);
+        this.notifyClientUsers(gatewayId, status, "gateway-status");
     }
 
     public boolean sendMQTTCommand(String targetGateway, String command, String payload) {
@@ -315,18 +333,18 @@ public class IOTService extends MqttAdapter {
     }
 
     public boolean openDevicePairing(Long gatewayId) {
-        GatewayDeviceModel gatewayInfo = this.gatewayDao.findById(gatewayId).orElse(null);
+        GatewayModel gatewayInfo = this.gatewayDao.findById(gatewayId).orElse(null);
         String gatewayTopic = gatewayInfo.getLocationTopic();
         this.sendMQTTCommand(gatewayTopic, "ZbPermitJoin", "1");
         //DeviceModel deviceResult = deviceDao.findById(160L).orElse(null);
         //模拟库里任意一个设备进行添加。
         List<DeviceModel> devicesResult = deviceDao.findAll();
         DeviceModel deviceResult = devicesResult.get(0);
-        this.notifyClientUsers(gatewayId, deviceResult,"device-new");
+        this.notifyClientUsers(gatewayId, deviceResult, "device-new");
         return true;
     }
 
-    public void notifyClientUsers(Long fromGatewayId, Object message,String messageType) {
+    public void notifyClientUsers(Long fromGatewayId, Object message, String messageType) {
 
         List<HouseUsersDto> targetUsers = houseService.queryUsersByGatewayId(fromGatewayId);
         //System.out.println("**********************Start to notify Clients-->" + String.valueOf(targetUsers.size()));
@@ -335,10 +353,11 @@ public class IOTService extends MqttAdapter {
 
         while (iter.hasNext()) {
             HouseUsersDto user = (HouseUsersDto) iter.next();
-            this.NotifyIMServer(user.getToken(),message,messageType);
+            this.NotifyIMServer(user.getToken(), message, messageType);
         }
     }
-    private void NotifyIMServer(String targetUser, Object message, String messageType){
+
+    private void NotifyIMServer(String targetUser, Object message, String messageType) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("target", targetUser);
         jsonObject.put("messageBody", message);
@@ -346,6 +365,6 @@ public class IOTService extends MqttAdapter {
         //NotifyClientMessage msg = NotifyClientMessage.builder().targetClient(targetUser).messageType(messageType).message(messageBody).build();
         String msgString = jsonObject.toJSONString();
         //System.out.println("Source String ------------>" + msgString);
-        this.mqProxy.sendMessage("WebSocketMessage",msgString);
+        this.mqProxy.sendMessage("WebSocketMessage", msgString);
     }
 }

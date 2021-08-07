@@ -1,5 +1,11 @@
 package com.simple.common.config;
 
+import lombok.Data;
+import org.redisson.Redisson;
+import org.redisson.api.RedissonClient;
+import org.redisson.config.Config;
+import org.redisson.config.TransportMode;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -13,13 +19,29 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.concurrent.Executor;
-
+@Data
+@ConfigurationProperties(prefix="spring.redis")
 @Configuration
 @EnableAsync
 @Import(value = {SimpleRestConfig.class})
 public class AppConfig {
 
+    private String host;
+    private String password;
+    private String port;
+
     public static final String ASYNC_EXECUTOR_NAME = "asyncExecutor";
+    @Bean
+    public RedissonClient redissonClient(){
+        Config config = new Config();
+        config.setTransportMode(TransportMode.NIO);
+        String url= "redis://" + this.host + ":" + this.port;
+        System.out.println("Redisson url===>" + url);
+        config.useSingleServer().setAddress(url)
+                .setPassword(password);
+        return Redisson.create(config);
+    }
+
 
     @Bean(name=ASYNC_EXECUTOR_NAME)
     public Executor asyncExecutor() {

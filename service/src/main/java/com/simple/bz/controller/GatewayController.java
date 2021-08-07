@@ -20,7 +20,7 @@ import java.util.List;
 @Api(tags = "处理网关的SOA集合")
 public class GatewayController extends BaseController {
 
-    private final GatewayDeviceService service;
+    private final GatewayService service;
     private final DeviceService deviceService;
     private final GatewayStatusService statusService;
     private final IOTService iotService;

@@ -2,21 +2,18 @@ package com.simple.bz.service;
 
 
 import com.simple.bz.dao.ContextQuery;
-import com.simple.bz.dao.GatewayDeviceRepository;
+import com.simple.bz.dao.GatewayRepository;
 import com.simple.bz.dao.HouseRepository;
 import com.simple.bz.dao.UserHouseRepository;
-import com.simple.bz.dto.AccountDto;
 import com.simple.bz.dto.HouseDto;
-import javax.persistence.EntityManager;
 
-import com.simple.bz.model.GatewayDeviceModel;
+import com.simple.bz.model.GatewayModel;
 import com.simple.bz.model.HouseModel;
 import com.simple.bz.model.HouseUsersDto;
 import com.simple.bz.model.UserHouseModel;
 import com.simple.common.auth.AuthModel;
 import com.simple.common.auth.Sessions;
 import com.simple.common.error.ServiceException;
-import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -29,7 +26,7 @@ public class HouseService {
     private final ModelMapper modelMapper;
     private final HouseRepository dao;
     private final UserHouseRepository userHouseDao;
-    private final GatewayDeviceRepository gatewayDao;
+    private final GatewayRepository gatewayDao;
     private final ContextQuery contextQuery;
 
     public HouseModel convertToModel(HouseDto dto){
@@ -94,7 +91,7 @@ public class HouseService {
         return  list;
     }
     public List<HouseUsersDto> queryUsersByGatewayId(Long gatewayId){
-        GatewayDeviceModel gateway =  gatewayDao.findById(gatewayId).orElse(null);
+        GatewayModel gateway =  gatewayDao.findById(gatewayId).orElse(null);
         if (null == gateway){
             throw new ServiceException("根据此网关名称，找不到登记的网关设备");
         }

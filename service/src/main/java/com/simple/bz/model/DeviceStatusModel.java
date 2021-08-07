@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,30 +13,26 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name="tbl_device_status")
+@Table(name="tbl_device_attribute_status")
 public class DeviceStatusModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long     id;
+    private Long     deviceId;          //设备ID
+    private String   ieee;               //长地址
+    private String   shortAddress;       //短地址
+    private String   clusterAttribute;  //功能cluster的属性名；
+    private String   value;              //功能cluster的属性值
+    private String   endpoint;           //服务端口；
 
-    private Long     deviceId;
-    private String   name;
-    private String   shortAddress; //短地址
-    private String   address;      //长地址
-
-    private String   batteryVoltage; //电压；
-    private int      batteryPercentage; //当前电池电量
-    private int      linkQuality;    //当前Zigbee网络联接质量
-    private String   temperature;    //当前温度
-
-    private String   endpoint;       //当前能力组
-    private String   clusterId;      //能力分组ID
-    private String   statusValue;    //当前值。
-
-    private boolean  online;
-    private Date     upTime;
+    private Date     updateTime;
     private Date     createTime;
+
+
+
+
+
 
 
 }

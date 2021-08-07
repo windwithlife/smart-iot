@@ -1,8 +1,7 @@
 package com.simple.bz.service;
 
 import com.simple.bz.dao.ContextQuery;
-import com.simple.bz.dao.DeviceRepository;
-import com.simple.bz.dao.DeviceStatusRepository;
+import com.simple.bz.dao.DeviceAttributeStatusRepository;
 import com.simple.bz.dto.DeviceStatusDto;
 import com.simple.bz.model.DeviceStatusModel;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,7 @@ import java.util.List;
 public class DeviceStatusService {
     private final ModelMapper modelMapper;
     
-    private final DeviceStatusRepository dao;
+    private final DeviceAttributeStatusRepository dao;
     private final ContextQuery contextQuery;
 
     public DeviceStatusModel convertToModel(DeviceStatusDto dto){
@@ -56,11 +55,11 @@ public class DeviceStatusService {
 
 
     public List<DeviceStatusDto> queryAll(){
-        List<DeviceStatusDto> list = contextQuery.findList("select * from tbl_device_status", DeviceStatusDto.class);
+        List<DeviceStatusDto> list = contextQuery.findList("select * from tbl_device_attribute_status", DeviceStatusDto.class);
         return  list;
     }
     public List<DeviceStatusDto> queryPage(int pageIndex, int pageSize){
-        List<DeviceStatusDto> listPage = contextQuery.findPage("select * from tbl_device_status", pageIndex,pageSize, DeviceStatusDto.class);
+        List<DeviceStatusDto> listPage = contextQuery.findPage("select * from tbl_device_attribute_status", pageIndex,pageSize, DeviceStatusDto.class);
         return  listPage;
     }
     public DeviceStatusDto save(DeviceStatusDto item){
@@ -71,23 +70,24 @@ public class DeviceStatusService {
 
 
     public DeviceStatusDto queryByDeviceId(Long deviceId){
-        DeviceStatusModel model = dao.findByDeviceId(deviceId);
-        return this.convertToDto(model);
+//        DeviceStatusModel model = dao.findByDeviceId(deviceId);
+//        return this.convertToDto(model);
+        return null;
     }
 
     public DeviceStatusDto update(DeviceStatusDto item){
-        Long id = item.getId();
-        DeviceStatusModel model = dao.findById(id).get();
-        if (null == model ){return null;}
-        this.modelMapper.map(item, model);
-        System.out.println("Iot device model info ");
-        System.out.println(model.toString());
-        this.dao.save(model);
+//        Long id = item.getId();
+//        DeviceStatusModel model = dao.findById(id).get();
+//        if (null == model ){return null;}
+//        this.modelMapper.map(item, model);
+//        System.out.println("Iot device model info ");
+//        System.out.println(model.toString());
+//        this.dao.save(model);
         return item;
     }
 
-    public void remove(Long id){
-        this.dao.deleteById(id);
+    public void remove(Long deviceId){
+        this.dao.deleteByDeviceId(deviceId);
     }
 
 }
