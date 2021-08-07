@@ -118,6 +118,7 @@ public class GatewayService {
         return  true;
     }
 
+
     public void remove(Long id){
         this.dao.deleteById(id);
     }
