@@ -113,7 +113,7 @@ public class IOTService extends MqttAdapter {
     }
 
     @Transactional
-    private void processDevicePairing(Long gatewayId, String payload) {
+    protected void processDevicePairing(Long gatewayId, String payload) {
         JSONObject jsonObject = JSON.parseObject(payload);
         if (jsonObject.get("ZbState") instanceof JSONObject &&
                 ((JSONObject) jsonObject.get("ZbState")).containsKey("Status")) {
@@ -202,7 +202,7 @@ public class IOTService extends MqttAdapter {
         }
     }
 
-    @Transactional
+
     public void processesSensorStatus(Long gatewayId,String payload) {
 
         //{"ZbReceived":{"0x8602":{"Device":"0x8602","0001/0100":0,"Endpoint":1,"LinkQuality":97}}}
@@ -242,20 +242,21 @@ public class IOTService extends MqttAdapter {
                 if (attributeName.equalsIgnoreCase("Device") && attributeName.equalsIgnoreCase("Endpoint")) {
                     return;
                 }
-                DeviceAttributeStatusModel oldModel = deviceStatusAttributeRepository.findOneByDeviceIdAndClusterAttribute(device.getId(),attributeName);
-                if(null != oldModel){
-                    oldModel.setValue(attributeValue);
-                    deviceStatusAttributeRepository.save(oldModel);
-                }else{
-                    DeviceAttributeStatusModel statusModel = DeviceAttributeStatusModel.builder()
-                            .clusterAttribute(attributeName).value(attributeValue)
-                            .endpoint(endpoint)
-                            .ieee(device.getIeee())
-                            .deviceId(device.getId())
-                            .shortAddress(deviceShortAddress)
-                            .build();
-                    deviceStatusAttributeRepository.save(statusModel);
-                }
+                this.updateSensorStatus(device,endpoint,attributeName,attributeValue);
+//                DeviceAttributeStatusModel oldModel = deviceStatusAttributeRepository.findOneByDeviceIdAndClusterAttribute(device.getId(),attributeName);
+//                if(null != oldModel){
+//                    oldModel.setValue(attributeValue);
+//                    deviceStatusAttributeRepository.save(oldModel);
+//                }else{
+//                    DeviceAttributeStatusModel statusModel = DeviceAttributeStatusModel.builder()
+//                            .clusterAttribute(attributeName).value(attributeValue)
+//                            .endpoint(endpoint)
+//                            .ieee(device.getIeee())
+//                            .deviceId(device.getId())
+//                            .shortAddress(deviceShortAddress)
+//                            .build();
+//                    deviceStatusAttributeRepository.save(statusModel);
+//                }
 
                 this.notifyClientUsers(gatewayId, deviceStatus,"device-status");
 
@@ -264,6 +265,32 @@ public class IOTService extends MqttAdapter {
 
         }//end while
 
+    }
+
+    @Transactional
+    protected boolean updateSensorStatus(DeviceModel device,String endpoint, String attributeName, String attributeValue){
+        try{
+
+
+        DeviceAttributeStatusModel oldModel = deviceStatusAttributeRepository.findOneByDeviceIdAndClusterAttribute(device.getId(),attributeName);
+        if(null != oldModel){
+            oldModel.setValue(attributeValue);
+            deviceStatusAttributeRepository.save(oldModel);
+        }else{
+            DeviceAttributeStatusModel statusModel = DeviceAttributeStatusModel.builder()
+                    .clusterAttribute(attributeName).value(attributeValue)
+                    .endpoint(endpoint)
+                    .ieee(device.getIeee())
+                    .deviceId(device.getId())
+                    .shortAddress(device.getShortAddress())
+                    .build();
+            deviceStatusAttributeRepository.save(statusModel);
+        }
+        }catch (Exception e){
+            e.printStackTrace();
+            return  false;
+        }
+        return true;
     }
 
     private void processGatewayOffline(Long gatewayId, String payload) {
