@@ -162,7 +162,7 @@ public class IOTService extends MqttAdapter {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
+                    //this.notifyClientUsers(gatewayId, deviceResult, "device-new");
                     break;
                 case 33:
                     //Received the simple Descriptor with active ZCL clusters for a Zigbee device
@@ -275,6 +275,10 @@ public class IOTService extends MqttAdapter {
 //                    deviceStatusAttributeRepository.save(statusModel);
 //                }
 
+                List<DeviceStatusModel> deviceAllStatus = deviceStatusAttributeRepository.findOneByDeviceId(device.getId());
+                deviceAllStatus.forEach(attribute->{
+                    deviceStatus.put(attribute.getClusterAttribute(), attribute.getValue());
+                });
                 this.notifyClientUsers(gatewayId, deviceStatus, "device-status");
 
             });
