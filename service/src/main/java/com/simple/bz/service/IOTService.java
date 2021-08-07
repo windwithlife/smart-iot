@@ -9,6 +9,7 @@ import com.simple.common.mqtt.MqttAdapter;
 import com.simple.common.mqtt.MqttProxy;
 import com.simple.common.redis.MessageQueueProxy;
 import com.simple.common.redis.RedisSubscriber;
+import com.simple.common.utils.DateUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.StringUtils;
 import org.redisson.api.RLock;
@@ -153,7 +154,7 @@ public class IOTService extends MqttAdapter {
                             //clusterDao.deleteByDeviceId(oldDevice.getId());
                             // this.contextQuery.executeQuery("delete from tbl_device_cluster where deviceId=" + String.valueOf(oldDevice.getId()));
                         } else {
-                            DeviceModel device = DeviceModel.builder().createTime(new Date()).ieee(state30.getIEEEAddr()).shortAddress(state30.getShortAddr()).powerSource(state30.getPowerSource())
+                            DeviceModel device = DeviceModel.builder().createTime(DateUtil.getDateToday()).ieee(state30.getIEEEAddr()).shortAddress(state30.getShortAddr()).powerSource(state30.getPowerSource())
                                     .receiveWhenIdle(state30.getReceiveWhenIdle()).gatewayId(gatewayId).build();
                             deviceResult = deviceDao.save(device);
                         }
@@ -196,6 +197,7 @@ public class IOTService extends MqttAdapter {
                                 .deviceId(deviceModel.getId())
                                 .cluster(cluster)
                                 .inOrOut("in")
+                                .createTime(DateUtil.getDateToday())
                                 .build());
                     });
 
@@ -206,6 +208,7 @@ public class IOTService extends MqttAdapter {
                                 .deviceId(deviceModel.getId())
                                 .cluster(cluster)
                                 .inOrOut("out")
+                                .createTime(DateUtil.getDateToday())
                                 .build());
                     });
                     this.notifyClientUsers(gatewayId, deviceResult, "device-new");
@@ -290,6 +293,7 @@ public class IOTService extends MqttAdapter {
                 DeviceStatusModel oldModel = deviceStatusAttributeRepository.findOneByDeviceIdAndClusterAttribute(device.getId(), attributeName);
                 if (null != oldModel) {
                     oldModel.setValue(attributeValue);
+                    oldModel.setUpdateTime(DateUtil.getDateToday());
                     deviceStatusAttributeRepository.save(oldModel);
                 } else {
                     DeviceStatusModel statusModel = DeviceStatusModel.builder()
@@ -298,6 +302,7 @@ public class IOTService extends MqttAdapter {
                             .ieee(device.getIeee())
                             .deviceId(device.getId())
                             .shortAddress(device.getShortAddress())
+                            .createTime(DateUtil.getDateToday())
                             .build();
                     deviceStatusAttributeRepository.save(statusModel);
                 }

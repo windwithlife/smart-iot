@@ -8,6 +8,7 @@ import com.simple.bz.dto.GatewayStatusDto;
 import com.simple.bz.model.GatewayModel;
 import com.simple.bz.model.GatewayStatusModel;
 import com.simple.common.error.ServiceException;
+import com.simple.common.utils.DateUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -102,6 +103,7 @@ public class GatewayService {
         GatewayStatusModel model = this.statusDao.findById(gatewayId).orElse(null);
         if (null == model ){return null;}
         this.modelMapper.map(item, model);
+        model.setUpTime(DateUtil.getDateToday());
         System.out.println("Iot device model info ");
         System.out.println(model.toString());
         this.statusDao.save(model);
@@ -111,6 +113,7 @@ public class GatewayService {
         GatewayStatusModel model = this.statusDao.findById(gatewayId).orElse(null);
         if (null == model ){return false;}
         model.setActive(isOnline);
+        model.setUpTime(DateUtil.getDateToday());
         this.statusDao.save(model);
         return  true;
     }
