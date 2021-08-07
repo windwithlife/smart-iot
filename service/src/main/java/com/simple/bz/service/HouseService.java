@@ -103,7 +103,7 @@ public class HouseService {
                 String token = Sessions.getSessionUserStatusByUserId(item.getUserId()).getToken();
                 HouseUsersDto  houseUsers = HouseUsersDto.builder().userId(item.getUserId()).houseId(item.getHouseId()).token(token).build();
                 retList.add(houseUsers);
-                System.out.println("find the target user of the gateway and house -->" + houseUsers.getUserId() +"---" +  houseUsers.getToken());
+                System.out.println("find the target user of the gateway and house -->" + houseUsers.getUserId());
             }
 
         });

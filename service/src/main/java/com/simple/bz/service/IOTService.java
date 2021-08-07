@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 @Service
 public class IOTService extends MqttAdapter {
-    private RedissonClient redissonClient;
+    private final RedissonClient redissonClient;
     private final MqttProxy mqttProxy;
     private final MessageQueueProxy mqProxy;
     private final HouseService houseService;
