@@ -6,7 +6,7 @@ spring:
   application:
     name: simple-deployment
   datasource:
-    url: jdbc:mysql://test.koudaibook.com:30006/mydb?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://db.koudaibook.com:3306/test?useUnicode=true&characterEncoding=utf-8
     username: root
     password: Password!&
     tomcat:
