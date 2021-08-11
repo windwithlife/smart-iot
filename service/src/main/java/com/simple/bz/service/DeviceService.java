@@ -6,6 +6,7 @@ import com.simple.bz.dao.DeviceRepository;
 import com.simple.bz.dto.*;
 import com.simple.bz.model.DeviceClusterModel;
 import com.simple.bz.model.DeviceModel;
+import com.simple.common.utils.DateUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -54,7 +55,14 @@ public class DeviceService {
 
     public DeviceDto findById(Long id){
         DeviceModel model =  dao.findById(id).get();
-        return this.convertToDto(model);
+        if(null != model){
+            DeviceDto resultDto = this.convertToDto(model);
+            DeviceClusterAttrDto clusterAttribute = this.querySupportClusterAttribute(id);
+            resultDto.setClusterAttributes(clusterAttribute);
+            return resultDto;
+        }else {
+            return this.convertToDto(model);
+        }
     }
 
 
@@ -66,16 +74,17 @@ public class DeviceService {
         List<DeviceDto> listPage = contextQuery.findPage("select * from tbl_device", pageIndex,pageSize, DeviceDto.class);
         return  listPage;
     }
-    public DeviceDto save(DeviceNewRequest item){
-//        DeviceModel oldModel =  dao.findOneByGatewayIdAndIeee(item.getGatewayId(),item.getIeee());
-//        if (null == oldModel){
-//            DeviceModel model = this.modelMapper.map(item, DeviceModel.class);
-//            DeviceModel newModel = dao.save(model);
-//            return this.convertToDto(newModel);
-//        }else{
-//            return this.convertToDto(oldModel);
-//        }
-        return null;
+    public DeviceDto save(Long gatewayId,String ieee, String shortAddress){
+        DeviceModel oldModel =  dao.findOneByGatewayIdAndIeee(gatewayId,ieee);
+        if (null == oldModel){
+            DeviceModel model = DeviceModel.builder().gatewayId(gatewayId).ieee(ieee).shortAddress(shortAddress).createTime(DateUtil.getDateToday()).build();
+            DeviceModel newModel = dao.save(model);
+            return this.convertToDto(newModel);
+        }else{
+            oldModel.setShortAddress(shortAddress);
+            DeviceModel newModel = dao.save(oldModel);
+            return this.convertToDto(newModel);
+        }
     }
 
     public boolean bindToRoom(DeviceNewRequest request){

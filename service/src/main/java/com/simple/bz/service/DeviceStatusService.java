@@ -9,7 +9,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -43,7 +45,7 @@ public class DeviceStatusService {
     }
     public List<DeviceStatusDto> findAll(){
 
-        List<DeviceStatusModel> list =   dao.findAll();
+        List<DeviceStatusModel> list =  dao.findAll();
         return  this.convertToDtos(list);
     }
 
@@ -69,22 +71,17 @@ public class DeviceStatusService {
     }
 
 
-    public DeviceStatusDto queryByDeviceId(Long deviceId){
-//        DeviceStatusModel model = dao.findByDeviceId(deviceId);
-//        return this.convertToDto(model);
-        return null;
+    public DeviceStatusDto queryStatusByDeviceId(Long deviceId){
+        Map<String,Object> statusData = new HashMap<String,Object>();
+        List<DeviceStatusModel> statusSet = dao.findByDeviceId(deviceId);
+        statusSet.forEach(status->{
+            statusData.put(status.getClusterAttribute(),status.getValue());
+        });
+
+        return DeviceStatusDto.builder().deviceId(deviceId).statusData(statusData).build();
     }
 
-    public DeviceStatusDto update(DeviceStatusDto item){
-//        Long id = item.getId();
-//        DeviceStatusModel model = dao.findById(id).get();
-//        if (null == model ){return null;}
-//        this.modelMapper.map(item, model);
-//        System.out.println("Iot device model info ");
-//        System.out.println(model.toString());
-//        this.dao.save(model);
-        return item;
-    }
+
 
     public void remove(Long deviceId){
         this.dao.deleteByDeviceId(deviceId);

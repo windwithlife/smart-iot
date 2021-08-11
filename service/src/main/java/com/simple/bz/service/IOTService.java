@@ -332,6 +332,7 @@ public class IOTService extends MqttAdapter {
     }
 
     public void processGatewayStatus(Long gatewayId, GatewayStatusDto status) {
+        System.out.println("Process the gateway status");
         gatewayService.updateStatus(gatewayId, status);
         this.notifyClientUsers(gatewayId, status, "gateway-status");
     }
@@ -356,7 +357,7 @@ public class IOTService extends MqttAdapter {
     public void notifyClientUsers(Long fromGatewayId, Object message, String messageType) {
 
         List<HouseUsersDto> targetUsers = houseService.queryUsersByGatewayId(fromGatewayId);
-        //System.out.println("**********************Start to notify Clients-->" + String.valueOf(targetUsers.size()));
+        System.out.println("**********************Start to notify Clients-->" + String.valueOf(targetUsers.size()));
 
         Iterator iter = targetUsers.iterator();
 

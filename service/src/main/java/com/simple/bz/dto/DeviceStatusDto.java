@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -15,21 +16,8 @@ import java.util.Date;
 
 public class DeviceStatusDto {
 
-
-    private Long id;
-
     private Long     deviceId;
     private String   Device;
-    private String   BatteryVoltage; //电压；
-    private int      BatteryPercentage; //当前电池电量
-    private int      LinkQuality;    //当前Zigbee网络联接质量
-    private String   Temperature;    //当前温度
+    private Map<String,Object> statusData;
 
-    private String   Endpoint;       //当前能力组
-    private String   ClusterId;      //能力分组ID
-    private String   ClusterValue;    //当前值。
-
-    private boolean  online;
-    private String   UpTime;
-    private String   Time;
 }

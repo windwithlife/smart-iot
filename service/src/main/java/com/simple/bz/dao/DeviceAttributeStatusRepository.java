@@ -11,6 +11,7 @@ public interface DeviceAttributeStatusRepository extends JpaRepository<DeviceSta
     public DeviceStatusModel findOneByIeeeAndClusterAttribute(String ieee, String clusterAttr);
     public DeviceStatusModel findOneByDeviceIdAndClusterAttribute(Long deviceId, String clusterAttr);
     public List<DeviceStatusModel> findOneByDeviceId(Long deviceId);
+    public List<DeviceStatusModel> findByDeviceId(Long deviceId);
     public void deleteByDeviceId(Long deviceId);
 
 

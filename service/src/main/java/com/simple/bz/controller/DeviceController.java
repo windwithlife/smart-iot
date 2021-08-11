@@ -71,13 +71,10 @@ public class DeviceController extends BaseController {
     public SimpleResponse<DeviceStatusDto> findStatusByDeviceId (@RequestBody SimpleRequest<IDRequest> request){
         Long deviceId = request.getParams().getId();
         System.out.println("ID:" + deviceId);
-        DeviceStatusDto dto = serviceStatus.queryByDeviceId(deviceId);
+        DeviceStatusDto dto = serviceStatus.queryStatusByDeviceId(deviceId);
         SimpleResponse<DeviceStatusDto> result = new SimpleResponse<DeviceStatusDto>();
         return result.success(dto);
     }
-
-
-
 
     @ApiOperation(value="修改设备信息")
     @PostMapping(path = "/update")

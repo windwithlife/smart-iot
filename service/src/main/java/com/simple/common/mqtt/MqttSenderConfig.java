@@ -142,7 +142,7 @@ public class MqttSenderConfig {
             //用线程池处理订阅到的消息
             try {
                 dealMessageByThreadPool(payload, topic);
-                System.out.println("topic: " + topic);
+                System.out.println("mqtt received topic: " + topic);
                 //System.out.println("payload: " + payload);
             } catch (ExecutionException e) {
                 e.printStackTrace();
