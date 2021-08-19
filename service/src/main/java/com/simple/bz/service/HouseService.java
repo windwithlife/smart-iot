@@ -1,4 +1,4 @@
-package com.simple.bz.service;
+    package com.simple.bz.service;
 
 
 import com.simple.bz.dao.ContextQuery;
@@ -61,6 +61,14 @@ public class HouseService {
     public HouseDto findById(Long id){
         HouseModel model =  dao.findById(id).get();
         return this.convertToDto(model);
+    }
+    public boolean addHouseOwner(Long houseId, String userId){
+        List<UserHouseModel>  list = userHouseDao.findByUserIdAndHouseId(userId,houseId);
+        if (list.size() > 0){
+            return false;
+        }
+        UserHouseModel model = userHouseDao.save(UserHouseModel.builder().houseId(houseId).userId(userId).build());
+        return true;
     }
 
     public HouseDto save(HouseDto item){

@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface UserHouseRepository extends JpaRepository<UserHouseModel, Long>{
     public List<UserHouseModel> findByHouseId(Long houseId);
+    public List<UserHouseModel> findByUserIdAndHouseId(String userId, Long houseId);
 
 
 }

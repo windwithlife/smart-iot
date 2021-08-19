@@ -7,6 +7,7 @@ import com.simple.bz.dto.IDResponse;
 import com.simple.bz.dto.UserHousesDto;
 import com.simple.bz.service.HouseService;
 
+import com.simple.common.api.ResultCode;
 import com.simple.common.api.SimpleRequest;
 import com.simple.common.api.SimpleResponse;
 import com.simple.common.auth.LoginUser;
@@ -66,11 +67,26 @@ public class HouseController extends BaseController {
         return result.success(dto);
     }
 
+    @ApiOperation(value="增加房子信息",notes = "")
+    @PostMapping(path = "/addHouseOwner")
+    public SimpleResponse<IDResponse> addHouseOwner (@RequestBody SimpleRequest<IDRequest> request,@LoginUser SessionUser sessionUser){
+        Long houseId = request.getParams().getId();
+        if (null == houseId || houseId <= 0){
+            throw new ServiceException(ResultCode.PARAM_VALID_ERROR);
+        }
+        if (!sessionUser.isLoginUser()){
+            throw new ServiceException(ResultCode.UN_AUTHORIZED);
+        }
+        System.out.println("houseId:" + houseId);
+        boolean success = service.addHouseOwner(houseId, sessionUser.getUserId());
+        if(!success){
+            throw new ServiceException("Current User already is owner");
+        }
+        SimpleResponse<IDResponse> result = new SimpleResponse<IDResponse>();
+        return result.success(IDResponse.builder().id(houseId).build());
+    }
 
-//    @ApiResponses({
-//            @ApiResponse(code=400,message="请求参数没填好"),
-//            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对")
-//    })
+
 
     @ApiOperation(value="新增房子",notes = "用于处理房子信息处理")
     @PostMapping(path = "/addHouse")
