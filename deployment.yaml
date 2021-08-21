@@ -69,3 +69,5 @@ spec:
             backend:
               serviceName: {{.service_name}}
               servicePort: 80
+
+
