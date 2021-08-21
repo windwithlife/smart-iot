@@ -12,7 +12,7 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 target/
-
+service/target/
 # Package Files #
 *.jar
 *.war

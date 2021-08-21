@@ -24,6 +24,7 @@
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/controller/MultiMediaController.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/common/config/WebSocketConfig.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/DeviceNewRequest.java
+/Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/DeviceParams.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/common/mqtt/MqttProxy.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/dto/NotifyClientMessage.java
 /Users/ctrip/code/iot/smart-iot/service/src/main/java/com/simple/bz/service/HouseService.java

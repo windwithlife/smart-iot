@@ -20,6 +20,7 @@ com/simple/bz/model/ClusterAttributeMetaModel$ClusterAttributeMetaModelBuilder.c
 com/simple/common/config/SwaggerConfig.class
 com/simple/bz/model/ExampleModel.class
 com/simple/bz/dto/GatewayDto$GatewayDtoBuilder.class
+com/simple/bz/dto/DeviceParams$DeviceParamsBuilder.class
 com/simple/bz/model/HouseModel.class
 com/simple/common/props/AppProps$AppPropsBuilder.class
 com/simple/bz/dto/DeviceStatusDto$DeviceStatusDtoBuilder.class
@@ -34,6 +35,7 @@ com/simple/common/redis/RedisSubscriber.class
 com/simple/bz/model/DeviceStatusModel$DeviceStatusModelBuilder.class
 com/simple/bz/dto/DeviceClusterDto$DeviceClusterDtoBuilder.class
 com/simple/common/mqtt/MqttDto$MqttDtoBuilder.class
+com/simple/bz/dto/DeviceParams.class
 com/simple/bz/dto/DeviceState30.class
 com/simple/bz/service/GatewayStatusService.class
 com/simple/bz/dto/DeviceStatusDto.class
