@@ -45,7 +45,7 @@ public class HouseController extends BaseController {
         if (StringUtils.isBlank(token)){
             throw new ServiceException("请先登录");
         }
-        System.out.println("current token--->" + token);ß
+        System.out.println("current token--->" + token);
         String userId = Sessions.getSessionUserInfo(token).getUserId();
         System.out.println("Current UserId ===>" + userId);
         //String userId = request.getParams();
