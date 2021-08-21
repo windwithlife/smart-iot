@@ -47,6 +47,25 @@ public class DeviceController extends BaseController {
         return result.success(dto);
     }
 
+    @ApiOperation(value="获取所有设备信息")
+    @GetMapping(path = "/findAll")
+    public SimpleResponse<DevicesDto> findAll(){
+
+        List<DeviceDto> dtos = service.findAll();
+        DevicesDto allDevices = DevicesDto.builder().deviceList(dtos).build();
+        SimpleResponse<DevicesDto> result = new SimpleResponse<DevicesDto>();
+        return result.success(allDevices);
+    }
+
+    @ApiOperation(value="获取所有设备信息")
+    @GetMapping(path = "/findDevicesByParams")
+    public SimpleResponse<DevicesDto> findDevicesByParams(@RequestBody DeviceParams params){
+
+        List<DeviceDto>  dtos = service.findAll();
+        DevicesDto allDevices = DevicesDto.builder().deviceList(dtos).build();
+        SimpleResponse<DevicesDto> result = new SimpleResponse<DevicesDto>();
+        return result.success(allDevices);
+    }
     @ApiOperation(value="根据ID获取设备信息")
     @PostMapping(path = "/findDevicesByRoomId")
     public SimpleResponse<List<DeviceDto>> findByRoomId (@RequestBody SimpleRequest<IDRequest> request){
