@@ -58,7 +58,6 @@ metadata:
 spec:
   ingressClassName: nginx
   tls:
-  #- secretName: api-koudaibook-cert
   - secretName: auto-secret
     hosts:
     - api.koudaibook.com
