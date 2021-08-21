@@ -54,7 +54,7 @@ metadata:
     nginx.ingress.kubernetes.io/cors-expose-headers: "token"
     nginx.ingress.kubernetes.io/ssl-redirect: 'false' 
     kubernetes.io/ingress.class: "nginx"
-    cert-manager.io/cluster-issuer: "letsencrypt-staging"
+    cert-manager.io/cluster-issuer: "letsencrypt"
 spec:
   tls:
   - secretName: auto-secret
