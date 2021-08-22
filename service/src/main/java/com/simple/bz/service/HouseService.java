@@ -52,7 +52,7 @@ public class HouseService {
 
     }
     public List<HouseDto> findAll(){
-
+        
         List<HouseModel> list =   dao.findAll();
         return  this.convertToDtos(list);
     }

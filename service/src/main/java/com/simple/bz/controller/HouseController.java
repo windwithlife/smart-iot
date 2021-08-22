@@ -33,6 +33,7 @@ public class HouseController extends BaseController {
     @ApiOperation(value="当前房子集合（用于测试）")
     @PostMapping(path = "/queryAll")
     public SimpleResponse<UserHousesDto> queryAll (){
+        System.out.println("The testing soa queryAll is invoked");
         List<HouseDto> houseList = service.queryAll();
         SimpleResponse<UserHousesDto> result = new SimpleResponse<UserHousesDto>();
         return result.success(UserHousesDto.builder().houseList(houseList).userId("0").build());
