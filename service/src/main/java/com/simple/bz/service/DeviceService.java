@@ -41,6 +41,7 @@ public class DeviceService {
     public List<DeviceDto> convertToDtos(List<DeviceModel> models){
         List<DeviceDto> resultList = new ArrayList<DeviceDto>();
         for (int i=0; i < models.size(); i++){
+            System.out.println("Device info --->" + models.get(i).getNickName());
             resultList.add(this.convertToDto(models.get(i)));
         }
         return resultList;
