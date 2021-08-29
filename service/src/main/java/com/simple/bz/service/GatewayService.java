@@ -65,7 +65,7 @@ public class GatewayService {
         return  list;
     }
     public List<GatewayDto> queryPage(int pageIndex, int pageSize){
-        List<GatewayDto> listPage = contextQuery.findPage("select * from tbl_house", pageIndex,pageSize, GatewayDto.class);
+        List<GatewayDto> listPage = contextQuery.findPage("select * from tbl_gateway", pageIndex,pageSize, GatewayDto.class);
         return  listPage;
     }
     public GatewayDto save(GatewayDto item){

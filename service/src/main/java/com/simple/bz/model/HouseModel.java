@@ -22,6 +22,9 @@ public class HouseModel {
     private String   name;
     private String   address;
     private String   userId;
+    private boolean  active;
     private Date     createdDate;
+
+    public static final String DEFAUlT_HOUSE_NAME = "我的房子";
 
 }

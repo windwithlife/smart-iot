@@ -49,12 +49,11 @@ public class HouseController extends BaseController {
         System.out.println("current token--->" + token);
         String userId = Sessions.getSessionUserInfo(token).getUserId();
         System.out.println("Current UserId ===>" + userId);
-        //String userId = request.getParams();
         List<HouseDto> houseList = service.queryByUser(userId);
-
-        //List<HouseDto> houseList = service.queryAll();
+        if ((null != houseList) || houseList.size() <=0){
+            houseList  = service.createDefaultHouse(userId);
+        }
         SimpleResponse<UserHousesDto> result = new SimpleResponse<UserHousesDto>();
-        //return result.success(UserHousesDto.builder().houseList(houseList).userId(userId).build());
         return result.success(UserHousesDto.builder().houseList(houseList).build());
     }
 

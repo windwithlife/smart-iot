@@ -1,19 +1,14 @@
     package com.simple.bz.service;
 
 
-import com.simple.bz.dao.ContextQuery;
-import com.simple.bz.dao.GatewayRepository;
-import com.simple.bz.dao.HouseRepository;
-import com.simple.bz.dao.UserHouseRepository;
+import com.simple.bz.dao.*;
 import com.simple.bz.dto.HouseDto;
 
-import com.simple.bz.model.GatewayModel;
-import com.simple.bz.model.HouseModel;
-import com.simple.bz.model.HouseUsersDto;
-import com.simple.bz.model.UserHouseModel;
+import com.simple.bz.model.*;
 import com.simple.common.auth.AuthModel;
 import com.simple.common.auth.Sessions;
 import com.simple.common.error.ServiceException;
+import com.simple.common.utils.DateUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -26,6 +21,7 @@ public class HouseService {
     private final ModelMapper modelMapper;
     private final HouseRepository dao;
     private final UserHouseRepository userHouseDao;
+    private final RoomRepository roomDao;
     private final GatewayRepository gatewayDao;
     private final ContextQuery contextQuery;
 
@@ -123,6 +119,30 @@ public class HouseService {
         List<HouseDto> list = contextQuery.findList("select * from tbl_user_house where userId='" + userId + "'", HouseDto.class);
         return  list;
     }
+
+    public List<HouseDto> createDefaultHouse(String userId){
+        try {
+            HouseModel defaultHouse = HouseModel.builder().userId(userId).name(HouseModel.DEFAUlT_HOUSE_NAME)
+                    .address("上海市").createdDate(DateUtil.getDateToday()).active(false).build();
+            HouseModel newModel = this.dao.save(defaultHouse);
+            UserHouseModel userHouse = UserHouseModel.builder().userId(newModel.getUserId()).houseId(newModel.getId()).build();
+            userHouseDao.save(userHouse);
+            RoomModel bedRoom = RoomModel.builder().name("卧室").houseId(newModel.getId()).build();
+            RoomModel bathRoom = RoomModel.builder().name("卫生间").houseId(newModel.getId()).build();
+            roomDao.save(bedRoom);
+            roomDao.save(bathRoom);
+            HouseDto newHouseDto = this.convertToDto(newModel);
+            List<HouseDto> result = new ArrayList<HouseDto>();
+            result.add(newHouseDto);
+            return result;
+
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new ServiceException("无法正确获取房子相关信息");
+        }
+    }
+
+
     public List<HouseDto> queryPage(int pageIndex, int pageSize){
         List<HouseDto> listPage = contextQuery.findPage("select * from tbl_house", pageIndex,pageSize, HouseDto.class);
         return  listPage;
