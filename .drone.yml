@@ -18,10 +18,10 @@ steps:
     settings:
       dockerfile: ./Dockerfile
       use_cache: true
-      repo: registry.cn-hangzhou.aliyuncs.com/windwithlife/smart-iot
-      registry: registry.cn-hangzhou.aliyuncs.com
+      repo: ccr.ccs.tencentyun.com/windwithlife/smart-iot
+      registry: ccr.ccs.tencentyun.com
       mirror: https://89cgb0wn.mirror.aliyuncs.com
-      username: 379163259@qq.com
+      username: 100008098144
       password: password7&
       # 更多变量参考https://docs.drone.io/pipeline/environment/reference/
       tags:
@@ -35,11 +35,10 @@ steps:
     settings:
       yaml: ./deployment.yaml
       kubeconfig:
-        from_secret: kubeconfig
-
+        from_secret: kubeconfig-iot
+      image_name: ccr.ccs.tencentyun.com/windwithlife/smart-iot
       service_name: service-iot
       app_name: smart-iot
-      repo_name: smart-iot
       build_tag: build-${DRONE_BUILD_NUMBER}
 
 volumes:
