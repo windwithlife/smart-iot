@@ -48,6 +48,6 @@ volumes:
 
 trigger:
   branch:
-    - master
+    - smart-iot
   event:
     - push
