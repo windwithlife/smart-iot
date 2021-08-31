@@ -43,23 +43,16 @@ spec:
     app: app-iot
 
 ---
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress-{{.app_name}}
   annotations:
-    nginx.ingress.kubernetes.io/enable-cors: "true"
-    nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
-    nginx.ingress.kubernetes.io/cors-allow-headers: "token,DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization"
-    nginx.ingress.kubernetes.io/cors-expose-headers: "token"
-    nginx.ingress.kubernetes.io/ssl-redirect: 'false' 
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-       proxy_set_header Upgrade "websocket";
-       proxy_set_header Connection "Upgrade";
-       
+    kubernetes.io/ingress.class: "traefik"
+    traefik.ingress.kubernetes.io/custom-response-headers: "Access-Control-Allow-Origin:*||Access-Control-Allow-Methods:GET,POST,OPTIONS||Access-Control-Allow-Headers:DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,token||Access-Control-Expose-Headers:Content-Length,Content-Range,token"     
 spec:
   tls:
-  - secretName: auto-secret
+  - secretName: api-default-secret
     hosts:
     - api.koudaibook.com
   rules:
@@ -69,7 +62,9 @@ spec:
           - path: /{{.app_name}}
             pathType: Prefix
             backend:
-              serviceName: {{.service_name}}
-              servicePort: 80
+              service:
+                name: {{.service_name}}
+                port:
+                  number: 80
 
 
