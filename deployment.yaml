@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: container-smart-iot
-          image: registry.cn-hangzhou.aliyuncs.com/windwithlife/{{.repo_name}}:{{.build_tag}}
+          image: ccr.ccs.tencentyun.com/windwithlife/{{.app_name}}:{{.build_tag}}
           ports:
             - containerPort: 80
               protocol: TCP
